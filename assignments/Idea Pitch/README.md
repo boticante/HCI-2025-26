@@ -1,11 +1,11 @@
 # Idea Pitch
 
 ## Contents
-1. [Project Title](#project-title)
-2. [Problem Statement](#problem-statement)
-3. [Target Users](#target-users)
-4. [Proposed Solution](#proposed-solution)
-5. [How You Came Up With the Idea](#how-you-came-up-with-the-idea)
+- [Project Title](#project-title)
+- [Problem Statement](#problem-statement)
+- [Target Users](#target-users)
+- [Proposed Solution](#proposed-solution)
+- [How You Came Up With the Idea](#how-you-came-up-with-the-idea)
 
 ---
 
