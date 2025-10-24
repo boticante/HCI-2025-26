@@ -20,12 +20,16 @@
 
 **Personality traits**
 
+---
+
 ### User Persona 2: 
 <img src="./" alt="" width="300"/>
 
 **Demographic details**
 
 **Personality traits**
+
+---
 
 ### User Persona 3: 
 <img src="./" alt="" width="300"/>
@@ -45,7 +49,3 @@
 ---
 
 ## Used LLM prompts
-
----
-
-## Conclusion
