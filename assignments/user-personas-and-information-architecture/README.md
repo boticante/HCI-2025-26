@@ -14,7 +14,7 @@
 ## User Personas
 
 ### User Persona 1: Global sports explorer
-<img src="./" alt="" width="300"/>
+<img src="./raphael.png" alt="Global sports explorer image" width="300"/>
 
 **Demographic details**
 - Name: Raphael Goncalves da Silva Santos
@@ -36,11 +36,11 @@
 ---
 
 ### User Persona 2: Dedicated local fan
-<img src="./" alt="" width="300"/>
+<img src="./mate.png" alt="" width="300"/>
 
 **Demographic details**
 - Name: Mate
-- Age: 39
+- Age: 44
 - Gender: Male
 - Location: Kaštela, Croatia
 - Occupation: Financial Advisor
@@ -58,7 +58,7 @@
 ---
 
 ### User Persona 3: Budget-conscious student
-<img src="./" alt="" width="300"/>
+<img src="./iva.png" alt="" width="300"/>
 
 **Demographic details**
 - Name: Iva
@@ -83,23 +83,23 @@
 The information architecture was created to make it easier for users to navigate through the website and to enable them to easily find upcoming sports events and purchase tickets. This structure is based on user needs, identified through the personas.
 
 - **Home page** 
-     - introduction and description of Ticket-taka
-     - featured upcoming events or popular matches
-     - quick navigation bar for events
-     - user recommendations and reviews of recent events
+     - Introduction and description of Ticket-taka
+     - Featured upcoming events or popular matches
+     - Quick navigation bar for events
+     - User recommendations and reviews of recent events
 - **Events**
-     - filter options
-     - short description of the event and participants
-     - date, time, venue and location
-     - image gallery
+     - Filter options
+     - Short description of the event and participants
+     - Date, time, venue and location
+     - Image gallery
 - **Tickets** 
-    - price list by category
-    - ticket purchase process
-    - cancellation and refund policies
+    - Price list by category
+    - Ticket purchase process
+    - Cancellation and refund policies
 - **Experiences** 
-    - user reviews and comments about attended events
-    - event ratings
-    - user-uploaded photos
+    - User reviews and comments about attended events
+    - Event ratings
+    - User-uploaded photos
 - **About us**
     - A brief history
     - Mission and service philosophy
