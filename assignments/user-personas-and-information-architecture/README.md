@@ -14,15 +14,19 @@
 ## User Personas
 
 ### User Persona 1: Global sports explorer
-<img src="./raphael.png" alt="Global sports explorer image" width="300"/>
-
-**Demographic details**
-- Name: Raphael Goncalves da Silva Santos
-- Age: 27
-- Gender: Male
-- Location: Rio de Janeiro, Brazil (currently traveling abroad)
-- Occupation: Freelance photographer & travel blogger
-- Education: Bachelor’s in Journalism
+<table>
+    <tr>
+        <td><img src="./raphael.png" alt="Global sports explorer image" width="300"/></td>
+        <td>
+            • Name: Raphael Goncalves da Silva Santos<br>
+            • Age: 27<br>
+            • Gender: Male<br>
+            • Location: Rio de Janeiro, Brazil (currently traveling abroad)<br>
+            • Occupation: Freelance photographer & travel blogger<br>
+            • Education: Bachelor’s in Journalism
+        </td>
+    </tr>
+</table>
 
 **Personality traits**
 - An adventurous and outgoing individual who thrives on exploring new cultures and experiences. Highly social and enjoys connecting with locals and fellow travelers through shared passions, especially live sports. Naturally curious and open-minded, always seeking authentic moments that capture the spirit of each destination. Confident with technology but prefers simple, intuitive platforms that make travel planning easier. Spontaneous by nature and quick to make decisions, often booking last-minute tickets when an exciting event appears. Values authenticity, convenience, and meaningful experiences over luxury or complexity.
@@ -36,15 +40,19 @@
 ---
 
 ### User Persona 2: Dedicated local fan
-<img src="./mate.png" alt="" width="300"/>
-
-**Demographic details**
-- Name: Mate
-- Age: 44
-- Gender: Male
-- Location: Kaštela, Croatia
-- Occupation: Financial Advisor
-- Education: Bachelor’s Degree in Economics
+<table>
+    <tr>
+        <td><img src="./mate.png" alt="Global sports explorer image" width="300"/></td>
+        <td>
+            • Name: Mate<br>
+            • Age: 44<br>
+            • Gender: Male<br>
+            • Location: Kaštela, Croatia<br>
+            • Occupation: Financial Advisor<br>
+            • Education: Bachelor’s Degree in Economics
+        </td>
+    </tr>
+</table>
 
 **Personality traits**
 - A loyal and community-oriented person who values consistency and belonging. Deeply passionate about local sports culture and proud to support hometown teams, attending matches whenever possible. Responsible and organized, often planning weekends around upcoming games. Prefers reliable, easy-to-use digital platforms and values transparency when making online purchases. Social by nature and enjoys sharing live sports experiences with friends, family, and colleagues, using events as a way to stay connected with his community.
@@ -58,15 +66,19 @@
 ---
 
 ### User Persona 3: Budget-conscious student
-<img src="./iva.png" alt="" width="300"/>
-
-**Demographic details**
-- Name: Iva
-- Age: 19
-- Gender: Female
-- Location: Split, Croatia
-- Occupation: University Student
-- Education: Currently pursuing Bachelor’s Degree
+<table>
+    <tr>
+        <td><img src="./iva.png" alt="Global sports explorer image" width="300"/></td>
+        <td>
+            • Name: Iva<br>
+            • Age: 19<br>
+            • Gender: Feale<br>
+            • Location: Split, Croatia<br>
+            • Occupation: University Student<br>
+            • Education: Currently pursuing Bachelor’s Degree
+        </td>
+    </tr>
+</table>
 
 **Personality traits**
 - Practical, sociable, and energetic, she enjoys staying connected with local sports culture despite a limited budget. Curious and outgoing, she seeks fun and affordable experiences with friends while balancing academic and work responsibilities. Comfortable with technology, she prefers simple, intuitive apps that allow her to quickly browse and book events without unnecessary steps. She enjoys planning social activities around campus life, using live sports events as a way to bond with friends and feel part of the local community.
