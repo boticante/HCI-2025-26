@@ -42,7 +42,7 @@
 ### User Persona 2: Dedicated local fan
 <table>
     <tr>
-        <td><img src="./mate.png" alt="Global sports explorer image" width="300"/></td>
+        <td><img src="./mate.png" alt="Dedicated local fan" width="300"/></td>
         <td>
             • Name: Mate<br>
             • Age: 44<br>
@@ -68,11 +68,11 @@
 ### User Persona 3: Budget-conscious student
 <table>
     <tr>
-        <td><img src="./iva.png" alt="Global sports explorer image" width="300"/></td>
+        <td><img src="./iva.png" alt="Budget-conscious student" width="300"/></td>
         <td>
             • Name: Iva<br>
             • Age: 19<br>
-            • Gender: Feale<br>
+            • Gender: Female<br>
             • Location: Split, Croatia<br>
             • Occupation: University Student<br>
             • Education: Currently pursuing Bachelor’s Degree
@@ -131,6 +131,8 @@ The information architecture was created to make it easier for users to navigate
 ---
 
 ## Sitemap
+The sitemap clearly displays the structure and hierarchy of information on the website through a visual representation of its main categories and subcategories.<br>
+<img src="./sitemap.png" alt="Sitemap image" width="500"/>
 
 ---
 
