@@ -132,7 +132,7 @@ The information architecture was created to make it easier for users to navigate
 
 ## Sitemap
 The sitemap clearly displays the structure and hierarchy of information on the website through a visual representation of its main categories and subcategories.<br>
-<img src="./sitemap.png" alt="Sitemap image" width="500"/>
+<img src="./sitemap.png" alt="Sitemap image" width="700"/>
 
 ---
 
