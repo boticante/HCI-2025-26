@@ -123,3 +123,5 @@ The information architecture was created to make it easier for users to navigate
 ---
 
 ## Used LLM prompts
+- Generate three user personas for a web application called Ticket-taka, a platform for discovering and buying tickets to upcoming sports events. The personas should represent different types of users, such as a world-traveling sports fan, a loyal local supporter, and a budget-conscious student. Include demographic details, personality traits and context-specific information.
+- Design an information architecture based on card sorting method and  detailed sitemap. The site allows users to browse upcoming events, read short descriptions, and purchase tickets. Organize the structure into clear main categories and subcategories that reflect user needs identified through personas.
