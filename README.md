@@ -27,6 +27,7 @@
 - Link to Assignment 1: [**Idea Pitch**](/assignments/idea-pitch/) <!-- Replace with actual URL -->
 - Link to Assignment 2: [**User personas and information architecture**](/assignments/user-personas-and-information-architecture) <!-- Replace with actual URL -->
 - Link to Assignment 3: [**Next.js - Deploying Application**](https://hci-2025-26.vercel.app/) <!-- Replace with actual URL -->
+- Link to Assignment 4: [**Low/High-fidelity prototype**](/assignments/high-fidelity-prototype/)
 <!-- Add more assignments as necessary -->
 
 ## Project Requirements
