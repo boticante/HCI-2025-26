@@ -16,7 +16,7 @@
 ### User Persona 1: Global sports explorer
 <table>
     <tr>
-        <td><img src="./raphael.png" alt="Global sports explorer image" width="300"/></td>
+        <td><img src="./images/raphael.png" alt="Global sports explorer image" width="300"/></td>
         <td>
             • Name: Raphael Goncalves da Silva Santos<br>
             • Age: 27<br>
@@ -42,7 +42,7 @@
 ### User Persona 2: Dedicated local fan
 <table>
     <tr>
-        <td><img src="./mate.png" alt="Dedicated local fan" width="300"/></td>
+        <td><img src="./images/mate.png" alt="Dedicated local fan" width="300"/></td>
         <td>
             • Name: Mate<br>
             • Age: 44<br>
@@ -68,7 +68,7 @@
 ### User Persona 3: Budget-conscious student
 <table>
     <tr>
-        <td><img src="./iva.png" alt="Budget-conscious student" width="300"/></td>
+        <td><img src="./images/iva.png" alt="Budget-conscious student" width="300"/></td>
         <td>
             • Name: Iva<br>
             • Age: 19<br>
@@ -132,7 +132,7 @@ The information architecture was created to make it easier for users to navigate
 
 ## Sitemap
 The sitemap clearly displays the structure and hierarchy of information on the website through a visual representation of its main categories and subcategories.<br>
-<img src="./sitemap.png" alt="Sitemap image" width="1000"/>
+<img src="./images/sitemap.png" alt="Sitemap image" width="1000"/>
 
 ---
 
