@@ -7,3 +7,7 @@
 </div>
 
 ## Mobile: Homepage
+
+<div style="display: flex; justify-content: center;">
+  <img src="./images/homepageMobile.png"  width="300"/>
+</div>
