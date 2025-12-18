@@ -1,4 +1,10 @@
-import { Event, EventsResponse } from "@/types/event";
+import { Event, EventsResponse } from "../types/event";
+
+type NextFetchRequestInit = RequestInit & {
+  next?: {
+    revalidate?: number;
+  };
+};
 
 // Sports categories for random assignment
 const sports = ["Football", "Basketball", "Tennis", "Volleyball", "Handball"];
@@ -52,8 +58,8 @@ export async function getEvents(
       `https://jsonplaceholder.typicode.com/posts?_start=${start}&_limit=${limit}`,
       {
         // Next.js 15+ caching strategy
-        next: { revalidate: 3600 } as any, // Revalidate every hour
-      }
+        next: { revalidate: 3600 }, // Revalidate every hour
+      } as NextFetchRequestInit
     );
 
     if (!response.ok) {
@@ -86,8 +92,8 @@ export async function getEventById(id: number): Promise<Event | null> {
     const response = await fetch(
       `https://jsonplaceholder.typicode.com/posts/${id}`,
       {
-        next: { revalidate: 3600 } as any,
-      }
+        next: { revalidate: 3600 },
+      } as NextFetchRequestInit
     );
 
     if (!response.ok) {
