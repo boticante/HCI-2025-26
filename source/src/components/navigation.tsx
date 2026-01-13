@@ -2,6 +2,8 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
+import { useUser } from "@/hooks/use-user";
+import { SignOutButton } from "./sign-out-button";
 
 const navItems = ["HOME", "EVENTS", "ABOUT US", "CONTACT", "REVIEWS"];
 
@@ -17,6 +19,7 @@ const pathMap: Record<string, string> = {
 export function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
+  const { user, loading } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const getCurrentPageName = () => {
@@ -37,7 +40,7 @@ export function Navigation() {
   };
 
   return (
-	<nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white mb-6">
+    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white mb-6">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <button
@@ -65,12 +68,18 @@ export function Navigation() {
           </nav>
 
           <div className="hidden lg:block">
-            <button
-              onClick={() => handleNavigate("SIGNIN")}
-              className="text-sm text-slate-700 hover:text-indigo-700 transition-colors px-6 py-2 border border-slate-300 rounded-md hover:border-indigo-700"
-            >
-              LOGIN
-            </button>
+            {loading ? (
+              <div className="text-sm text-slate-700">Loading...</div>
+            ) : user ? (
+              <SignOutButton className="text-sm text-slate-700 hover:text-indigo-700 transition-colors px-6 py-2 border border-slate-300 rounded-md hover:border-indigo-700" />
+            ) : (
+              <button
+                onClick={() => handleNavigate("SIGNIN")}
+                className="text-sm text-slate-700 hover:text-indigo-700 transition-colors px-6 py-2 border border-slate-300 rounded-md hover:border-indigo-700"
+              >
+                LOGIN
+              </button>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -126,12 +135,17 @@ export function Navigation() {
                 {item}
               </button>
             ))}
-            <button
-              onClick={() => handleNavigate("SIGNIN")}
-              className="text-sm text-left py-2 text-slate-700 hover:text-indigo-700 transition-colors"
-            >
-              LOGIN
-            </button>
+            {!loading &&
+              (user ? (
+                <SignOutButton className="text-sm text-left py-2 text-slate-700 hover:text-indigo-700 transition-colors" />
+              ) : (
+                <button
+                  onClick={() => handleNavigate("SIGNIN")}
+                  className="text-sm text-left py-2 text-slate-700 hover:text-indigo-700 transition-colors"
+                >
+                  LOGIN
+                </button>
+              ))}
           </nav>
         )}
       </div>

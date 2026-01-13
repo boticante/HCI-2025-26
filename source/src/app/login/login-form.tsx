@@ -2,9 +2,26 @@
 
 import { useState } from "react";
 import { CreateAccountModal } from "@components/create-account-modal";
+import { login } from "@/app/actions/auth";
 
 export function LoginForm() {
   const [createAccountOpen, setCreateAccountOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const result = await login(formData);
+
+    if (result?.error) {
+      setError(result.error);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -15,7 +32,13 @@ export function LoginForm() {
           </h1>
         </div>
 
-        <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-800">
+              {error}
+            </div>
+          )}
+
           <div>
             <label className="sr-only" htmlFor="email">
               Email
@@ -27,6 +50,7 @@ export function LoginForm() {
               placeholder="Email"
               className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
               autoComplete="email"
+              required
             />
           </div>
 
@@ -41,19 +65,18 @@ export function LoginForm() {
               placeholder="Password"
               className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
               autoComplete="current-password"
+              required
             />
           </div>
 
           <button
-            type="button"
-            className="w-full rounded-md bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer"
-            onClick={() => {
-              // TODO: wire up real sign-in
-            }}
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-md bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Continue
+            {loading ? "Signing in..." : "Continue"}
           </button>
-        </div>
+        </form>
 
         <p className="mt-8 text-center text-sm text-slate-700">
           New to TicketTaka?{" "}

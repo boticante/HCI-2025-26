@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { signup } from "@/app/actions/auth";
 
 type CreateAccountModalProps = {
   open: boolean;
@@ -10,6 +11,8 @@ type CreateAccountModalProps = {
 export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -31,6 +34,23 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
       document.body.style.overflow = previousOverflow;
     };
   }, [open, onClose]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const result = await signup(formData);
+
+    if (result?.error) {
+      setError(result.error);
+      setLoading(false);
+    } else {
+      // Success - the redirect will happen automatically
+      onClose();
+    }
+  };
 
   if (!open) return null;
 
@@ -79,51 +99,57 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
         </div>
 
         <div className="px-8 py-6">
-          <div className="grid grid-cols-1 gap-4">
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name *"
-              className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
-              autoComplete="given-name"
-              required
-            />
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name *"
-              className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
-              autoComplete="family-name"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email *"
-              className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
-              autoComplete="email"
-              required
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password *"
-              className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
-              autoComplete="new-password"
-              required
-            />
-          </div>
+          <form onSubmit={handleSubmit}>
+            {error && (
+              <div className="mb-4 rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-800">
+                {error}
+              </div>
+            )}
 
-          <button
-            type="button"
-            className="mt-6 w-full rounded-md bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer"
-            onClick={() => {
-              // TODO: wire up real account creation
-              onClose();
-            }}
-          >
-            Create Account
-          </button>
+            <div className="grid grid-cols-1 gap-4">
+              <input
+                type="text"
+                name="firstName"
+                placeholder="First Name *"
+                className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                autoComplete="given-name"
+                required
+              />
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Last Name *"
+                className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                autoComplete="family-name"
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email *"
+                className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                autoComplete="email"
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password *"
+                className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                autoComplete="new-password"
+                required
+                minLength={6}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-6 w-full rounded-md bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Creating Account..." : "Create Account"}
+            </button>
+          </form>
         </div>
       </div>
     </div>
