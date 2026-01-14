@@ -16,7 +16,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main className="flex min-h-screen w-full flex-col items-center bg-[#192734] pb-12">
       <Navigation />
       <div className="w-full max-w-7xl px-6">
         {/* Events Grid */}
@@ -69,7 +69,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
             {page > 1 && (
               <Link
                 href={`/events?page=${page - 1}`}
-                className="px-4 py-2 border rounded hover:bg-gray-100"
+                className="px-4 py-2 border rounded text-white hover:bg-gray-100 hover:text-slate-900"
               >
                 Previous
               </Link>
@@ -84,7 +84,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
                     className={`px-4 py-2 border rounded ${
                       pageNum === page
                         ? "bg-blue-600 text-white"
-                        : "hover:bg-gray-100"
+                        : "text-white hover:bg-gray-100 hover:text-slate-900"
                     }`}
                   >
                     {pageNum}
@@ -96,7 +96,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
             {page < totalPages && (
               <Link
                 href={`/events?page=${page + 1}`}
-                className="px-4 py-2 border rounded hover:bg-gray-100"
+                className="px-4 py-2 border rounded text-white hover:bg-gray-100 hover:text-slate-900"
               >
                 Next
               </Link>

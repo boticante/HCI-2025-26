@@ -5,7 +5,13 @@ import { useState } from "react";
 import { useUser } from "@/hooks/use-user";
 import { SignOutButton } from "./sign-out-button";
 
-const navItems = ["HOME", "EVENTS", "ABOUT US", "CONTACT", "REVIEWS"];
+const navItems = [
+  { key: "HOME", label: "Home" },
+  { key: "EVENTS", label: "Events" },
+  { key: "REVIEWS", label: "Reviews" },
+  { key: "ABOUT US", label: "About us" },
+  { key: "CONTACT", label: "Contact" },
+] as const;
 
 const pathMap: Record<string, string> = {
   HOME: "/",
@@ -16,6 +22,11 @@ const pathMap: Record<string, string> = {
   SIGNIN: "/login",
 };
 
+const navItemClass =
+  "inline-flex h-10 items-center rounded-full px-4 text-[15px] font-medium text-white/85 transition-colors hover:bg-white/10 hover:text-white";
+
+const navItemActiveClass = "bg-white/12 text-white";
+
 export function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
@@ -24,7 +35,8 @@ export function Navigation() {
 
   const getCurrentPageName = () => {
     for (const [name, path] of Object.entries(pathMap)) {
-      if (pathname === path) return name;
+      if (path === "/" && pathname === "/") return name;
+      if (path !== "/" && (pathname === path || pathname.startsWith(`${path}/`))) return name;
     }
     return "HOME";
   };
@@ -40,44 +52,43 @@ export function Navigation() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white mb-6">
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
+    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#15202b] mb-6">
+      <div className="container mx-auto px-6 py-3">
+        <div className="flex items-center justify-between gap-6">
           <button
             onClick={() => handleNavigate("HOME")}
-            className="text-2xl text-indigo-700"
-            style={{ fontFamily: "Poppins, sans-serif" }}
+            className="inline-flex h-10 items-center text-2xl font-semibold tracking-tight text-white"
           >
             TICKET-TAKA
           </button>
 
-          <nav className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) => (
+          <nav className="hidden lg:flex flex-1 items-center justify-center gap-10">
+            {navItems.map(({ key, label }) => (
               <button
-                key={item}
-                onClick={() => handleNavigate(item)}
-                className={`text-sm transition-colors ${
-                  currentPage === item
-                    ? "text-indigo-700 border-b-2 border-indigo-700 pb-1"
-                    : "text-slate-700 hover:text-indigo-700"
+                key={key}
+                onClick={() => handleNavigate(key)}
+                className={`${navItemClass} ${
+                  currentPage === key ? navItemActiveClass : ""
                 }`}
               >
-                {item}
+                {label}
               </button>
             ))}
           </nav>
 
-          <div className="hidden lg:block">
+          <div className="hidden lg:flex items-center">
             {loading ? (
               <div className="text-sm text-slate-700">Loading...</div>
             ) : user ? (
-              <SignOutButton className="text-sm text-slate-700 hover:text-indigo-700 transition-colors px-6 py-2 border border-slate-300 rounded-md hover:border-indigo-700" />
+              <SignOutButton className={navItemClass} />
             ) : (
               <button
                 onClick={() => handleNavigate("SIGNIN")}
-                className="text-sm text-slate-700 hover:text-indigo-700 transition-colors px-6 py-2 border border-slate-300 rounded-md hover:border-indigo-700"
+                className={`${navItemClass} ${
+                  currentPage === "SIGNIN" ? navItemActiveClass : ""
+                }`}
               >
-                LOGIN
+                Login
               </button>
             )}
           </div>
@@ -85,7 +96,7 @@ export function Navigation() {
           {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-slate-700 hover:text-indigo-700"
+            className="lg:hidden p-2 text-white/85 hover:text-white"
           >
             {mobileMenuOpen ? (
               <svg
@@ -122,28 +133,28 @@ export function Navigation() {
         {/* Mobile menu */}
         {mobileMenuOpen && (
           <nav className="lg:hidden mt-4 pb-4 flex flex-col gap-4">
-            {navItems.map((item) => (
+            {navItems.map(({ key, label }) => (
               <button
-                key={item}
-                onClick={() => handleNavigate(item)}
-                className={`text-sm text-left py-2 transition-colors ${
-                  currentPage === item
-                    ? "text-indigo-700"
-                    : "text-slate-700 hover:text-indigo-700"
+                key={key}
+                onClick={() => handleNavigate(key)}
+                className={`${navItemClass} justify-start ${
+                  currentPage === key ? navItemActiveClass : ""
                 }`}
               >
-                {item}
+                {label}
               </button>
             ))}
             {!loading &&
               (user ? (
-                <SignOutButton className="text-sm text-left py-2 text-slate-700 hover:text-indigo-700 transition-colors" />
+                <SignOutButton className={`${navItemClass} justify-start`} />
               ) : (
                 <button
                   onClick={() => handleNavigate("SIGNIN")}
-                  className="text-sm text-left py-2 text-slate-700 hover:text-indigo-700 transition-colors"
+                  className={`${navItemClass} justify-start ${
+                    currentPage === "SIGNIN" ? navItemActiveClass : ""
+                  }`}
                 >
-                  LOGIN
+                  Login
                 </button>
               ))}
           </nav>

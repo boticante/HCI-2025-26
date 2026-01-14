@@ -25,16 +25,16 @@ export function LoginForm() {
 
   return (
     <>
-      <div className="max-w-md mx-auto bg-white border border-slate-200 rounded-lg p-8">
+      <div className="max-w-md mx-auto bg-[#15202b] border border-white/10 rounded-none p-8">
         <div className="flex flex-col items-center">
-          <h1 className="text-slate-900 mb-6 text-center text-3xl font-bold">
+          <h1 className="text-white mb-6 text-center text-3xl font-bold">
             Sign in
           </h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-800">
+            <div className="rounded-none bg-red-500/10 border border-red-500/30 p-3 text-sm text-red-200">
               {error}
             </div>
           )}
@@ -48,7 +48,7 @@ export function LoginForm() {
               name="email"
               type="email"
               placeholder="Email"
-              className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+              className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
               autoComplete="email"
               required
             />
@@ -63,7 +63,7 @@ export function LoginForm() {
               name="password"
               type="password"
               placeholder="Password"
-              className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+              className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
               autoComplete="current-password"
               required
             />
@@ -72,17 +72,17 @@ export function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-md bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full rounded-none bg-white/10 px-4 py-3 font-semibold text-white hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Signing in..." : "Continue"}
           </button>
         </form>
 
-        <p className="mt-8 text-center text-sm text-slate-700">
+        <p className="mt-8 text-center text-sm text-white/70">
           New to TicketTaka?{" "}
           <button
             type="button"
-            className="underline"
+            className="underline text-white hover:text-white/85"
             onClick={() => setCreateAccountOpen(true)}
           >
             Create an account

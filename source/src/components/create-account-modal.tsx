@@ -69,18 +69,18 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
       <div
         ref={panelRef}
         tabIndex={-1}
-        className="relative z-10 w-[92vw] max-w-2xl rounded-xl bg-white shadow-2xl ring-1 ring-black/10"
+        className="relative z-10 w-[92vw] max-w-2xl rounded-none bg-[#15202b] shadow-2xl ring-1 ring-white/10"
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-8 py-6 border-b border-slate-200">
-          <h2 id={titleId} className="text-2xl font-bold text-slate-900">
-            Create account
+        <div className="flex items-center justify-between px-8 py-6 border-b border-white/10">
+          <h2 id={titleId} className="text-2xl font-bold text-white">
+            Create an account
           </h2>
 
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400"
+            className="rounded-none p-2 text-white/70 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
             aria-label="Close"
           >
             <svg
@@ -101,7 +101,7 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
         <div className="px-8 py-6">
           <form onSubmit={handleSubmit}>
             {error && (
-              <div className="mb-4 rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-800">
+              <div className="mb-4 rounded-none bg-red-500/10 border border-red-500/30 p-3 text-sm text-red-200">
                 {error}
               </div>
             )}
@@ -110,32 +110,32 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
               <input
                 type="text"
                 name="firstName"
-                placeholder="First Name *"
-                className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                placeholder="First Name"
+                className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
                 autoComplete="given-name"
                 required
               />
               <input
                 type="text"
                 name="lastName"
-                placeholder="Last Name *"
-                className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                placeholder="Last Name"
+                className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
                 autoComplete="family-name"
                 required
               />
               <input
                 type="email"
                 name="email"
-                placeholder="Email *"
-                className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                placeholder="Email"
+                className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
                 autoComplete="email"
                 required
               />
               <input
                 type="password"
                 name="password"
-                placeholder="Password *"
-                className="w-full rounded-md border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                placeholder="Password"
+                className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
                 autoComplete="new-password"
                 required
                 minLength={6}
@@ -145,9 +145,9 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
             <button
               type="submit"
               disabled={loading}
-              className="mt-6 w-full rounded-md bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-6 w-full rounded-none bg-white/10 px-4 py-3 font-semibold text-white hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Creating Account..." : "Create Account"}
+              {loading ? "Registering..." : "Register"}
             </button>
           </form>
         </div>

@@ -32,7 +32,7 @@ export default async function EventDetailsPage({
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main className="flex min-h-screen w-full flex-col items-center bg-[#192734] pb-12">
       <Navigation />
       <div className="w-full max-w-4xl px-6">
         {/* Back Button */}
