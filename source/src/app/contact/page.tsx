@@ -40,7 +40,7 @@ export default function ContactPage() {
             </div>
 
             {/* Quick help */}
-            <aside className="border border-white/10 bg-[#22303c] p-8">
+            <aside className="border border-white/10 bg-[#22303c] p-8 h-fit">
               <h2 className="text-[15px] font-medium text-white/85">
                 Quick help
               </h2>
