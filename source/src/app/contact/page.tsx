@@ -1,4 +1,5 @@
 import { Navigation } from "@components/navigation";
+import { ContactForm } from "@components/contact-form";
 import {
   FaTwitter,
   FaFacebook,
@@ -31,69 +32,18 @@ export default function ContactPage() {
           <div className="mt-12 grid gap-8 lg:grid-cols-[2fr_1fr]">
             {/* Contact form */}
             <div className="border border-white/10 bg-[#22303c] p-8">
-              <h2 className="text-[15px] font-medium text-white/85">Contact us</h2>
+              <h2 className="text-[15px] font-medium text-white/85">
+                Contact us
+              </h2>
 
-              <form className="mt-6 space-y-5">
-                <label className="block">
-                  <span className="text-sm font-medium text-white/70">
-                    Full name
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="Your name"
-                    required
-                    className="mt-2 w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/25"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm font-medium text-white/70">
-                    Email address
-                  </span>
-                  <input
-                    type="email"
-                    placeholder="you@example.com"
-                    required
-                    className="mt-2 w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/25"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm font-medium text-white/70">
-                    Subject
-                  </span>
-                  <select className="mt-2 w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/25">
-                    <option className="bg-[#15202b]">Event information</option>
-                    <option className="bg-[#15202b]">Ticket purchase</option>
-                    <option className="bg-[#15202b]">Technical issue</option>
-                    <option className="bg-[#15202b]">Partnership / event listing</option>
-                    <option className="bg-[#15202b]">General inquiry</option>
-                  </select>
-                </label>
-
-                <label className="block">
-                  <span className="text-sm font-medium text-white/70">
-                    Message
-                  </span>
-                  <textarea
-                    rows={5}
-                    placeholder="Write your message here..."
-                    className="mt-2 w-full resize-y rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/25"
-                  />
-                </label>
-
-                <button
-                  type="submit"
-                  className="w-full rounded-none bg-white/10 px-4 py-3 font-semibold text-white transition-colors hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/30"
-                >
-                  Send message
-                </button>
-              </form>
+              <ContactForm />
             </div>
 
             {/* Quick help */}
             <aside className="border border-white/10 bg-[#22303c] p-8">
-              <h2 className="text-[15px] font-medium text-white/85">Quick help</h2>
+              <h2 className="text-[15px] font-medium text-white/85">
+                Quick help
+              </h2>
 
               <div className="mt-4 space-y-3 text-sm text-white/75">
                 <p className="flex items-center gap-2">
@@ -106,7 +56,9 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              <h3 className="mt-8 text-[15px] font-medium text-white/85">Follow us</h3>
+              <h3 className="mt-8 text-[15px] font-medium text-white/85">
+                Follow us
+              </h3>
               <div className="mt-4 flex gap-3">
                 <button
                   type="button"
