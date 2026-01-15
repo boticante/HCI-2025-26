@@ -23,7 +23,7 @@ const pathMap: Record<string, string> = {
 };
 
 const navItemClass =
-  "inline-flex h-10 items-center rounded-full px-4 text-[15px] font-medium text-white/85 transition-colors hover:bg-white/10 hover:text-white";
+  "inline-flex h-10 items-center px-4 text-[15px] font-medium text-white/85 transition-colors hover:bg-white/10 hover:text-white";
 
 const navItemActiveClass = "bg-white/12 text-white";
 

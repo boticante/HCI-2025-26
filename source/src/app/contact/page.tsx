@@ -22,7 +22,7 @@ export default function ContactPage() {
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
               Get in touch with us
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-white/75">
+            <p className="mx-auto mt-8 max-w-2xl text-base text-white/75">
               Have questions about upcoming sports events or ticket purchases?
               We’re here to help.
             </p>
@@ -32,7 +32,7 @@ export default function ContactPage() {
           <div className="mt-12 grid gap-8 lg:grid-cols-[2fr_1fr]">
             {/* Contact form */}
             <div className="border border-white/10 bg-[#22303c] p-8">
-              <h2 className="text-[15px] font-medium text-white/85">
+              <h2 className="text-xl font-medium text-white">
                 Contact us
               </h2>
 
@@ -41,7 +41,7 @@ export default function ContactPage() {
 
             {/* Quick help */}
             <aside className="border border-white/10 bg-[#22303c] p-8 h-fit">
-              <h2 className="text-[15px] font-medium text-white/85">
+              <h2 className="text-xl font-medium text-white">
                 Quick help
               </h2>
 
@@ -56,7 +56,7 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              <h3 className="mt-8 text-[15px] font-medium text-white/85">
+              <h3 className="mt-8 text-xl font-medium text-white">
                 Follow us
               </h3>
               <div className="mt-4 flex gap-3">

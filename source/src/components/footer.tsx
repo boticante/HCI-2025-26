@@ -16,11 +16,8 @@ export function Footer() {
         <div className="hidden md:grid md:grid-cols-2 gap-x-12 mb-8">
           <div className="flex h-full flex-col">
             <div>
-              <h4 className="text-white mb-3">Contact Us</h4>
+              <h4 className="text-white mb-3">Contact us</h4>
               <div className="flex flex-col gap-2 text-white/75 text-sm">
-                <span>Ul. Ruđera Boškovića 32, 21000</span>
-                <span>Split, Croatia</span>
-
                 <div className="mt-2 flex items-center gap-2">
                   <FaPhoneAlt className="size-4 text-white/75" />
                   <span>(+385) 01 234 567</span>
@@ -76,7 +73,7 @@ export function Footer() {
           </div>
 
           <div className="grid grid-cols-1 gap-x-8 mb-6">
-            <div>
+            <div className="text-center">
               <h4 className="text-white mb-3">Sitemap</h4>
               <div className="flex flex-col gap-2 text-white/75 text-sm">
                 <Link className="hover:text-white transition-colors" href="/">
@@ -101,9 +98,6 @@ export function Footer() {
           <div className="mt-8 text-center">
             <h4 className="text-white mb-3">Contact Us</h4>
             <div className="flex flex-col gap-2 text-white/75 text-sm">
-              <span>Ul. Ruđera Boškovića 32, 21000</span>
-              <span>Split, Croatia</span>
-
               <div className="mt-2 flex items-center justify-center gap-2">
                 <FaPhoneAlt className="size-4 text-white/75" />
                 <span>(+385) 01 234 567</span>

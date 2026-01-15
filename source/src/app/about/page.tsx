@@ -14,29 +14,25 @@ export default function AboutPage() {
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
               Bringing fans closer to the game
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-white/75">
+            <p className="mx-auto mt-8 max-w-2xl text-base text-white/75">
               We make discovering, comparing, and attending live sports events
               simple — all in one place.
             </p>
           </div>
 
-          <div className="mt-12 space-y-8">
+          <div className="mt-12 space-y-12">
             {/* MISSION */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
-              <h2 className="text-lg font-medium text-white/90">Our mission</h2>
-              <p className="mx-auto mt-4 max-w-3xl text-sm text-white/75">
-                Sports fans often struggle to find reliable information about
-                upcoming events across different platforms. Our mission is to
-                create a single, user-friendly destination where fans can easily
-                explore sports events, compare options, and purchase tickets with
-                confidence.
+              <h2 className="text-xl font-medium text-white">Our mission</h2>
+              <p className="mt-4 text-sm text-white/75 whitespace-nowrap overflow-x-auto flex justify-center">
+                Create a single, user-friendly destination where sports fans can easily discover events, compare options, and purchase tickets with confidence.
               </p>
             </div>
 
             {/* WHAT WE DO */}
             <div className="border border-white/10 bg-[#22303c] p-8">
               <div className="text-center">
-                <h2 className="text-lg font-medium text-white/90">What we do</h2>
+                <h2 className="text-xl font-medium text-white">What we do</h2>
               </div>
 
               <div className="mt-6 grid gap-6 lg:grid-cols-3">
@@ -68,7 +64,7 @@ export default function AboutPage() {
 
             {/* WHY CHOOSE US */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
-              <h2 className="text-lg font-medium text-white/90">Why choose us</h2>
+              <h2 className="text-xl font-medium text-white">Why choose us</h2>
               <div className="mt-6 grid gap-4 text-sm text-white/75 sm:grid-cols-2">
                 <div className="border border-white/10 bg-white/5 p-5">
                   <span>Centralized platform for all sports</span>
@@ -123,7 +119,7 @@ export default function AboutPage() {
 
             {/* CTA */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
-              <h2 className="text-lg font-medium text-white/90">
+              <h2 className="text-xl font-medium text-white">
                 Ready to experience live sports?
               </h2>
               <p className="mx-auto mt-3 max-w-2xl text-sm text-white/75">
