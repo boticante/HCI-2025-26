@@ -23,7 +23,7 @@ export default function AboutPage() {
           <div className="mt-12 space-y-12">
             {/* MISSION */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
-              <h2 className="text-xl font-medium text-white">Our mission</h2>
+              <h2 className="text-2xl font-medium text-white">Our mission</h2>
               <p className="mt-4 text-sm text-white/75 whitespace-nowrap overflow-x-auto flex justify-center">
                 Create a single, user-friendly destination where sports fans can easily discover events, compare options, and purchase tickets with confidence.
               </p>
@@ -32,7 +32,7 @@ export default function AboutPage() {
             {/* WHAT WE DO */}
             <div className="border border-white/10 bg-[#22303c] p-8">
               <div className="text-center">
-                <h2 className="text-xl font-medium text-white">What we do</h2>
+                <h2 className="text-2xl font-medium text-white">What we do</h2>
               </div>
 
               <div className="mt-6 grid gap-6 lg:grid-cols-3">
@@ -64,7 +64,7 @@ export default function AboutPage() {
 
             {/* WHY CHOOSE US */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
-              <h2 className="text-xl font-medium text-white">Why choose us</h2>
+              <h2 className="text-2xl font-medium text-white">Why choose us</h2>
               <div className="mt-6 grid gap-4 text-sm text-white/75 sm:grid-cols-2">
                 <div className="border border-white/10 bg-white/5 p-5">
                   <span>Centralized platform for all sports</span>
@@ -119,7 +119,7 @@ export default function AboutPage() {
 
             {/* CTA */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
-              <h2 className="text-xl font-medium text-white">
+              <h2 className="text-2xl font-medium text-white">
                 Ready to experience live sports?
               </h2>
               <p className="mx-auto mt-3 max-w-2xl text-sm text-white/75">

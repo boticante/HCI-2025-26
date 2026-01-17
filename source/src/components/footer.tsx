@@ -3,9 +3,12 @@ import {
   FaFacebook,
   FaInstagram,
   FaLinkedin,
+  FaYoutube,
+  FaTiktok,
   FaPhoneAlt,
   FaEnvelope,
 } from "react-icons/fa";
+import { SiX } from "react-icons/si";
 import Link from "next/link";
 
 export function Footer() {
@@ -31,7 +34,7 @@ export function Footer() {
 
             <div className="mt-6 flex gap-3">
               <button className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-                <FaTwitter className="size-4" />
+                <SiX className="size-4" />
               </button>
               <button className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
                 <FaFacebook className="size-4" />
@@ -41,6 +44,12 @@ export function Footer() {
               </button>
               <button className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
                 <FaLinkedin className="size-4" />
+              </button>
+              <button className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                <FaYoutube className="size-4" />
+              </button>
+              <button className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                <FaTiktok className="size-4" />
               </button>
             </div>
           </div>
@@ -111,7 +120,7 @@ export function Footer() {
 
           <div className="mt-6 flex gap-3 justify-center">
             <button className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-              <FaTwitter className="size-5" />
+              <SiX className="size-5" />
             </button>
             <button className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
               <FaFacebook className="size-5" />
@@ -121,6 +130,12 @@ export function Footer() {
             </button>
             <button className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
               <FaLinkedin className="size-5" />
+            </button>
+            <button className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+              <FaYoutube className="size-5" />
+            </button>
+            <button className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+              <FaTiktok className="size-5" />
             </button>
           </div>
         </div>

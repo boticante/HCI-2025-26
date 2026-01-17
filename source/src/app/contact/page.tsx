@@ -1,13 +1,15 @@
 import { Navigation } from "@components/navigation";
 import { ContactForm } from "@components/contact-form";
 import {
-  FaTwitter,
   FaFacebook,
   FaInstagram,
   FaLinkedin,
+  FaYoutube,
+  FaTiktok,
   FaPhoneAlt,
   FaEnvelope,
 } from "react-icons/fa";
+import { SiX } from "react-icons/si";
 
 export default function ContactPage() {
   return (
@@ -62,10 +64,10 @@ export default function ContactPage() {
               <div className="mt-4 flex gap-3">
                 <button
                   type="button"
-                  aria-label="Twitter"
+                  aria-label="X"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
                 >
-                  <FaTwitter className="size-5" />
+                  <SiX className="size-5" />
                 </button>
                 <button
                   type="button"
@@ -87,6 +89,20 @@ export default function ContactPage() {
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
                 >
                   <FaLinkedin className="size-5" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="YouTube"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+                >
+                  <FaYoutube className="size-5" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="TikTok"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+                >
+                  <FaTiktok className="size-5" />
                 </button>
               </div>
             </aside>
