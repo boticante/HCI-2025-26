@@ -8,14 +8,18 @@ const ITEMS_PER_PAGE = 10;
 
 export default function EventsPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [selectedMonths, setSelectedMonths] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState<string>('date-asc');
+  const [searchInput, setSearchInput] = useState<string>('');
   const filterRef = useRef<HTMLDivElement>(null);
+  const sortRef = useRef<HTMLDivElement>(null);
 
-  const sports = ["Basketball", "Football", "Handball", "Volleyball", "Waterpolo"];
-  const cities = ["Dugopolje", "Klis", "Solin", "Split"];
+  const sports = ["Basketball", "Football", "Futsal", "Handball", "Volleyball", "Water polo"];
+  const cities = ["Dugopolje","Kaštela", "Klis", "Solin", "Split", "Trogir"];
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   // Close filter dropdown when clicking outside
@@ -24,16 +28,19 @@ export default function EventsPage() {
       if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
         setIsFilterOpen(false);
       }
+      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+        setIsSortOpen(false);
+      }
     };
 
-    if (isFilterOpen) {
+    if (isFilterOpen || isSortOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isFilterOpen]);
+  }, [isFilterOpen, isSortOpen]);
 
   // Scroll to top when page changes
   useEffect(() => {
@@ -54,6 +61,7 @@ export default function EventsPage() {
         prev.includes(value) ? prev.filter(m => m !== value) : [...prev, value]
       );
     }
+    setCurrentPage(1);
   };
 
   const clearFilters = () => {
@@ -70,18 +78,50 @@ export default function EventsPage() {
     const eventDate = new Date(event.date);
     const eventMonth = eventDate.toLocaleDateString('en-US', { month: 'long' });
     
+    // Extract city from venue format: "Stadium - City, Croatia"
+    const venueParts = event.venue.split(',');
+    const cityPart = venueParts[0]?.split('-')[1]?.trim() || '';
+    
     const matchesSport = selectedSports.length === 0 || selectedSports.includes(event.sport);
-    const matchesCity = selectedCities.length === 0 || selectedCities.includes(event.venue.split(',')[1]?.trim() || '');
+    const matchesCity = selectedCities.length === 0 || selectedCities.includes(cityPart);
     const matchesMonth = selectedMonths.length === 0 || selectedMonths.includes(eventMonth);
     
-    return matchesSport && matchesCity && matchesMonth;
+    // Search filter: match team names by starting letters
+    let matchesSearch = true;
+    if (searchInput.trim()) {
+      const searchTerms = searchInput.toLowerCase().trim().split(/\s+/);
+      const titleWords = event.title.toLowerCase().split(/\s+/);
+      
+      // Check if any search term matches the start of any word in the title
+      matchesSearch = searchTerms.some(searchTerm => 
+        titleWords.some(word => word.startsWith(searchTerm))
+      );
+    }
+    
+    return matchesSport && matchesCity && matchesMonth && matchesSearch;
+  });
+
+  // Sort events based on selected sort option
+  const sortedAndFilteredEvents = [...filteredEvents].sort((a, b) => {
+    switch (sortBy) {
+      case 'date-asc':
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      case 'date-desc':
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      case 'name-asc':
+        return a.title.localeCompare(b.title);
+      case 'name-desc':
+        return b.title.localeCompare(a.title);
+      default:
+        return 0;
+    }
   });
 
   // Calculate pagination
-  const totalPages = Math.ceil(filteredEvents.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(sortedAndFilteredEvents.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedEvents = filteredEvents.slice(startIndex, endIndex);
+  const paginatedEvents = sortedAndFilteredEvents.slice(startIndex, endIndex);
 
   return (
     <main className="flex min-h-screen w-full flex-col bg-[#192734]">
@@ -107,21 +147,54 @@ export default function EventsPage() {
               </div>
               <input
                 type="text"
-                placeholder="Search events..."
+                placeholder="Search teams..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="w-full rounded-none border border-white/15 bg-white/5 pl-11 pr-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
               />
             </div>
 
-            {/* Sort Dropdown */}
-            <div className="sm:w-64">
-              <select className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/20 appearance-none cursor-pointer">
-                <option value="date-asc" className="bg-[#192734]">Date (Earliest first)</option>
-                <option value="date-desc" className="bg-[#192734]">Date (Latest first)</option>
-                <option value="price-asc" className="bg-[#192734]">Price (Low to High)</option>
-                <option value="price-desc" className="bg-[#192734]">Price (High to Low)</option>
-                <option value="name-asc" className="bg-[#192734]">Name (A-Z)</option>
-                <option value="name-desc" className="bg-[#192734]">Name (Z-A)</option>
-              </select>
+            {/* Sort Button */}
+            <div className="relative" ref={sortRef}>
+              <button
+                onClick={() => setIsSortOpen(!isSortOpen)}
+                className="w-full sm:w-[130px] flex items-center justify-center gap-2 px-6 py-3 rounded-none border border-white/15 bg-white/5 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20 transition-colors"
+              >
+                Sort
+              </button>
+
+              {/* Sort Dropdown Menu */}
+              {isSortOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50">
+                  <div className="py-1">
+                    {[
+                      { value: 'date-asc', label: 'Date (Earliest first)' },
+                      { value: 'date-desc', label: 'Date (Latest first)' },
+                      { value: 'price-asc', label: 'Price (Low to High)' },
+                      { value: 'price-desc', label: 'Price (High to Low)' },
+                      { value: 'name-asc', label: 'Name (A-Z)' },
+                      { value: 'name-desc', label: 'Name (Z-A)' },
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => {
+                          if (!option.value.startsWith('price-')) {
+                            setSortBy(option.value);
+                            setIsSortOpen(false);
+                          }
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+                          sortBy === option.value
+                            ? 'bg-white/10 text-white'
+                            : 'text-white/90 hover:bg-white/5'
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Filter Button */}
