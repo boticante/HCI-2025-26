@@ -5,7 +5,7 @@ const footballEvents = [
     date: "2026-01-25",
     time: "15:00",
     category: "SuperSport HNL, Round 19",
-    title: "Hajduk Split vs Istra 1961",
+    title: "HNK Hajduk Split vs Istra 1961",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football"
   },
@@ -14,7 +14,7 @@ const footballEvents = [
     date: "2026-02-07",
     time: "TBD",
     category: "SuperSport HNL, Round 21",
-    title: "Hajduk Split vs Slaven Belupo",
+    title: "HNK Hajduk Split vs Slaven Belupo",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football"
   },
@@ -23,7 +23,7 @@ const footballEvents = [
     date: "2026-02-21",
     time: "TBD",
     category: "SuperSport HNL, Round 23",
-    title: "Hajduk Split vs Rijeka",
+    title: "HNK Hajduk Split vs Rijeka",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football"
   },
@@ -32,7 +32,7 @@ const footballEvents = [
     date: "2026-03-07",
     time: "TBD",
     category: "SuperSport HNL, Round 25",
-    title: "Hajduk Split vs Dinamo Zagreb",
+    title: "HNK Hajduk Split vs Dinamo Zagreb",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football"
   },
@@ -41,7 +41,7 @@ const footballEvents = [
     date: "2026-03-14",
     time: "TBD",
     category: "SuperSport HNL, Round 26",
-    title: "Hajduk Split vs Lokomotiva Zagreb",
+    title: "HNK Hajduk Split vs Lokomotiva Zagreb",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football"
   },
@@ -50,7 +50,7 @@ const footballEvents = [
     date: "2026-04-11",
     time: "TBD",
     category: "SuperSport HNL, Round 29",
-    title: "Hajduk Split vs Gorica",
+    title: "HNK Hajduk Split vs Gorica",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football"
   },
@@ -59,7 +59,7 @@ const footballEvents = [
     date: "2026-04-22",
     time: "TBD",
     category: "SuperSport HNL, Round 31",
-    title: "Hajduk Split vs Osijek",
+    title: "HNK Hajduk Split vs Osijek",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football"
   },
@@ -68,7 +68,7 @@ const footballEvents = [
     date: "2026-05-02",
     time: "TBD",
     category: "SuperSport HNL, Round 33",
-    title: "Hajduk Split vs Varaždin",
+    title: "HNK Hajduk Split vs Varaždin",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football"
   },
@@ -77,7 +77,7 @@ const footballEvents = [
     date: "2026-05-23",
     time: "TBD",
     category: "SuperSport HNL, Round 36",
-    title: "Hajduk Split vs Vukovar 1991",
+    title: "HNK Hajduk Split vs Vukovar 1991",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football"
   },
