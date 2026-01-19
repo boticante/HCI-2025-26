@@ -24,7 +24,7 @@ export default function AboutPage() {
             {/* MISSION */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
               <h2 className="text-2xl font-medium text-white">Our mission</h2>
-              <p className="mt-4 text-sm text-white/75 whitespace-nowrap overflow-x-auto flex justify-center">
+              <p className="mt-4 text-sm text-white/75">
                 Create a single, user-friendly destination where sports fans can easily discover events, compare options, and purchase tickets with confidence.
               </p>
             </div>

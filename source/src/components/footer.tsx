@@ -16,7 +16,7 @@ export function Footer() {
     <footer className="bg-[#15202b] text-white py-12">
       <div className="container mx-auto px-6">
         {/* Desktop layout */}
-        <div className="hidden md:grid md:grid-cols-2 gap-x-12 mb-8">
+        <div className="hidden md:grid md:grid-cols-3 gap-x-12 items-start mb-8">
           <div className="flex h-full flex-col">
             <div>
               <h4 className="text-white mb-3">Contact us</h4>
@@ -52,6 +52,14 @@ export function Footer() {
                 <FaTiktok className="size-4" />
               </button>
             </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-start">
+            <img
+              src="/images/logo.png"
+              alt="Ticket-taka logo"
+              className="h-14 w-auto mb-3"
+            />
           </div>
 
           <div className="justify-self-end text-right">

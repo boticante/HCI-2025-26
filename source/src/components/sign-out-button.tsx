@@ -16,7 +16,7 @@ export function SignOutButton({ className }: { className?: string }) {
       onClick={handleSignOut}
       className={className || "text-sm text-slate-700 hover:text-slate-900"}
     >
-      Sign out
+      Sign Out
     </button>
   );
 }

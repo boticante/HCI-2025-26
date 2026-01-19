@@ -83,7 +83,7 @@ export function ContactForm() {
         <input
           type="text"
           name="fullName"
-          placeholder="Your name"
+          placeholder="Enter your name"
           required
           value={formData.fullName}
           onChange={handleInputChange}

@@ -28,7 +28,7 @@ export function LoginForm() {
       <div className="max-w-md mx-auto bg-[#15202b] border border-white/10 rounded-none p-8">
         <div className="flex flex-col items-center">
           <h1 className="text-white mb-6 text-center text-3xl font-bold">
-            Sign in
+            Sign In
           </h1>
         </div>
 

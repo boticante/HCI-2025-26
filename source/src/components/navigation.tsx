@@ -53,13 +53,20 @@ export function Navigation() {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#15202b] mb-6">
-      <div className="container mx-auto px-6 py-3">
+      <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-6">
           <button
             onClick={() => handleNavigate("HOME")}
-            className="inline-flex h-10 items-center text-2xl font-semibold tracking-tight text-white"
+            className="inline-flex flex-col items-center gap-1.5 py-1"
           >
-            TICKET-TAKA
+            <img 
+              src="/images/logo.png" 
+              alt="Ticket-taka logo" 
+              className="h-12 w-auto"
+            />
+            <span className="text-base font-semibold tracking-tight text-white">
+              Ticket-taka
+            </span>
           </button>
 
           <nav className="hidden lg:flex flex-1 items-center justify-center gap-10">
@@ -88,7 +95,7 @@ export function Navigation() {
                   currentPage === "SIGNIN" ? navItemActiveClass : ""
                 }`}
               >
-                Login
+                Sign In
               </button>
             )}
           </div>
@@ -154,7 +161,7 @@ export function Navigation() {
                     currentPage === "SIGNIN" ? navItemActiveClass : ""
                   }`}
                 >
-                  Login
+                  Sign In
                 </button>
               ))}
           </nav>
