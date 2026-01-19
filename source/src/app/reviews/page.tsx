@@ -8,7 +8,6 @@ import { useState } from "react";
 type Review = {
   id: number;
   name: string;
-  language: string;
   rating: number;
   comment: string;
   date: string;
@@ -19,7 +18,6 @@ const latestReviews: Review[] = [
   {
     id: 101,
     name: "Lucía",
-    language: "Spanish",
     rating: 5,
     comment:
       "Servicio rapidísimo y sin sorpresas al pagar. Encontré entradas para un partido el mismo día y todo salió perfecto.",
@@ -28,7 +26,6 @@ const latestReviews: Review[] = [
   {
     id: 102,
     name: "Alessandro",
-    language: "Italian",
     rating: 4,
     comment:
       "Biglietti chiari e zero costi nascosti. Ho pianificato un weekend sportivo a Split in pochi minuti.",
@@ -37,7 +34,6 @@ const latestReviews: Review[] = [
   {
     id: 103,
     name: "Camille",
-    language: "French",
     rating: 5,
     comment:
       "Interface simple et rapide. J’ai réservé pour un match de water-polo sans perdre de temps à comparer des sites.",
@@ -49,7 +45,6 @@ const previousReviews: Review[] = [
   {
     id: 1,
     name: "Raphael",
-    language: "Portuguese",
     rating: 5,
     comment:
       "Esta plataforma facilita muito minhas viagens — agora posso ver instantaneamente quais eventos esportivos locais estão acontecendo onde quer que eu esteja, com detalhes claros e compra de ingressos simples. Economiza muito tempo em comparação com ter que acessar vários sites.",
@@ -59,7 +54,6 @@ const previousReviews: Review[] = [
   {
     id: 2,
     name: "Iva",
-    language: "English",
     rating: 5,
     comment:
       "This app helps me find affordable sports events fast, and the clear pricing means no surprises at checkout. It’s perfect for planning fun outings with friends without wasting time or money.",
@@ -69,7 +63,6 @@ const previousReviews: Review[] = [
   {
     id: 3,
     name: "Mate",
-    language: "Croatian",
     rating: 1,
     comment:
       "Obožavan koliko je sve jednostavno — sve nadolazeće utakmice, datumi, lokacije i karte su mi na jednome mistu, bez ikakvog nepotrebnog nereda. Napokon mogu bez muke pratiti svoje lokalne ekipe, bez kompliciranih i zbrkanih stranica za karte.",

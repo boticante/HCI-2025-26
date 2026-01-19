@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Ticket-taka",
   icons: {
-    icon: "public/favicon.ico",
+    icon: "/favicon.ico",
   },
 };
 

@@ -9,7 +9,7 @@ const navItems = [
   { key: "HOME", label: "Home" },
   { key: "EVENTS", label: "Events" },
   { key: "REVIEWS", label: "Reviews" },
-  { key: "ABOUT US", label: "About us" },
+  { key: "ABOUT US", label: "About Us" },
   { key: "CONTACT", label: "Contact" },
 ] as const;
 
@@ -42,6 +42,7 @@ export function Navigation() {
   };
 
   const currentPage = getCurrentPageName();
+  const showAccount = loading || Boolean(user);
 
   const handleNavigate = (item: string) => {
     const path = pathMap[item];
@@ -71,22 +72,26 @@ export function Navigation() {
 
           <nav className="hidden lg:flex flex-1 items-center justify-center gap-10">
             {navItems.map(({ key, label }) => (
-              <button
-                key={key}
-                onClick={() => handleNavigate(key)}
-                className={`${navItemClass} ${
-                  currentPage === key ? navItemActiveClass : ""
-                }`}
-              >
-                {label}
-              </button>
+              <div key={key} className="flex items-center gap-10">
+                <button
+                  onClick={() => handleNavigate(key)}
+                  className={`${navItemClass} ${
+                    currentPage === key ? navItemActiveClass : ""
+                  }`}
+                >
+                  {label}
+                </button>
+                {key === "CONTACT" && showAccount && (
+                  <button className={navItemClass} type="button">
+                    My Account
+                  </button>
+                )}
+              </div>
             ))}
           </nav>
 
           <div className="hidden lg:flex items-center">
-            {loading ? (
-              <div className="text-sm text-slate-700">Loading...</div>
-            ) : user ? (
+            {showAccount ? (
               <SignOutButton className={navItemClass} />
             ) : (
               <button
@@ -141,29 +146,34 @@ export function Navigation() {
         {mobileMenuOpen && (
           <nav className="lg:hidden mt-4 pb-4 flex flex-col gap-4">
             {navItems.map(({ key, label }) => (
-              <button
-                key={key}
-                onClick={() => handleNavigate(key)}
-                className={`${navItemClass} justify-start ${
-                  currentPage === key ? navItemActiveClass : ""
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-            {!loading &&
-              (user ? (
-                <SignOutButton className={`${navItemClass} justify-start`} />
-              ) : (
+              <div key={key} className="flex flex-col gap-3">
                 <button
-                  onClick={() => handleNavigate("SIGNIN")}
+                  onClick={() => handleNavigate(key)}
                   className={`${navItemClass} justify-start ${
-                    currentPage === "SIGNIN" ? navItemActiveClass : ""
+                    currentPage === key ? navItemActiveClass : ""
                   }`}
                 >
-                  Sign In
+                  {label}
                 </button>
-              ))}
+                {key === "CONTACT" && showAccount && (
+                  <button className={`${navItemClass} justify-start`} type="button">
+                    My Account
+                  </button>
+                )}
+              </div>
+            ))}
+            {showAccount ? (
+              <SignOutButton className={`${navItemClass} justify-start`} />
+            ) : (
+              <button
+                onClick={() => handleNavigate("SIGNIN")}
+                className={`${navItemClass} justify-start ${
+                  currentPage === "SIGNIN" ? navItemActiveClass : ""
+                }`}
+              >
+                Sign In
+              </button>
+            )}
           </nav>
         )}
       </div>

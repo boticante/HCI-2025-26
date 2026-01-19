@@ -105,7 +105,7 @@ export function ReviewModal({ open, onClose }: ReviewModalProps) {
               {/* Your Name */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
-                  Full name
+                  Full Name
                 </label>
                 <input
                   id="name"
@@ -147,7 +147,7 @@ export function ReviewModal({ open, onClose }: ReviewModalProps) {
               {/* Your Review */}
               <div>
                 <label htmlFor="review" className="block text-sm font-medium text-white/80 mb-2">
-                  Your review
+                  Your Review
                 </label>
                 <textarea
                   id="review"
