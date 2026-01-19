@@ -8,7 +8,7 @@ const footballEvents = [
     title: "HNK Hajduk Split vs Istra 1961",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football",
-    price: 75
+    price: 40
   },
   {
     id: "HAJ-2026-02-07-SLB",
@@ -18,7 +18,7 @@ const footballEvents = [
     title: "HNK Hajduk Split vs Slaven Belupo",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football",
-    price: 65
+    price: 40
   },
   {
     id: "HAJ-2026-02-21-RIJ",
@@ -28,7 +28,7 @@ const footballEvents = [
     title: "HNK Hajduk Split vs Rijeka",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football",
-    price: 85
+    price: 40
   },
   {
     id: "HAJ-2026-03-07-DIN",
@@ -38,7 +38,7 @@ const footballEvents = [
     title: "HNK Hajduk Split vs Dinamo Zagreb",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football",
-    price: 120
+    price: 40
   },
   {
     id: "HAJ-2026-03-14-LOK",
@@ -48,7 +48,7 @@ const footballEvents = [
     title: "HNK Hajduk Split vs Lokomotiva Zagreb",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football",
-    price: 55
+    price: 40
   },
   {
     id: "HAJ-2026-04-11-GOR",
@@ -58,7 +58,7 @@ const footballEvents = [
     title: "HNK Hajduk Split vs Gorica",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football",
-    price: 60
+    price: 40
   },
   {
     id: "HAJ-2026-04-22-OSI",
@@ -68,7 +68,7 @@ const footballEvents = [
     title: "HNK Hajduk Split vs Osijek",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football",
-    price: 70
+    price: 40
   },
   {
     id: "HAJ-2026-05-02-VAR",
@@ -78,7 +78,7 @@ const footballEvents = [
     title: "HNK Hajduk Split vs Varaždin",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football",
-    price: 50
+    price: 40
   },
   {
     id: "HAJ-2026-05-23-VUK",
@@ -88,7 +88,7 @@ const footballEvents = [
     title: "HNK Hajduk Split vs Vukovar 1991",
     venue: "Stadion Poljud - Split, Croatia",
     sport: "Football",
-    price: 65
+    price: 40
   },
   {
     id: "DUG-2026-02-14-RUD",
@@ -98,7 +98,7 @@ const footballEvents = [
     title: "NK Dugopolje vs NK Rudeš",
     venue: "Stadion Hrvatskih vitezova - Dugopolje, Croatia",
     sport: "Football",
-    price: 25
+    price: 8
   },
   {
     id: "DUG-2026-02-28-OPA",
@@ -108,7 +108,7 @@ const footballEvents = [
     title: "NK Dugopolje vs NK Opatija",
     venue: "Stadion Hrvatskih vitezova - Dugopolje, Croatia",
     sport: "Football",
-    price: 25
+    price: 8
   },
   {
     id: "DUG-2026-03-14-CIB",
@@ -118,7 +118,7 @@ const footballEvents = [
     title: "NK Dugopolje vs HNK Cibalia",
     venue: "Stadion Hrvatskih vitezova - Dugopolje, Croatia",
     sport: "Football",
-    price: 30
+    price: 8
   },
   {
     id: "USK-2026-02-21-HDV",
@@ -128,7 +128,7 @@ const footballEvents = [
     title: "NK Uskok Klis vs NK Hrvatski Dragovoljac",
     venue: "Stadion Iza Grada - Klis, Croatia",
     sport: "Football",
-    price: 20
+    price: 5
   },
   {
     id: "USK-2026-03-07-JAD",
@@ -138,7 +138,7 @@ const footballEvents = [
     title: "NK Uskok Klis vs NK Jadran LP",
     venue: "Stadion Iza Grada - Klis, Croatia",
     sport: "Football",
-    price: 20
+    price: 5
   },
   {
     id: "USK-2026-03-21-RKI",
@@ -148,7 +148,7 @@ const footballEvents = [
     title: "NK Uskok Klis vs NK Radnik Križevci",
     venue: "Stadion Iza Grada - Klis, Croatia",
     sport: "Football",
-    price: 20
+    price: 5
   },
   {
     id: "SOL-2026-03-14-TRN",
@@ -158,7 +158,7 @@ const footballEvents = [
     title: "NK Solin vs NK Trnje",
     venue: "Stadion Pokraj Jadra - Solin, Croatia",
     sport: "Football",
-    price: 25
+    price: 5
   },
   {
     id: "SOL-2026-03-28-MLD",
@@ -168,7 +168,7 @@ const footballEvents = [
     title: "NK Solin vs NK Mladost Ždralovi",
     venue: "Stadion Pokraj Jadra - Solin, Croatia",
     sport: "Football",
-    price: 25
+    price: 5
   }
 ];
 
@@ -182,7 +182,7 @@ const basketballEvents = [
     title: "KK Split vs KK Zabok",
     venue: "Mala dvorana Gripe - Split, Croatia",
     sport: "Basketball",
-    price: 40
+    price: 15
   },
   {
     id: "SPL-2026-01-26-SCD",
@@ -192,7 +192,7 @@ const basketballEvents = [
     title: "KK Split vs SC Derby",
     venue: "Mala dvorana Gripe - Split, Croatia",
     sport: "Basketball",
-    price: 55
+    price: 20
   },
   {
     id: "SPL-2026-02-07-DUB",
@@ -202,7 +202,7 @@ const basketballEvents = [
     title: "KK Split vs KK Dubrava",
     venue: "Mala dvorana Gripe - Split, Croatia",
     sport: "Basketball",
-    price: 40
+    price: 15
   },
   {
     id: "SPL-2026-03-06-DIN",
@@ -212,7 +212,7 @@ const basketballEvents = [
     title: "KK Split vs KK Dinamo Zagreb",
     venue: "Mala dvorana Gripe - Split, Croatia",
     sport: "Basketball",
-    price: 50
+    price: 15
   }
 ];
 
@@ -226,7 +226,7 @@ const futsalEvents = [
     title: "MNK Torcida Biberon vs MNK Futsal Dinamo",
     venue: "SC Gripe – Mala dvorana Gripe, Split, Croatia",
     sport: "Futsal",
-    price: 35
+    price: 6
   },
   {
     id: "TOR-2026-03-06-CRC",
@@ -236,7 +236,7 @@ const futsalEvents = [
     title: "MNK Torcida Biberon vs MNK Crnica",
     venue: "SC Gripe – Mala dvorana Gripe, Split, Croatia",
     sport: "Futsal",
-    price: 30
+    price: 6
   },
   {
     id: "TOR-2026-03-21-OSI",
@@ -246,7 +246,7 @@ const futsalEvents = [
     title: "MNK Torcida Biberon vs MNK Osijek Kandit",
     venue: "SC Gripe – Mala dvorana Gripe, Split, Croatia",
     sport: "Futsal",
-    price: 30
+    price: 6
   },
   {
     id: "TOR-2026-04-17-OLM",
@@ -256,7 +256,7 @@ const futsalEvents = [
     title: "MNK Torcida Biberon vs MNK Olmissum",
     venue: "SC Gripe – Mala dvorana Gripe, Split, Croatia",
     sport: "Futsal",
-    price: 30
+    price: 6
   }
 ];
 
@@ -270,7 +270,7 @@ const volleyballEvents = [
     title: "ŽOK Ribola Kaštela vs OK Dinamo",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 35
+    price: 5
   },
   {
     id: "RIB-2026-02-07-KEL",
@@ -280,7 +280,7 @@ const volleyballEvents = [
     title: "ŽOK Ribola Kaštela vs OK Kelteks",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 30
+    price: 5
   },
   {
     id: "RIB-2026-02-21-MLA",
@@ -290,7 +290,7 @@ const volleyballEvents = [
     title: "ŽOK Ribola Kaštela vs HAOK Mladost",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 30
+    price: 5
   },
   {
     id: "RIB-2026-03-07-DUB",
@@ -300,7 +300,7 @@ const volleyballEvents = [
     title: "ŽOK Ribola Kaštela vs ŽOK Dubrovnik",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 35
+    price: 5
   },
   {
     id: "RIB-2026-03-21-MAR",
@@ -310,7 +310,7 @@ const volleyballEvents = [
     title: "ŽOK Ribola Kaštela vs OK Marina Kaštela",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 30
+    price: 5
   },
   {
     id: "MAR-2026-02-12-NEB",
@@ -320,7 +320,7 @@ const volleyballEvents = [
     title: "OK Marina Kaštela vs OK Nebo",
     venue: "Sportska dvorana Marina - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 30
+    price: 5
   },
   {
     id: "MAR-2026-03-14-OSI",
@@ -330,7 +330,7 @@ const volleyballEvents = [
     title: "OK Marina Kaštela vs ŽOK Osijek",
     venue: "Sportska dvorana Marina - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 30
+    price: 5
   },
   {
     id: "MAR-2026-03-28-KEL",
@@ -340,7 +340,7 @@ const volleyballEvents = [
     title: "OK Marina Kaštela vs OK Kelteks",
     venue: "Sportska dvorana Marina - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 35
+    price: 5
   },
   {
     id: "MAR-2026-03-15-DUB",
@@ -350,7 +350,7 @@ const volleyballEvents = [
     title: "OK Marina Kaštela vs ŽOK Dubrovnik",
     venue: "Sportska dvorana Marina - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 35
+    price: 5
   },
   {
     id: "RIB-2026-01-31-SIS",
@@ -360,7 +360,7 @@ const volleyballEvents = [
     title: "OK Ribola Kaštela vs OK Sisak",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 35
+    price: 8
   },
   {
     id: "RIB-2026-02-14-RIE",
@@ -370,7 +370,7 @@ const volleyballEvents = [
     title: "OK Ribola Kaštela vs MOK Rijeka",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 40
+    price: 8
   },
   {
     id: "RIB-2026-03-01-CEN",
@@ -380,7 +380,7 @@ const volleyballEvents = [
     title: "OK Ribola Kaštela vs OKM Centrometal",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 35
+    price: 8
   },
   {
     id: "RIB-2026-03-15-MUR",
@@ -390,7 +390,7 @@ const volleyballEvents = [
     title: "OK Ribola Kaštela vs MOK Mursa - Osijek",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
-    price: 35
+    price: 8
   }
 ];
 
@@ -404,7 +404,7 @@ const handballEvents = [
     title: "RK Trogir vs RK Sesvete",
     venue: "Sportska dvorana Vinko Kandija - Trogir, Croatia",
     sport: "Handball",
-    price: 45
+    price: 10
   },
   {
     id: "TRO-2026-02-28-ZAG",
@@ -414,7 +414,7 @@ const handballEvents = [
     title: "RK Trogir vs RK Zagreb",
     venue: "Sportska dvorana Vinko Kandija - Trogir, Croatia",
     sport: "Handball",
-    price: 55
+    price: 10
   },
   {
     id: "TRO-2026-03-14-DUG",
@@ -424,7 +424,7 @@ const handballEvents = [
     title: "RK Trogir vs RK Dugo Selo",
     venue: "Sportska dvorana Vinko Kandija - Trogir, Croatia",
     sport: "Handball",
-    price: 40
+    price: 10
   },
   {
     id: "TRO-2026-04-11-NEX",
@@ -434,7 +434,7 @@ const handballEvents = [
     title: "RK Trogir vs RK Nexe",
     venue: "Sportska dvorana Vinko Kandija - Trogir, Croatia",
     sport: "Handball",
-    price: 50
+    price: 10
   },
   {
     id: "TRO-2026-04-25-GOR",
@@ -444,7 +444,7 @@ const handballEvents = [
     title: "RK Trogir vs RK Gorica",
     venue: "Sportska dvorana Vinko Kandija - Trogir, Croatia",
     sport: "Handball",
-    price: 40
+    price: 10
   }
 ];
 
@@ -458,7 +458,7 @@ const waterPoloEvents = [
     title: "VK Jadran Split vs Pro Recco Waterpolo",
     venue: "Bazeni Poljud - Split, Croatia",
     sport: "Water polo",
-    price: 80
+    price: 12
   },
   {
     id: "JAD-2026-02-21-MLA",
@@ -468,7 +468,7 @@ const waterPoloEvents = [
     title: "VK Jadran Split vs HAVK Mladost Zagreb",
     venue: "Bazeni Poljud - Split, Croatia",
     sport: "Water polo",
-    price: 60
+    price: 10
   },
   {
     id: "JAD-2026-03-07-MED",
@@ -478,7 +478,7 @@ const waterPoloEvents = [
     title: "VK Jadran Split vs VK Medveščak Zagreb",
     venue: "Bazeni Poljud - Split, Croatia",
     sport: "Water polo",
-    price: 60
+    price: 10
   },
   {
     id: "MOR-2026-02-07-ZAD",
@@ -488,7 +488,7 @@ const waterPoloEvents = [
     title: "VK Mornar Split vs VK Zadar 1952",
     venue: "Bazeni Poljud - Split, Croatia",
     sport: "Water polo",
-    price: 50
+    price: 10
   },
   {
     id: "MOR-2026-02-20-DEZ",
@@ -498,7 +498,7 @@ const waterPoloEvents = [
     title: "VK Mornar Split vs ZV De Zaan",
     venue: "Bazeni Poljud - Split, Croatia",
     sport: "Water polo",
-    price: 50
+    price: 12
   },
   {
     id: "MOR-2026-02-22-RAP",
@@ -508,7 +508,7 @@ const waterPoloEvents = [
     title: "VK Mornar Split vs CS Rapid București",
     venue: "Bazeni Poljud - Split, Croatia",
     sport: "Water polo",
-    price: 50
+    price: 12
   },
   {
     id: "MOR-2026-02-28-POK",
@@ -518,7 +518,7 @@ const waterPoloEvents = [
     title: "VK Mornar Split vs OVK POŠK Split",
     venue: "Bazeni Poljud - Split, Croatia",
     sport: "Water polo",
-    price: 40
+    price: 10
   },
   {
     id: "MOR-2026-03-14-PRI",
@@ -528,7 +528,7 @@ const waterPoloEvents = [
     title: "VK Mornar Split vs VK Primorje EB",
     venue: "Bazeni Poljud - Split, Croatia",
     sport: "Water polo",
-    price: 45
+    price: 10
   }
 ];
 

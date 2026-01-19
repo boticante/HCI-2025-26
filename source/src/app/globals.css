@@ -10,6 +10,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  overflow-y: scroll;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #15202b;
@@ -32,3 +36,13 @@ button:hover,
   cursor: pointer;
 }
 
+/* Remove default browser password eye icon */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none !important;
+}

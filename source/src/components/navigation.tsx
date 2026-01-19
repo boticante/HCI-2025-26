@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/hooks/use-user";
 import { SignOutButton } from "./sign-out-button";
 
@@ -32,17 +32,33 @@ export function Navigation() {
   const pathname = usePathname();
   const { user, loading } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const prevPathnameRef = useRef<string | null>(null);
+
+  // Ensure component is hydrated before rendering
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  // Track pathname changes
+  useEffect(() => {
+    prevPathnameRef.current = pathname;
+  }, [pathname]);
 
   const getCurrentPageName = () => {
     for (const [name, path] of Object.entries(pathMap)) {
       if (path === "/" && pathname === "/") return name;
-      if (path !== "/" && (pathname === path || pathname.startsWith(`${path}/`))) return name;
+      if (
+        path !== "/" &&
+        (pathname === path || pathname.startsWith(`${path}/`))
+      )
+        return name;
     }
     return "HOME";
   };
 
   const currentPage = getCurrentPageName();
-  const showAccount = loading || Boolean(user);
+  const showAccount = isHydrated && Boolean(user);
 
   const handleNavigate = (item: string) => {
     const path = pathMap[item];
@@ -60,9 +76,9 @@ export function Navigation() {
             onClick={() => handleNavigate("HOME")}
             className="inline-flex flex-col items-center gap-1.5 py-1"
           >
-            <img 
-              src="/images/logo.png" 
-              alt="Ticket-taka logo" 
+            <img
+              src="/images/logo.png"
+              alt="Ticket-taka logo"
               className="h-12 w-auto"
             />
             <span className="text-base font-semibold tracking-tight text-white">
@@ -91,7 +107,9 @@ export function Navigation() {
           </nav>
 
           <div className="hidden lg:flex items-center">
-            {showAccount ? (
+            {!isHydrated ? (
+              <div className="h-10 w-20" />
+            ) : showAccount ? (
               <SignOutButton className={navItemClass} />
             ) : (
               <button
@@ -156,13 +174,18 @@ export function Navigation() {
                   {label}
                 </button>
                 {key === "CONTACT" && showAccount && (
-                  <button className={`${navItemClass} justify-start`} type="button">
+                  <button
+                    className={`${navItemClass} justify-start`}
+                    type="button"
+                  >
                     My Account
                   </button>
                 )}
               </div>
             ))}
-            {showAccount ? (
+            {!isHydrated ? (
+              <div className="h-10 w-20" />
+            ) : showAccount ? (
               <SignOutButton className={`${navItemClass} justify-start`} />
             ) : (
               <button

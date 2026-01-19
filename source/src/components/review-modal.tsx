@@ -2,17 +2,24 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { submitReview } from "@/app/actions/reviews";
+
+import type { Review } from "@/types/review";
 
 type ReviewModalProps = {
   open: boolean;
   onClose: () => void;
+  onSuccess?: (review: Review) => void;
 };
 
-export function ReviewModal({ open, onClose }: ReviewModalProps) {
+export function ReviewModal({ open, onClose, onSuccess }: ReviewModalProps) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -35,22 +42,55 @@ export function ReviewModal({ open, onClose }: ReviewModalProps) {
     };
   }, [open, onClose]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    setIsSubmitting(true);
+    setError(null);
+    setSuccess(null);
+
+    if (rating === 0) {
+      setError("Please select a rating");
+      setIsSubmitting(false);
+      return;
+    }
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const reviewData = {
-      name: formData.get("name"),
-      title: formData.get("title"),
+      name: formData.get("name") as string,
+      title: formData.get("title") as string,
       rating: rating,
-      review: formData.get("review"),
+      review: formData.get("review") as string,
     };
-    
-    // Here you would normally send to backend
-    console.log("Review submitted:", reviewData);
-    
-    // Reset form and close
-    setRating(0);
-    onClose();
+
+    try {
+      const result = await submitReview(reviewData);
+
+      if (result.success) {
+        setSuccess(result.message || "Review submitted successfully!");
+        // Reset form
+        setRating(0);
+        form.reset();
+
+        // Call onSuccess callback if provided with the new review
+        if (onSuccess && result.review) {
+          await onSuccess(result.review);
+        }
+
+        // Close modal quickly after showing success
+        setTimeout(() => {
+          onClose();
+          setSuccess(null);
+        }, 500);
+      } else {
+        setError(result.error || "Failed to submit review");
+      }
+    } catch (err) {
+      console.error("Error submitting review:", err);
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!open) return null;
@@ -101,10 +141,25 @@ export function ReviewModal({ open, onClose }: ReviewModalProps) {
 
         <div className="px-8 py-6">
           <form onSubmit={handleSubmit}>
+            {error && (
+              <div className="mb-4 rounded-none bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-300 text-sm">
+                {error}
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-4 rounded-none bg-green-500/10 border border-green-500/30 px-4 py-3 text-green-300 text-sm">
+                {success}
+              </div>
+            )}
+
             <div className="grid grid-cols-1 gap-5">
               {/* Your Name */}
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-white/80 mb-2"
+                >
                   Full Name
                 </label>
                 <input
@@ -146,7 +201,10 @@ export function ReviewModal({ open, onClose }: ReviewModalProps) {
 
               {/* Your Review */}
               <div>
-                <label htmlFor="review" className="block text-sm font-medium text-white/80 mb-2">
+                <label
+                  htmlFor="review"
+                  className="block text-sm font-medium text-white/80 mb-2"
+                >
                   Your Review
                 </label>
                 <textarea
@@ -165,15 +223,17 @@ export function ReviewModal({ open, onClose }: ReviewModalProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 rounded-none bg-white/10 hover:bg-white/15 px-4 py-3 font-semibold text-white focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer"
+                disabled={isSubmitting}
+                className="flex-1 rounded-none bg-white/10 hover:bg-white/15 px-4 py-3 font-semibold text-white focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 rounded-none bg-green-700 hover:bg-green-600 px-4 py-3 font-semibold text-white focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer"
+                disabled={isSubmitting || rating === 0}
+                className="flex-1 rounded-none bg-green-700 hover:bg-green-600 px-4 py-3 font-semibold text-white focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Submit
+                {isSubmitting ? "Submitting..." : "Submit"}
               </button>
             </div>
           </form>
