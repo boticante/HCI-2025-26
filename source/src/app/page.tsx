@@ -5,6 +5,33 @@ import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
 export default function Home() {
+  const heroSlides = [
+    {
+      title: "Where passion\nmeets live action",
+      highlight: "live action",
+      body: "Action. Passion. Unforgettable. Discover events you'll actually remember.",
+      cta: "Browse events",
+    },
+    {
+      title: "Find your\nnext big match",
+      highlight: "big match",
+      body: "Fast. Simple. Reliable. Compare events and book in minutes.",
+      cta: "See upcoming",
+    },
+    {
+      title: "Your seat is closer\nthan you think",
+      highlight: "closer",
+      body: "Secure. Smooth. Stress-free. Get tickets and game-day details instantly.",
+      cta: "Get your ticket",
+    },
+    {
+      title: "Beyond the main stage.",
+      highlight: "Beyond",
+      body: "Hidden gems and must-see events waiting to be discovered.",
+      cta: "Discover More",
+    },
+  ];
+
   const testimonials = [
     {
       id: 1,
@@ -33,6 +60,32 @@ export default function Home() {
   ];
 
   const [expandedReviews, setExpandedReviews] = useState<Set<number>>(new Set());
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const renderTitleWithHighlight = (title: string, highlight: string) => {
+    const lines = title.split('\n');
+    return lines.map((line, lineIdx, arr) => {
+      if (!highlight) {
+        return (
+          <span key={lineIdx}>
+            {line}
+            {lineIdx < arr.length - 1 && <br />}
+          </span>
+        );
+      }
+      const parts = line.split(new RegExp(`(${highlight})`, 'i'));
+      return (
+        <span key={lineIdx}>
+          {parts.map((part, partIdx) =>
+            part.toLowerCase() === highlight.toLowerCase() ?
+              <span key={partIdx} className="text-indigo-700">{part}</span> :
+              part
+          )}
+          {lineIdx < arr.length - 1 && <br />}
+        </span>
+      );
+    });
+  };
 
   const toggleReview = (id: number) => {
     setExpandedReviews((prev) => {
@@ -47,25 +100,46 @@ export default function Home() {
     <main className="flex flex-col">
       <Navigation />
 
-      <section className="-mt-6 w-full min-h-screen bg-[#192734] flex items-center">
-        <div className="mx-auto w-full max-w-7xl px-6 -mt-12">
-          <div className="grid gap-16 items-center">
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                Where passion<br /> meets 
-                <span className="text-indigo-700"> live action</span>
+      <section 
+        className="relative -mt-6 w-full min-h-screen bg-[#192734] flex items-start justify-center px-5 py-14 pt-32"
+      >
+        <div className="relative w-full max-w-7xl h-full flex items-center justify-center">
+          <div className="relative w-full max-w-5xl h-[430px] bg-[#15202b] border border-white/10 shadow-2xl flex items-center justify-between gap-7 px-14 py-14">
+            {/* Left: Title + Description */}
+            <div className="max-w-3xl">
+              <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tighter text-white leading-tight mb-5 max-w-2xl">
+                {renderTitleWithHighlight(heroSlides[activeSlide].title, heroSlides[activeSlide].highlight)}
               </h1>
-              <p className="mx-auto mt-8 max-w-2xl text-base lg:text-lg text-white/75 lg:mx-0 leading-relaxed">
-                Action. Passion. Unforgettable.
+              <p className="text-base text-white/75 leading-relaxed max-w-lg">
+                {heroSlides[activeSlide].body}
               </p>
-              <div className="mt-6 flex flex-col sm:flex-row flex-wrap gap-4 justify-center lg:justify-start">
-                <a
-                  href="/events"
-                  className="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 px-6 py-3 text-base font-semibold text-white w-full sm:w-auto"
-                >
-                  Browse Events
-                </a>
-              </div>
+            </div>
+
+            {/* Right: Button */}
+            <div className="flex-shrink-0 flex items-center justify-end min-w-56">
+              <a
+                href="/events"
+                className="inline-flex items-center justify-center bg-indigo-700 hover:bg-indigo-800 px-6 py-3 font-bold text-white transition-colors duration-150 w-40 whitespace-nowrap"
+              >
+                {heroSlides[activeSlide].cta}
+              </a>
+            </div>
+
+            {/* Bottom-Left: Pager */}
+            <div className="absolute left-14 bottom-7 flex gap-3.5">
+              {heroSlides.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  aria-label={`Show slide ${idx + 1}`}
+                  onClick={() => setActiveSlide(idx)}
+                  className={`w-3 h-3 border transition-all duration-150 ${
+                    activeSlide === idx
+                      ? "bg-indigo-600 border-white/25 opacity-100"
+                      : "bg-transparent border-white/35 opacity-55 hover:opacity-75"
+                  }`}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -83,7 +157,7 @@ export default function Home() {
         <div className="mx-auto w-full max-w-7xl px-6 py-14">
           <div className="text-center">
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">What fans say</h1>
-            <p className="mx-auto mt-8 max-w-2xl text-base text-white/75 text-center">Real experiences from fans who discovered and attended live sports events through our platform.</p>
+            <p className="mx-auto mt-8 max-w-2xl text-base text-white/75 text-center px-4">Real experiences from fans who discovered and attended live sports events through our platform.</p>
           </div>
 
           <div className="mt-12 grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">

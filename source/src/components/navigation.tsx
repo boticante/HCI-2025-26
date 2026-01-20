@@ -2,7 +2,7 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { useUser } from "@/hooks/use-user";
+import { useUser } from "@/context/user-context";
 import { SignOutButton } from "./sign-out-button";
 
 const navItems = [
@@ -32,18 +32,16 @@ export function Navigation() {
   const pathname = usePathname();
   const { user, loading } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
   const prevPathnameRef = useRef<string | null>(null);
-
-  // Ensure component is hydrated before rendering
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   // Track pathname changes
   useEffect(() => {
     prevPathnameRef.current = pathname;
   }, [pathname]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const getCurrentPageName = () => {
     for (const [name, path] of Object.entries(pathMap)) {
@@ -58,7 +56,7 @@ export function Navigation() {
   };
 
   const currentPage = getCurrentPageName();
-  const showAccount = isHydrated && Boolean(user);
+  const showAccount = Boolean(user);
 
   const handleNavigate = (item: string) => {
     const path = pathMap[item];
@@ -73,8 +71,9 @@ export function Navigation() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-6">
           <button
-            onClick={() => handleNavigate("HOME")}
-            className="inline-flex flex-col items-center gap-1.5 py-1"
+            onClick={scrollToTop}
+            className="inline-flex flex-col items-center gap-1.5 py-1 hover:opacity-80 transition-opacity"
+            aria-label="Scroll to top"
           >
             <img
               src="/images/logo.png"
@@ -107,7 +106,7 @@ export function Navigation() {
           </nav>
 
           <div className="hidden lg:flex items-center">
-            {!isHydrated ? (
+            {loading ? (
               <div className="h-10 w-20" />
             ) : showAccount ? (
               <SignOutButton className={navItemClass} />
@@ -183,7 +182,7 @@ export function Navigation() {
                 )}
               </div>
             ))}
-            {!isHydrated ? (
+            {loading ? (
               <div className="h-10 w-20" />
             ) : showAccount ? (
               <SignOutButton className={`${navItemClass} justify-start`} />

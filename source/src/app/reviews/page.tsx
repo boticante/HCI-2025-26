@@ -4,6 +4,8 @@ import { Navigation } from "@components/navigation";
 import { ReviewModal } from "@components/review-modal";
 import { FaStar } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/user-context";
 import { contentfulClient } from "@/lib/contentful/client";
 import type { Review } from "@/types/review";
 
@@ -87,6 +89,8 @@ const ReviewCard = ({ review }: { review: Review }) => {
 };
 
 export default function ReviewsPage() {
+  const { user } = useUser();
+  const router = useRouter();
   const [showAll, setShowAll] = useState(false);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [latestReviews, setLatestReviews] = useState<Review[]>([]);
@@ -145,7 +149,7 @@ export default function ReviewsPage() {
             <h2 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
               Latest reviews
             </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-base text-white/75 text-center whitespace-nowrap">
+            <p className="mx-auto mt-6 max-w-2xl text-base text-white/75 text-center px-4">
               Real experiences from fans who discovered and attended live sports
               events through our platform.
             </p>
@@ -201,14 +205,20 @@ export default function ReviewsPage() {
             <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
               Share your experience
             </h3>
-            <p className="mt-4 text-base text-white/75 max-w-2xl mx-auto text- whitespace-nowrap">
+            <p className="mt-4 text-base text-white/75 max-w-2xl mx-auto px-4">
               Had a great time at an event? Leave a short review to help other
               fans decide.
             </p>
             <div className="mt-6 flex justify-center">
               <button
                 type="button"
-                onClick={() => setReviewModalOpen(true)}
+                onClick={() => {
+                  if (!user) {
+                    router.push("/login");
+                    return;
+                  }
+                  setReviewModalOpen(true);
+                }}
                 className="inline-flex items-center justify-center gap-2 rounded-none bg-white/10 px-6 py-3 font-semibold text-white hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer"
               >
                 <svg

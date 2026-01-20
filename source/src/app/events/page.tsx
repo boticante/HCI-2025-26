@@ -2,7 +2,8 @@
 
 import { Navigation } from "../../components/navigation";
 import { useState, useEffect, useRef } from "react";
-import { useUser } from "@/hooks/use-user";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/user-context";
 import { FaHeart, FaChevronDown } from "react-icons/fa";
 import { sampleEvents } from "./sampleEvents";
 
@@ -10,6 +11,7 @@ const ITEMS_PER_PAGE = 10;
 
 export default function EventsPage() {
   const { user } = useUser();
+  const router = useRouter();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
@@ -576,8 +578,7 @@ export default function EventsPage() {
                             <div className="flex items-center gap-2 px-3 py-2 rounded-none border border-white/15 bg-white/5">
                               <button
                                 onClick={() => {
-                                  const current =
-                                    ticketQuantity[event.id] || 1;
+                                  const current = ticketQuantity[event.id] || 1;
                                   if (current > 1) {
                                     setTicketQuantity({
                                       ...ticketQuantity,
@@ -594,8 +595,7 @@ export default function EventsPage() {
                               </span>
                               <button
                                 onClick={() => {
-                                  const current =
-                                    ticketQuantity[event.id] || 1;
+                                  const current = ticketQuantity[event.id] || 1;
                                   if (current < 10) {
                                     setTicketQuantity({
                                       ...ticketQuantity,
@@ -610,7 +610,15 @@ export default function EventsPage() {
                             </div>
 
                             {/* Buy Button */}
-                            <button className="px-6 py-2 rounded-none border border-green-700 bg-green-700 text-white hover:bg-green-800 text-sm font-semibold transition-colors whitespace-nowrap">
+                            <button
+                              onClick={() => {
+                                if (!user) {
+                                  router.push("/login");
+                                  return;
+                                }
+                              }}
+                              className="px-6 py-2 rounded-none border border-green-700 bg-green-700 text-white hover:bg-green-800 text-sm font-semibold transition-colors whitespace-nowrap"
+                            >
                               BUY TICKETS
                             </button>
                           </div>

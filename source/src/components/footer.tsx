@@ -12,6 +12,9 @@ import { SiX } from "react-icons/si";
 import Link from "next/link";
 
 export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <footer className="bg-[#15202b] text-white py-12">
       <div className="container mx-auto px-6">
@@ -55,11 +58,17 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col items-center justify-start">
-            <img
-              src="/images/logo.png"
-              alt="Ticket-taka logo"
-              className="h-14 w-auto mb-3"
-            />
+            <button
+              onClick={scrollToTop}
+              className="hover:opacity-80 transition-opacity cursor-pointer"
+              aria-label="Scroll to top"
+            >
+              <img
+                src="/images/logo.png"
+                alt="Ticket-taka logo"
+                className="h-14 w-auto mb-3"
+              />
+            </button>
           </div>
 
           <div className="justify-self-end text-right">

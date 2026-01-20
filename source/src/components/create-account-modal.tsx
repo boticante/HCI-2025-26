@@ -101,12 +101,6 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
 
         <div className="px-8 py-6">
           <form onSubmit={handleSubmit}>
-            {error && (
-              <div className="mb-4 rounded-none bg-red-500/10 border border-red-500/30 p-3 text-sm text-red-200">
-                {error}
-              </div>
-            )}
-
             <div className="grid grid-cols-1 gap-4">
               <input
                 type="text"
@@ -169,6 +163,10 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
             >
               {loading ? "Registering..." : "Register"}
             </button>
+
+            {error && (
+              <p className="mt-2 text-sm text-red-300 text-center">{error}</p>
+            )}
           </form>
         </div>
       </div>
