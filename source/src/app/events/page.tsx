@@ -4,6 +4,7 @@ import { Navigation } from "../../components/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/user-context";
+import { useCart } from "@/context/cart-context";
 import { FaHeart, FaChevronDown, FaShoppingCart } from "react-icons/fa";
 import { sampleEvents } from "./sampleEvents";
 
@@ -11,6 +12,7 @@ const ITEMS_PER_PAGE = 10;
 
 export default function EventsPage() {
   const { user } = useUser();
+  const { addToCart } = useCart();
   const router = useRouter();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
@@ -26,6 +28,7 @@ export default function EventsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState<string>("date-asc");
   const [searchInput, setSearchInput] = useState<string>("");
+  const [addedToCartNotification, setAddedToCartNotification] = useState<string | null>(null);
   const filterRef = useRef<HTMLDivElement>(null);
   const sortRef = useRef<HTMLDivElement>(null);
 
@@ -800,7 +803,7 @@ export default function EventsPage() {
                         {/* Compact Ticket Option */}
                         <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
                           {/* Price & Purchase */}
-                          <div className="flex items-center gap-3 sm:gap-4">
+                          <div className="flex items-center gap-3 sm:gap-4 relative">
                             {/* Price */}
                             <div className="text-center">
                               <p className="text-white/60 text-xs mb-0.5">
@@ -853,12 +856,29 @@ export default function EventsPage() {
                                   router.push("/login");
                                   return;
                                 }
+                                const quantity = ticketQuantity[event.id] || 1;
+                                for (let i = 0; i < quantity; i++) {
+                                  addToCart(event, "General Admission");
+                                }
+                                // Show notification
+                                setAddedToCartNotification(event.id.toString());
+                                setTimeout(() => setAddedToCartNotification(null), 5000);
+                                // Reset quantity after adding
+                                setTicketQuantity({
+                                  ...ticketQuantity,
+                                  [event.id]: 1,
+                                });
                               }}
                               className="flex items-center gap-2 px-6 py-2 rounded-none border border-white/15 bg-white/10 text-white hover:bg-white/15 hover:border-white/25 text-sm font-semibold transition-colors whitespace-nowrap"
                             >
                               <FaShoppingCart className="size-4" />
                               ADD TO CART
                             </button>
+                            {addedToCartNotification === event.id.toString() && (
+                              <span className="absolute left-full ml-3 text-white/75 text-xs whitespace-nowrap">
+                                Added to cart
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>

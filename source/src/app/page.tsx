@@ -184,10 +184,6 @@ export default function Home() {
                     className="inline-flex items-center justify-center gap-2 rounded-none bg-indigo-700 hover:bg-indigo-800 px-6 py-3 font-bold text-white transition-colors duration-150"
                   >
                     Browse events
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M5 12h12" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                      <path d="M13 6l6 6-6 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
                   </a>
                   <a
                     href="/about"

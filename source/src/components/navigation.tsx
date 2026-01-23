@@ -3,6 +3,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/context/user-context";
+import { useCart } from "@/context/cart-context";
 import { SignOutButton } from "./sign-out-button";
 import { FaChevronDown, FaShoppingCart } from "react-icons/fa";
 
@@ -32,6 +33,7 @@ export function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
   const { user, loading } = useUser();
+  const { items } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const prevPathnameRef = useRef<string | null>(null);
@@ -75,9 +77,9 @@ export function Navigation() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-6">
           <button
-            onClick={scrollToTop}
+            onClick={() => router.push("/")}
             className="inline-flex flex-col items-center gap-1.5 py-1 hover:opacity-80 transition-opacity"
-            aria-label="Scroll to top"
+            aria-label="Go to homepage"
           >
             <img
               src="/images/logo.png"
@@ -147,7 +149,9 @@ export function Navigation() {
                   type="button"
                   onClick={() => router.push("/cart")}
                 >
-                  <FaShoppingCart className="size-4" />
+                  <FaShoppingCart className={`size-4 ${
+                    items.length > 0 ? "text-indigo-600" : ""
+                  }`} />
                   Cart
                 </button>
                 <SignOutButton className={navItemClass} />
@@ -262,7 +266,9 @@ export function Navigation() {
                     setMobileMenuOpen(false);
                   }}
                 >
-                  <FaShoppingCart className="size-4" />
+                  <FaShoppingCart className={`size-4 ${
+                    items.length > 0 ? "text-indigo-600" : ""
+                  }`} />
                   Cart
                 </button>
                 <SignOutButton className={`${navItemClass} justify-start`} />

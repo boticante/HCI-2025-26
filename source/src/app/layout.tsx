@@ -3,6 +3,7 @@ import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { FooterConditional } from "@components/footer-conditional";
 import { UserProvider } from "@/context/user-context";
+import { CartProvider } from "@/context/cart-context";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -31,8 +32,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
         <UserProvider>
-          {children}
-          <FooterConditional />
+          <CartProvider>
+            {children}
+            <FooterConditional />
+          </CartProvider>
         </UserProvider>
       </body>
     </html>
