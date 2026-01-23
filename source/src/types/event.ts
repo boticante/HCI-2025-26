@@ -4,6 +4,7 @@ export interface Event {
   sport: string;
   location: string;
   date: string;
+  time?: string;
   price: number;
   description: string;
   venue: string;
