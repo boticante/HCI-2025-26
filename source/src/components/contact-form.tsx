@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { sendContactEmail } from "@/app/actions/contact";
+import { FaChevronDown } from "react-icons/fa";
 
 export function ContactForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubjectOpen, setIsSubjectOpen] = useState(false);
+  const subjectRef = useRef<HTMLDivElement>(null);
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
@@ -15,6 +18,26 @@ export function ContactForm() {
     subject: "Event information",
     message: "",
   });
+
+  // Close subject dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        subjectRef.current &&
+        !subjectRef.current.contains(event.target as Node)
+      ) {
+        setIsSubjectOpen(false);
+      }
+    };
+
+    if (isSubjectOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSubjectOpen]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -108,19 +131,51 @@ export function ContactForm() {
 
       <label className="block">
         <span className="text-sm font-medium text-white/70">Subject</span>
-        <select
-          name="subject"
-          value={formData.subject}
-          onChange={handleInputChange}
-          disabled={isLoading}
-          className="mt-2 w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/25 disabled:opacity-50"
-        >
-          <option className="bg-[#15202b]">Event information</option>
-          <option className="bg-[#15202b]">Ticket purchase</option>
-          <option className="bg-[#15202b]">Technical issue</option>
-          <option className="bg-[#15202b]">Partnership / event listing</option>
-          <option className="bg-[#15202b]">General inquiry</option>
-        </select>
+        <div className="relative mt-2" ref={subjectRef}>
+          <button
+            type="button"
+            onClick={() => setIsSubjectOpen(!isSubjectOpen)}
+            disabled={isLoading}
+            className="w-full flex items-center justify-between gap-2 rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/25 transition-colors disabled:opacity-50"
+          >
+            <span>{formData.subject}</span>
+            <FaChevronDown
+              className={`w-3 h-3 transition-transform duration-200 ${
+                isSubjectOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+
+          {isSubjectOpen && (
+            <div className="absolute left-0 right-0 mt-2 w-full bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50 dropdown-animate">
+              <div className="py-1">
+                {[
+                  "Event information",
+                  "Ticket purchase",
+                  "Technical issue",
+                  "Partnership / event listing",
+                  "General inquiry",
+                ].map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => {
+                      setFormData((prev) => ({ ...prev, subject: option }));
+                      setIsSubjectOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+                      formData.subject === option
+                        ? "bg-white/10 text-white"
+                        : "text-white/90 hover:bg-white/5"
+                    }`}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </label>
 
       <label className="block">

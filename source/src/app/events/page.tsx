@@ -4,7 +4,7 @@ import { Navigation } from "../../components/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/user-context";
-import { FaHeart, FaChevronDown } from "react-icons/fa";
+import { FaHeart, FaChevronDown, FaShoppingCart } from "react-icons/fa";
 import { sampleEvents } from "./sampleEvents";
 
 const ITEMS_PER_PAGE = 10;
@@ -36,6 +36,22 @@ export default function EventsPage() {
     "Handball",
     "Volleyball",
     "Water polo",
+  ];
+  const orderedSports = [
+    "Basketball",
+    "Handball",
+    "Football",
+    "Volleyball",
+    "Futsal",
+    "Water polo",
+  ];
+  const orderedCities = [
+    "Dugopolje",
+    "Split",
+    "Kaštela",
+    "Solin",
+    "Klis",
+    "Trogir",
   ];
   const cities = ["Dugopolje", "Kaštela", "Klis", "Solin", "Split", "Trogir"];
   const months = [
@@ -204,15 +220,18 @@ export default function EventsPage() {
 
       {/* All content between navbar and footer */}
       <section className="-mt-6 w-full bg-[#192734]">
-        <div className="mx-auto w-full max-w-7xl px-6 py-14">
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-              Upcoming events
-            </h1>
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-14">
+
+          {/* Mobile header */}
+          <div className="mb-8 lg:hidden">
+            <h1 className="text-3xl font-bold text-white">Upcoming events</h1>
+            <p className="text-sm text-white/70 mt-1">
+              Showing {paginatedEvents.length} of {sortedAndFilteredEvents.length} events
+            </p>
           </div>
 
-          {/* Search and Filter Bar */}
-          <div className="mt-12 flex flex-col sm:flex-row gap-4 max-w-4xl mx-auto">
+          {/* Mobile search/sort/filter (revert to original) */}
+          <div className="mt-12 flex flex-col sm:flex-row gap-4 max-w-4xl mx-auto lg:hidden">
             {/* Search Bar */}
             <div className="flex-1 relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -242,7 +261,10 @@ export default function EventsPage() {
             {/* Sort Button */}
             <div className="relative" ref={sortRef}>
               <button
-                onClick={() => setIsSortOpen(!isSortOpen)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsSortOpen((prev) => !prev);
+                }}
                 className="w-full sm:w-[130px] flex items-center justify-center gap-2 px-6 py-3 rounded-none border border-white/15 bg-white/5 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20 transition-colors"
               >
                 <svg
@@ -263,7 +285,7 @@ export default function EventsPage() {
 
               {/* Sort Dropdown Menu */}
               {isSortOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50">
+                <div className="absolute right-0 mt-2 w-56 bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50 dropdown-animate">
                   <div className="py-1">
                     {[
                       { value: "date-asc", label: "Date (Earliest first)" },
@@ -314,7 +336,7 @@ export default function EventsPage() {
                 </svg>
                 Filters
                 {activeFiltersCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-[#8B1538] text-white text-xs px-2 py-0.5 rounded-full min-w-5 text-center">
+                  <span className="absolute -top-2 -right-2 bg-indigo-700 text-white text-xs px-2 py-0.5 rounded-full min-w-5 text-center">
                     {activeFiltersCount}
                   </span>
                 )}
@@ -322,7 +344,7 @@ export default function EventsPage() {
 
               {/* Filter Dropdown Panel */}
               {isFilterOpen && (
-                <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-[600px] bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50">
+                <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-[600px] max-w-[90vw] bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50 dropdown-animate">
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-4">
                       {activeFiltersCount > 0 && (
@@ -360,7 +382,7 @@ export default function EventsPage() {
                           Sport
                         </h4>
                         <div className="space-y-1.5">
-                          {sports.map((sport) => (
+                          {orderedSports.map((sport) => (
                             <label
                               key={sport}
                               className="flex items-center gap-2 cursor-pointer"
@@ -385,7 +407,7 @@ export default function EventsPage() {
                           City
                         </h4>
                         <div className="space-y-1.5">
-                          {cities.map((city) => (
+                          {orderedCities.map((city) => (
                             <label
                               key={city}
                               className="flex items-center gap-2 cursor-pointer"
@@ -455,9 +477,203 @@ export default function EventsPage() {
             </div>
           </div>
 
-          {/* Events List */}
-          <div className="mt-16 max-w-5xl mx-auto space-y-4">
-            {paginatedEvents.map((event) => {
+          {/* Desktop Filters + Events */}
+          <div className="mt-12 flex flex-col lg:flex-row gap-8">
+            <aside className="hidden lg:block w-72 xl:w-80 bg-[#15202b] border border-white/10 rounded-none p-5 shadow-2xl space-y-5 sticky top-32 self-start">
+              <div className="flex items-center justify-between">
+                <h2 className="text-white font-semibold text-sm">Filters</h2>
+                {activeFiltersCount > 0 && (
+                  <button
+                    onClick={clearFilters}
+                    className="text-xs text-white/70 hover:text-white font-semibold"
+                  >
+                    Clear all
+                  </button>
+                )}
+              </div>
+
+              <div>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg
+                      className="h-4 w-4 text-white/50"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search teams..."
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    className="w-full rounded-none border border-white/15 bg-white/5 pl-9 pr-3 py-2.5 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
+                  />
+                </div>
+              </div>
+
+              <div className="relative" ref={sortRef}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsSortOpen((prev) => !prev);
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-none border border-white/15 bg-white/5 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20 transition-colors"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+                    />
+                  </svg>
+                  Sort
+                </button>
+
+                {isSortOpen && (
+                  <div className="absolute left-0 right-0 mt-2 w-full bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50 dropdown-animate">
+                    <div className="py-1">
+                      {[
+                        { value: "date-asc", label: "Date (Earliest first)" },
+                        { value: "date-desc", label: "Date (Latest first)" },
+                        { value: "price-asc", label: "Price (Low to High)" },
+                        { value: "price-desc", label: "Price (High to Low)" },
+                        { value: "name-asc", label: "Name (A-Z)" },
+                        { value: "name-desc", label: "Name (Z-A)" },
+                      ].map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => {
+                            setSortBy(option.value);
+                            setIsSortOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+                            sortBy === option.value
+                              ? "bg-white/10 text-white"
+                              : "text-white/90 hover:bg-white/5"
+                          }`}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {user && (
+                <label className="flex items-center gap-2 text-sm text-white/80 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={showFavorites}
+                    onChange={() => setShowFavorites(!showFavorites)}
+                    className="w-3 h-3 rounded border-white/20 bg-white/5 text-indigo-600 focus:ring-1 focus:ring-indigo-500 cursor-pointer"
+                  />
+                  Show favorites
+                </label>
+              )}
+
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-white/60 uppercase">Sport</p>
+                <div className="grid grid-cols-2 gap-x-3 gap-y-2">
+                  {orderedSports.map((sport) => (
+                    <label
+                      key={sport}
+                      className="flex items-center gap-2 text-xs text-white/80 cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedSports.includes(sport)}
+                        onChange={() => toggleFilter("sport", sport)}
+                        className="w-3 h-3 rounded border-white/20 bg-white/5 text-indigo-600 focus:ring-1 focus:ring-indigo-500 cursor-pointer"
+                      />
+                      {sport}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-white/60 uppercase">City</p>
+                <div className="grid grid-cols-2 gap-x-3 gap-y-2">
+                  {orderedCities.map((city) => (
+                    <label
+                      key={city}
+                      className="flex items-center gap-2 text-xs text-white/80 cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedCities.includes(city)}
+                        onChange={() => toggleFilter("city", city)}
+                        className="w-3 h-3 rounded border-white/20 bg-white/5 text-indigo-600 focus:ring-1 focus:ring-indigo-500 cursor-pointer"
+                      />
+                      {city}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-white/60 uppercase">Month</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    {months.slice(0, 6).map((month) => (
+                      <label
+                        key={month}
+                        className="flex items-center gap-2 text-xs text-white/80 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedMonths.includes(month)}
+                          onChange={() => toggleFilter("month", month)}
+                          className="w-3 h-3 rounded border-white/20 bg-white/5 text-indigo-600 focus:ring-1 focus:ring-indigo-500 cursor-pointer"
+                        />
+                        {month}
+                      </label>
+                    ))}
+                  </div>
+                  <div className="space-y-1.5">
+                    {months.slice(6, 12).map((month) => (
+                      <label
+                        key={month}
+                        className="flex items-center gap-2 text-xs text-white/80 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedMonths.includes(month)}
+                          onChange={() => toggleFilter("month", month)}
+                          className="w-3 h-3 rounded border-white/20 bg-white/5 text-indigo-600 focus:ring-1 focus:ring-indigo-500 cursor-pointer"
+                        />
+                        {month}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            <div className="flex-1">
+              <div className="hidden lg:block w-full max-w-5xl mx-auto mb-6">
+                <h1 className="text-3xl font-bold text-white">All Events</h1>
+                <p className="text-sm text-white/70 mt-1">
+                  Showing {paginatedEvents.length} of {sortedAndFilteredEvents.length} events
+                </p>
+              </div>
+              <div className="space-y-8 w-full max-w-5xl mx-auto">
+                {paginatedEvents.map((event) => {
               const eventDate = new Date(event.date);
               const monthShort = eventDate.toLocaleDateString("en-US", {
                 month: "short",
@@ -473,7 +689,7 @@ export default function EventsPage() {
                   {/* Main Event Row */}
                   <div className="flex flex-col sm:flex-row items-stretch">
                     {/* Date Box */}
-                    <div className="flex sm:flex-col items-center sm:items-center justify-center bg-[#8B1538] text-white p-4 sm:p-6 sm:w-24 gap-3 sm:gap-0">
+                    <div className="hidden sm:flex sm:flex-col items-center justify-center bg-indigo-700 text-white p-6 w-24 gap-0">
                       <div className="text-center">
                         <div className="text-sm font-medium uppercase">
                           {monthShort}
@@ -483,8 +699,29 @@ export default function EventsPage() {
                         </div>
                         <div className="text-xs opacity-90">{year}</div>
                       </div>
-                      <div className="sm:mt-3 sm:pt-3 sm:border-t border-white/30">
+                      <div className="mt-3 pt-3 border-t border-white/30">
                         <div className="text-sm font-medium">{event.time}</div>
+                      </div>
+                    </div>
+
+                    {/* Mobile Date Display */}
+                    <div className="sm:hidden flex items-center justify-center bg-indigo-700 text-white px-4 py-3">
+                      <div className="flex items-center gap-4">
+                        <div className="text-center">
+                          <div className="text-xs font-medium uppercase mb-1">
+                            {monthShort}
+                          </div>
+                          <div className="text-2xl font-bold leading-tight">
+                            {day}
+                          </div>
+                          <div className="text-xs text-white/75 mt-1">
+                            {year}
+                          </div>
+                        </div>
+                        <div className="h-10 w-px bg-white/30"></div>
+                        <div className="text-sm font-medium">
+                          {event.time}
+                        </div>
                       </div>
                     </div>
 
@@ -526,25 +763,25 @@ export default function EventsPage() {
                     </div>
 
                     {/* Heart and Tickets Section - Stays Fixed */}
-                    <div className="flex items-center justify-end gap-4 p-6 sm:p-4 shrink-0">
+                    <div className="flex items-center justify-center sm:justify-end gap-4 p-6 sm:p-4 shrink-0">
                       {user && (
                         <button
                           onClick={() => toggleFavorite(event.id)}
-                          className="p-1 hover:bg-white/10 rounded transition-colors shrink-0"
+                          className="p-1 shrink-0"
                           type="button"
                         >
                           <FaHeart
                             className={`size-5 transition-colors ${
                               favorites.includes(event.id)
                                 ? "text-white/80"
-                                : "text-white/20"
+                                : "text-white/20 hover:text-white/50"
                             }`}
                           />
                         </button>
                       )}
                       <button
                         onClick={() => toggleTickets(event.id)}
-                        className="flex items-center justify-center gap-2 px-6 py-3 rounded-none border border-white/15 bg-white/5 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20 transition-colors whitespace-nowrap"
+                        className="flex items-center justify-center gap-2 px-6 py-3 rounded-none bg-indigo-700 hover:bg-indigo-800 text-white font-bold transition-colors whitespace-nowrap"
                       >
                         See tickets
                         <FaChevronDown
@@ -558,7 +795,7 @@ export default function EventsPage() {
 
                   {/* Expanded Tickets Section */}
                   {openedTickets.includes(event.id) && (
-                    <div className="border-t border-white/10">
+                    <div className="border-t border-white/10 dropdown-animate">
                       <div className="p-4">
                         {/* Compact Ticket Option */}
                         <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
@@ -609,7 +846,7 @@ export default function EventsPage() {
                               </button>
                             </div>
 
-                            {/* Buy Button */}
+                            {/* Add to Cart */}
                             <button
                               onClick={() => {
                                 if (!user) {
@@ -617,9 +854,10 @@ export default function EventsPage() {
                                   return;
                                 }
                               }}
-                              className="px-6 py-2 rounded-none border border-green-700 bg-green-700 text-white hover:bg-green-800 text-sm font-semibold transition-colors whitespace-nowrap"
+                              className="flex items-center gap-2 px-6 py-2 rounded-none border border-white/15 bg-white/10 text-white hover:bg-white/15 hover:border-white/25 text-sm font-semibold transition-colors whitespace-nowrap"
                             >
-                              BUY TICKETS
+                              <FaShoppingCart className="size-4" />
+                              ADD TO CART
                             </button>
                           </div>
                         </div>
@@ -629,11 +867,13 @@ export default function EventsPage() {
                 </div>
               );
             })}
+              </div>
+            </div>
           </div>
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="mt-12 max-w-5xl mx-auto flex justify-center items-center gap-2">
+            <div className="mt-12 max-w-7xl mx-auto px-6 flex justify-center items-center gap-2">
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}

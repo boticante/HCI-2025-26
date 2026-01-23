@@ -21,6 +21,13 @@ export function LoginForm() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
+    // Client-side validation
+    if (!email || !email.includes("@") || !password) {
+      setError("Invalid email or password");
+      setLoading(false);
+      return;
+    }
+
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -53,11 +60,10 @@ export function LoginForm() {
             <input
               id="email"
               name="email"
-              type="email"
+              type="text"
               placeholder="Email"
               className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
               autoComplete="email"
-              required
             />
           </div>
 
@@ -72,7 +78,6 @@ export function LoginForm() {
               placeholder="Password"
               className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 pr-12 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
               autoComplete="current-password"
-              required
             />
             <button
               type="button"

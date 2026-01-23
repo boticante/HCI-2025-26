@@ -42,6 +42,33 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
+    const firstName = formData.get("firstName") as string;
+    const lastName = formData.get("lastName") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    // Client-side validation with specific error messages
+    if (!firstName?.trim()) {
+      setError("First name is required");
+      setLoading(false);
+      return;
+    }
+    if (!lastName?.trim()) {
+      setError("Last name is required");
+      setLoading(false);
+      return;
+    }
+    if (!email?.includes("@")) {
+      setError("Invalid email format");
+      setLoading(false);
+      return;
+    }
+    if (!password || password.length < 8) {
+      setError("Password must be at least 8 characters");
+      setLoading(false);
+      return;
+    }
+
     const result = await signup(formData);
 
     if (result?.error) {
@@ -105,26 +132,23 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
               <input
                 type="text"
                 name="firstName"
-                placeholder="First Name"
+                placeholder="First name"
                 className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
                 autoComplete="given-name"
-                required
               />
               <input
                 type="text"
                 name="lastName"
-                placeholder="Last Name"
+                placeholder="Last name"
                 className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
                 autoComplete="family-name"
-                required
               />
               <input
-                type="email"
+                type="text"
                 name="email"
                 placeholder="Email"
                 className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
                 autoComplete="email"
-                required
               />
               <div className="relative">
                 <input
@@ -133,8 +157,6 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
                   placeholder="Password"
                   className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 pr-12 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
                   autoComplete="new-password"
-                  required
-                  minLength={6}
                 />
                 <button
                   type="button"

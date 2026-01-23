@@ -4,6 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/context/user-context";
 import { SignOutButton } from "./sign-out-button";
+import { FaChevronDown, FaShoppingCart } from "react-icons/fa";
 
 const navItems = [
   { key: "HOME", label: "Home" },
@@ -32,6 +33,7 @@ export function Navigation() {
   const pathname = usePathname();
   const { user, loading } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const prevPathnameRef = useRef<string | null>(null);
 
   // Track pathname changes
@@ -52,11 +54,13 @@ export function Navigation() {
       )
         return name;
     }
-    return "HOME";
+    return null;
   };
 
   const currentPage = getCurrentPageName();
   const showAccount = Boolean(user);
+  const isOnAccountPage = pathname === "/purchase-history";
+  const isOnCartPage = pathname === "/cart";
 
   const handleNavigate = (item: string) => {
     const path = pathMap[item];
@@ -97,19 +101,57 @@ export function Navigation() {
                   {label}
                 </button>
                 {key === "CONTACT" && showAccount && (
-                  <button className={navItemClass} type="button">
-                    My Account
-                  </button>
+                  <div className="relative">
+                    <button
+                      onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+                      className={`${navItemClass} flex items-center gap-2 ${
+                        isOnAccountPage ? navItemActiveClass : ""
+                      }`}
+                      type="button"
+                    >
+                      My Account
+                      <FaChevronDown
+                        className={`size-3 transition-transform ${
+                          accountMenuOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    {accountMenuOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-[#15202b] border border-white/10 rounded-none shadow-lg z-50 dropdown-animate">
+                        <button
+                          onClick={() => {
+                            router.push("/purchase-history");
+                            setAccountMenuOpen(false);
+                          }}
+                          className="text-center px-4 py-2.5 text-white/85 hover:bg-white/10 hover:text-white transition-colors text-[15px] block w-full"
+                        >
+                          Purchase history
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center">
+          <div className="hidden lg:flex items-center gap-2">
             {loading ? (
               <div className="h-10 w-20" />
             ) : showAccount ? (
-              <SignOutButton className={navItemClass} />
+              <>
+                <button
+                  className={`${navItemClass} flex items-center gap-3 ${
+                    isOnCartPage ? navItemActiveClass : ""
+                  }`}
+                  type="button"
+                  onClick={() => router.push("/cart")}
+                >
+                  <FaShoppingCart className="size-4" />
+                  Cart
+                </button>
+                <SignOutButton className={navItemClass} />
+              </>
             ) : (
               <button
                 onClick={() => handleNavigate("SIGNIN")}
@@ -161,7 +203,7 @@ export function Navigation() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <nav className="lg:hidden mt-4 pb-4 flex flex-col gap-4">
+          <nav className="lg:hidden mt-4 pb-4 flex flex-col gap-4 dropdown-animate">
             {navItems.map(({ key, label }) => (
               <div key={key} className="flex flex-col gap-3">
                 <button
@@ -173,19 +215,58 @@ export function Navigation() {
                   {label}
                 </button>
                 {key === "CONTACT" && showAccount && (
-                  <button
-                    className={`${navItemClass} justify-start`}
-                    type="button"
-                  >
-                    My Account
-                  </button>
+                  <div>
+                    <button
+                      onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+                      className={`${navItemClass} justify-start flex items-center gap-2 ${
+                        isOnAccountPage ? navItemActiveClass : ""
+                      }`}
+                      type="button"
+                    >
+                      My Account
+                      <FaChevronDown
+                        className={`size-3 transition-transform ${
+                          accountMenuOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    {accountMenuOpen && (
+                      <div className="mt-2 ml-4 flex flex-col gap-2 bg-white/5 border border-white/10 rounded-none whitespace-nowrap dropdown-animate">
+                        <button
+                          onClick={() => {
+                            router.push("/purchase-history");
+                            setAccountMenuOpen(false);
+                            setMobileMenuOpen(false);
+                          }}
+                          className="text-center px-4 py-2.5 text-white/85 hover:bg-white/10 hover:text-white transition-colors text-[15px] block w-full"
+                        >
+                          Purchase history
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             ))}
             {loading ? (
               <div className="h-10 w-20" />
             ) : showAccount ? (
-              <SignOutButton className={`${navItemClass} justify-start`} />
+              <div className="flex flex-col gap-3">
+                <button
+                  className={`${navItemClass} justify-start flex items-center gap-3 ${
+                    isOnCartPage ? navItemActiveClass : ""
+                  }`}
+                  type="button"
+                  onClick={() => {
+                    router.push("/cart");
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  <FaShoppingCart className="size-4" />
+                  Cart
+                </button>
+                <SignOutButton className={`${navItemClass} justify-start`} />
+              </div>
             ) : (
               <button
                 onClick={() => handleNavigate("SIGNIN")}

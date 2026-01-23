@@ -99,19 +99,19 @@ export default function AboutPage() {
             <div className="grid gap-6 lg:grid-cols-3">
               <div className="border border-white/10 bg-[#22303c] p-8 text-center">
                 <div className="text-3xl font-extrabold tracking-tight text-white">
-                  100+
+                  50+
                 </div>
                 <div className="mt-1 text-sm text-white/75">Events listed</div>
               </div>
               <div className="border border-white/10 bg-[#22303c] p-8 text-center">
                 <div className="text-3xl font-extrabold tracking-tight text-white">
-                  20+
+                  10+
                 </div>
                 <div className="mt-1 text-sm text-white/75">Sports covered</div>
               </div>
               <div className="border border-white/10 bg-[#22303c] p-8 text-center">
                 <div className="text-3xl font-extrabold tracking-tight text-white">
-                  10K+
+                  5K+
                 </div>
                 <div className="mt-1 text-sm text-white/75">Happy fans</div>
               </div>
