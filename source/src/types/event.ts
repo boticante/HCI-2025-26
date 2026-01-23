@@ -1,12 +1,12 @@
 export interface Event {
-  id: number;
+  id: string;
   title: string;
   sport: string;
-  location: string;
+  location?: string;
   date: string;
   time?: string;
   price: number;
-  description: string;
+  description?: string;
   venue: string;
   homeTeam?: string;
   awayTeam?: string;

@@ -12,8 +12,8 @@ export interface CartItem {
 interface CartContextType {
   items: CartItem[];
   addToCart: (event: Event, ticketType: string) => void;
-  removeFromCart: (eventId: number) => void;
-  updateQuantity: (eventId: number, quantity: number) => void;
+  removeFromCart: (eventId: string) => void;
+  updateQuantity: (eventId: string, quantity: number) => void;
   clearCart: () => void;
   getItemCount: () => number;
   getTotal: () => number;
@@ -59,11 +59,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const removeFromCart = (eventId: number) => {
+  const removeFromCart = (eventId: string) => {
     setItems((prevItems) => prevItems.filter((item) => item.event.id !== eventId));
   };
 
-  const updateQuantity = (eventId: number, quantity: number) => {
+  const updateQuantity = (eventId: string, quantity: number) => {
     if (quantity < 1) return;
     setItems((prevItems) =>
       prevItems.map((item) =>
