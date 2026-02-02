@@ -875,11 +875,19 @@ export default function EventsPage() {
                               ADD TO CART
                             </button>
                             {addedToCartNotification === event.id.toString() && (
-                              <span className="absolute left-full ml-3 text-white/75 text-xs whitespace-nowrap">
+                              // Desktop: show to the right
+                              <span className="hidden sm:inline-block absolute left-full ml-3 text-white/75 text-xs whitespace-nowrap">
                                 Added to cart
                               </span>
                             )}
                           </div>
+
+                          {addedToCartNotification === event.id.toString() && (
+                            // Mobile: show below elements without affecting layout
+                            <span className="sm:hidden mt-2 w-full text-center text-white/75 text-xs">
+                              Added to cart
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>

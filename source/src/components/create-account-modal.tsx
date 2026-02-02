@@ -74,10 +74,12 @@ export function CreateAccountModal({ open, onClose }: CreateAccountModalProps) {
     if (result?.error) {
       setError(result.error);
       setLoading(false);
-    } else {
-      // Success - the redirect will happen automatically
-      onClose();
+      return;
     }
+
+    // Success: stop loading and close the modal
+    setLoading(false);
+    onClose();
   };
 
   if (!open) return null;

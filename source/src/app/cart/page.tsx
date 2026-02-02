@@ -218,7 +218,7 @@ export default function CartPage() {
                 {/* Checkout button */}
                 <div className="mt-3.5">
                   <button className="w-full inline-flex items-center justify-center gap-2 rounded-none bg-indigo-700 hover:bg-indigo-800 px-6 py-3 font-bold text-white transition-colors duration-150">
-                    Proceed to checkout
+                    Pay now
                   </button>
                 </div>
 

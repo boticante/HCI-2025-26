@@ -43,7 +43,7 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath('/', 'layout');
-  redirect('/');  // ✅ Ovo se ejecuta samo ako nema greške
+  return { success: true };
 }
 
 export async function signout() {

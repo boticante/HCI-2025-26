@@ -34,6 +34,7 @@ export function Navigation() {
   const pathname = usePathname();
   const { user, loading } = useUser();
   const { items } = useCart();
+  const navRef = useRef<HTMLElement | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const prevPathnameRef = useRef<string | null>(null);
@@ -42,6 +43,21 @@ export function Navigation() {
   useEffect(() => {
     prevPathnameRef.current = pathname;
   }, [pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!navRef.current) return;
+      if (!navRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+        setAccountMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -73,7 +89,7 @@ export function Navigation() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#15202b] mb-6">
+    <nav ref={navRef} className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#15202b] mb-6">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-6">
           <button
@@ -127,7 +143,7 @@ export function Navigation() {
                           }}
                           className="text-center px-4 py-2.5 text-white/85 hover:bg-white/10 hover:text-white transition-colors text-[15px] block w-full"
                         >
-                          Purchase history
+                          My tickets
                         </button>
                       </div>
                     )}
@@ -244,7 +260,7 @@ export function Navigation() {
                           }}
                           className="text-center px-4 py-2.5 text-white/85 hover:bg-white/10 hover:text-white transition-colors text-[15px] block w-full"
                         >
-                          Purchase history
+                          My tickets
                         </button>
                       </div>
                     )}

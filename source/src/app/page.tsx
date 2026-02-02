@@ -122,9 +122,20 @@ export default function Home() {
       <Navigation />
 
       <section 
-        className="relative -mt-6 w-full min-h-screen bg-[#192734] flex items-start justify-center px-5 py-14 pt-32"
+        className="relative -mt-6 w-full bg-[#192734] flex items-start justify-center px-5 py-10 pt-28 lg:py-14 lg:pt-32 lg:min-h-screen"
       >
-        <div className="relative w-full max-w-7xl h-full flex items-center justify-center">
+        <div className="relative w-full max-w-7xl h-full flex items-center justify-center gap-4">
+          {/* Left Arrow Button - Desktop Only */}
+          <button
+            onClick={() => handleSelectSlide((activeSlide - 1 + heroSlides.length) % heroSlides.length)}
+            className="hidden lg:flex items-center justify-center w-12 h-12 bg-[#15202b] hover:bg-[#1a2733] border border-white/10 hover:border-white/20 text-white transition-all shrink-0"
+            aria-label="Previous slide"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
           <div className="relative w-full max-w-5xl min-h-[430px] lg:h-[430px] bg-[#15202b] border border-white/10 shadow-2xl flex flex-col lg:flex-row items-center lg:items-center justify-center lg:justify-between gap-6 lg:gap-7 px-6 py-10 lg:px-14 lg:py-14">
             {/* Title + Description */}
             <div key={activeSlide} className="max-w-3xl text-center lg:text-left w-full lg:w-auto animate-fade-in">
@@ -160,9 +171,20 @@ export default function Home() {
               ))}
             </div>
           </div>
+
+          {/* Right Arrow Button - Desktop Only */}
+          <button
+            onClick={() => handleSelectSlide((activeSlide + 1) % heroSlides.length)}
+            className="hidden lg:flex items-center justify-center w-12 h-12 bg-[#15202b] hover:bg-[#1a2733] border border-white/10 hover:border-white/20 text-white transition-all shrink-0"
+            aria-label="Next slide"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </section>
-      <section className="w-full min-h-screen bg-[#22303c] flex items-center justify-center">
+      <section className="w-full bg-[#22303c] flex items-center justify-center py-10 lg:py-14">
         <div className="mx-auto w-full max-w-7xl px-6 py-14">
           <div
             className="relative w-full overflow-hidden border border-white/10 shadow-2xl bg-[#15202b]"
@@ -203,22 +225,18 @@ export default function Home() {
                 {[{
                   icon: "→",
                   title: "Instant tickets",
-                  metric: "Delivered in seconds",
                   body: "Checkout is fast and your tickets arrive instantly on your phone — no printing, no waiting, no stress.",
                 }, {
                   icon: "✓",
                   title: "Safe & secure",
-                  metric: "Protected payments",
                   body: "Secure checkout and clear order details so you always know what you’re buying and who it’s from.",
                 }, {
                   icon: "—",
                   title: "No hidden fees",
-                  metric: "Clear pricing",
                   body: "Transparent totals up front. What you see is what you pay — no surprise fees at the last step.",
                 }, {
                   icon: "○",
                   title: "Discover more",
-                  metric: "Local + niche events",
                   body: "Find hidden gems and must-see events you might miss elsewhere, curated to match your interests.",
                 }].map((card) => (
                   <article
@@ -226,12 +244,9 @@ export default function Home() {
                     className="relative overflow-hidden rounded-none border border-white/10 bg-[#22303c] p-5 transition-transform duration-150 hover:-translate-y-0.5 hover:border-white/20 flex flex-col"
                     role="listitem"
                   >
-                    <div className="flex flex-col gap-2 mb-3 md:flex-row md:justify-between md:items-center">
+                    <div className="mb-3">
                       <div className="font-semibold text-white text-center md:text-left">
                         {card.title}
-                      </div>
-                      <div className="text-xs text-white/70 border border-white/15 rounded-none px-3 py-1 bg-black/20 self-start">
-                        {card.metric}
                       </div>
                     </div>
                     <p className="text-sm text-white/75 leading-relaxed w-full">{card.body}</p>
