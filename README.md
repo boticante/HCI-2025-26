@@ -19,7 +19,7 @@
 ### Semester Project
 
 - Link to your production version: [**Production Version**](https://hci-2025-26.vercel.app/) <!-- Replace with actual URL -->
-- Link to your final report: [**Final Report**](URL_TO_FINAL_REPORT) <!-- Replace with actual URL -->
+- Link to your final report: [**Final Report**](docs/README.md) <!-- Replace with actual URL -->
 <!-- Add more as necessary -->
 
 ### Semester Assignments

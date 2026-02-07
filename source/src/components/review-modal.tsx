@@ -142,13 +142,13 @@ export function ReviewModal({ open, onClose, onSuccess }: ReviewModalProps) {
         <div className="px-8 py-6">
           <form onSubmit={handleSubmit}>
             {error && (
-              <div className="mb-4 rounded-none bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-300 text-sm">
+              <div className="mb-4 rounded-none bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-300 text-sm text-center">
                 {error}
               </div>
             )}
 
             {success && (
-              <div className="mb-4 rounded-none bg-green-500/10 border border-green-500/30 px-4 py-3 text-green-300 text-sm">
+              <div className="mb-4 text-sm text-emerald-300 text-center">
                 {success}
               </div>
             )}

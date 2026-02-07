@@ -91,11 +91,11 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="mt-6 space-y-5">
       {message && (
         <div
-          className={`rounded border px-4 py-3 text-sm ${
+          className={
             message.type === "success"
-              ? "border-green-500/30 bg-green-500/10 text-green-400"
-              : "border-red-500/30 bg-red-500/10 text-red-400"
-          }`}
+              ? "mt-3 text-sm text-emerald-300 text-center"
+              : "mt-3 rounded border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400 text-center"
+          }
         >
           {message.text}
         </div>
@@ -159,7 +159,9 @@ export function ContactForm() {
                   <button
                     key={option}
                     type="button"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       setFormData((prev) => ({ ...prev, subject: option }));
                       setIsSubjectOpen(false);
                     }}

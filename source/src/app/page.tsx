@@ -2,6 +2,7 @@
 
 import { Navigation } from "@components/navigation";
 import { useState, useEffect, useRef } from "react";
+import type React from "react";
 import { FaStar } from "react-icons/fa";
 
 export default function Home() {
@@ -59,11 +60,11 @@ export default function Home() {
     },
   ];
 
-  const [expandedReviews, setExpandedReviews] = useState<Set<number>>(
-    new Set(),
-  );
+  const [expandedReviews, setExpandedReviews] = useState<Set<number>>(new Set());
   const [activeSlide, setActiveSlide] = useState(0);
   const rotationRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchEndXRef = useRef<number | null>(null);
 
   const startRotation = () => {
     if (rotationRef.current) clearInterval(rotationRef.current);
@@ -83,6 +84,34 @@ export default function Home() {
   const handleSelectSlide = (idx: number) => {
     setActiveSlide(idx);
     startRotation();
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartXRef.current = e.touches[0].clientX;
+    touchEndXRef.current = null;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchEndXRef.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartXRef.current === null || touchEndXRef.current === null) return;
+    const deltaX = touchStartXRef.current - touchEndXRef.current;
+
+    // Only react to significant horizontal swipes
+    if (Math.abs(deltaX) < 40) return;
+
+    if (deltaX > 0) {
+      // Swipe left -> next slide
+      handleSelectSlide((activeSlide + 1) % heroSlides.length);
+    } else {
+      // Swipe right -> previous slide
+      handleSelectSlide((activeSlide - 1 + heroSlides.length) % heroSlides.length);
+    }
+
+    touchStartXRef.current = null;
+    touchEndXRef.current = null;
   };
 
   const renderTitleWithHighlight = (title: string, highlight: string) => {
@@ -154,7 +183,12 @@ export default function Home() {
             </svg>
           </button>
 
-          <div className="relative w-full max-w-5xl min-h-[430px] lg:h-[430px] bg-[#15202b] border border-white/10 shadow-2xl flex flex-col lg:flex-row items-center lg:items-center justify-center lg:justify-between gap-6 lg:gap-7 px-6 py-10 lg:px-14 lg:py-14">
+          <div
+            className="relative w-full max-w-5xl min-h-[430px] lg:h-[430px] bg-[#15202b] border border-white/10 shadow-2xl flex flex-col lg:flex-row items-center lg:items-center justify-center lg:justify-between gap-6 lg:gap-7 px-6 py-10 lg:px-14 lg:py-14"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             {/* Title + Description */}
             <div
               key={activeSlide}

@@ -149,7 +149,7 @@ export default function ReviewsPage() {
             <h2 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
               Latest reviews
             </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-base text-white/75 text-center px-4">
+            <p className="mx-auto mt-6 text-base text-white/75 text-center">
               Real experiences from fans who discovered and attended live sports
               events through our platform.
             </p>
