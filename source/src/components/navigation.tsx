@@ -77,7 +77,7 @@ export function Navigation() {
 
   const currentPage = getCurrentPageName();
   const showAccount = Boolean(user);
-  const isOnAccountPage = pathname === "/purchase-history";
+  const isOnAccountPage = pathname === "/my-tickets";
   const isOnCartPage = pathname === "/cart";
 
   const handleNavigate = (item: string) => {
@@ -138,12 +138,12 @@ export function Navigation() {
                       <div className="absolute top-full left-0 right-0 mt-1 bg-[#15202b] border border-white/10 rounded-none shadow-lg z-50 dropdown-animate">
                         <button
                           onClick={() => {
-                            router.push("/purchase-history");
+                            router.push("/my-tickets");
                             setAccountMenuOpen(false);
                           }}
                           className="text-center px-4 py-2.5 text-white/85 hover:bg-white/10 hover:text-white transition-colors text-[15px] block w-full"
                         >
-                          My tickets
+                          Tickets
                         </button>
                       </div>
                     )}
@@ -254,13 +254,13 @@ export function Navigation() {
                       <div className="mt-2 ml-4 flex flex-col gap-2 bg-white/5 border border-white/10 rounded-none whitespace-nowrap dropdown-animate">
                         <button
                           onClick={() => {
-                            router.push("/purchase-history");
+                            router.push("/my-tickets");
                             setAccountMenuOpen(false);
                             setMobileMenuOpen(false);
                           }}
                           className="text-center px-4 py-2.5 text-white/85 hover:bg-white/10 hover:text-white transition-colors text-[15px] block w-full"
                         >
-                          My tickets
+                          Tickets
                         </button>
                       </div>
                     )}

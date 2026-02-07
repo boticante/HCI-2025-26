@@ -7,6 +7,7 @@ import { useUser } from "@/context/user-context";
 import { useCart } from "@/context/cart-context";
 import { FaHeart, FaChevronDown, FaShoppingCart } from "react-icons/fa";
 import { sampleEvents } from "./sampleEvents";
+import { createClient } from "@/lib/supabase/client";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -28,9 +29,12 @@ export default function EventsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState<string>("date-asc");
   const [searchInput, setSearchInput] = useState<string>("");
-  const [addedToCartNotification, setAddedToCartNotification] = useState<string | null>(null);
+  const [addedToCartNotification, setAddedToCartNotification] = useState<
+    string | null
+  >(null);
   const filterRef = useRef<HTMLDivElement>(null);
   const sortRef = useRef<HTMLDivElement>(null);
+  const supabaseRef = useRef(createClient());
 
   const sports = [
     "Basketball",
@@ -100,6 +104,30 @@ export default function EventsPage() {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
+  // Load favorites for signed-in users
+  useEffect(() => {
+    const loadFavorites = async () => {
+      if (!user?.id) {
+        setFavorites([]);
+        return;
+      }
+
+      const { data, error } = await supabaseRef.current
+        .from("favorites")
+        .select("event_id")
+        .eq("user_id", user.id);
+
+      if (error) {
+        setFavorites([]);
+        return;
+      }
+
+      setFavorites((data ?? []).map((row) => row.event_id));
+    };
+
+    void loadFavorites();
+  }, [user?.id]);
+
   const toggleFilter = (type: "sport" | "city" | "month", value: string) => {
     if (type === "sport") {
       setSelectedSports((prev) =>
@@ -133,12 +161,35 @@ export default function EventsPage() {
   const activeFiltersCount =
     selectedSports.length + selectedCities.length + selectedMonths.length;
 
-  const toggleFavorite = (eventId: string) => {
-    setFavorites((prev) =>
-      prev.includes(eventId)
-        ? prev.filter((id) => id !== eventId)
-        : [...prev, eventId],
-    );
+  const toggleFavorite = async (eventId: string) => {
+    if (!user?.id) {
+      router.push("/login");
+      return;
+    }
+
+    const isFavorite = favorites.includes(eventId);
+
+    if (isFavorite) {
+      const { error } = await supabaseRef.current
+        .from("favorites")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("event_id", eventId);
+
+      if (!error) {
+        setFavorites((prev) => prev.filter((id) => id !== eventId));
+      }
+      return;
+    }
+
+    const { error } = await supabaseRef.current.from("favorites").insert({
+      user_id: user.id,
+      event_id: eventId,
+    });
+
+    if (!error) {
+      setFavorites((prev) => [...prev, eventId]);
+    }
   };
 
   const toggleTickets = (eventId: string) => {
@@ -224,12 +275,12 @@ export default function EventsPage() {
       {/* All content between navbar and footer */}
       <section className="-mt-6 w-full bg-[#192734]">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-14">
-
           {/* Mobile header */}
           <div className="mb-8 lg:hidden">
             <h1 className="text-3xl font-bold text-white">Upcoming events</h1>
             <p className="text-sm text-white/70 mt-1">
-              Showing {paginatedEvents.length} of {sortedAndFilteredEvents.length} events
+              Showing {paginatedEvents.length} of{" "}
+              {sortedAndFilteredEvents.length} events
             </p>
           </div>
 
@@ -590,7 +641,9 @@ export default function EventsPage() {
               )}
 
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-white/60 uppercase">Sport</p>
+                <p className="text-xs font-semibold text-white/60 uppercase">
+                  Sport
+                </p>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                   {orderedSports.map((sport) => (
                     <label
@@ -610,7 +663,9 @@ export default function EventsPage() {
               </div>
 
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-white/60 uppercase">City</p>
+                <p className="text-xs font-semibold text-white/60 uppercase">
+                  City
+                </p>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                   {orderedCities.map((city) => (
                     <label
@@ -630,7 +685,9 @@ export default function EventsPage() {
               </div>
 
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-white/60 uppercase">Month</p>
+                <p className="text-xs font-semibold text-white/60 uppercase">
+                  Month
+                </p>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
                     {months.slice(0, 6).map((month) => (
@@ -672,229 +729,244 @@ export default function EventsPage() {
               <div className="hidden lg:block w-full max-w-5xl mx-auto mb-6">
                 <h1 className="text-3xl font-bold text-white">All Events</h1>
                 <p className="text-sm text-white/70 mt-1">
-                  Showing {paginatedEvents.length} of {sortedAndFilteredEvents.length} events
+                  Showing {paginatedEvents.length} of{" "}
+                  {sortedAndFilteredEvents.length} events
                 </p>
               </div>
               <div className="space-y-8 w-full max-w-5xl mx-auto">
                 {paginatedEvents.map((event) => {
-              const eventDate = new Date(event.date);
-              const monthShort = eventDate.toLocaleDateString("en-US", {
-                month: "short",
-              });
-              const day = eventDate.getDate();
-              const year = eventDate.getFullYear();
+                  const eventDate = new Date(event.date);
+                  const monthShort = eventDate.toLocaleDateString("en-US", {
+                    month: "short",
+                  });
+                  const day = eventDate.getDate();
+                  const year = eventDate.getFullYear();
 
-              return (
-                <div
-                  key={event.id}
-                  className={`flex flex-col bg-white/5 border border-white/10 hover:border-white/20 transition-all overflow-hidden`}
-                >
-                  {/* Main Event Row */}
-                  <div className="flex flex-col sm:flex-row items-stretch">
-                    {/* Date Box */}
-                    <div className="hidden sm:flex sm:flex-col items-center justify-center bg-indigo-700 text-white p-6 w-24 gap-0">
-                      <div className="text-center">
-                        <div className="text-sm font-medium uppercase">
-                          {monthShort}
-                        </div>
-                        <div className="text-3xl font-bold leading-tight">
-                          {day}
-                        </div>
-                        <div className="text-xs opacity-90">{year}</div>
-                      </div>
-                      <div className="mt-3 pt-3 border-t border-white/30">
-                        <div className="text-sm font-medium">{event.time}</div>
-                      </div>
-                    </div>
-
-                    {/* Mobile Date Display */}
-                    <div className="sm:hidden flex items-center justify-center bg-indigo-700 text-white px-4 py-3">
-                      <div className="flex items-center gap-4">
-                        <div className="text-center">
-                          <div className="text-xs font-medium uppercase mb-1">
-                            {monthShort}
+                  return (
+                    <div
+                      key={event.id}
+                      className={`flex flex-col bg-white/5 border border-white/10 hover:border-white/20 transition-all overflow-hidden`}
+                    >
+                      {/* Main Event Row */}
+                      <div className="flex flex-col sm:flex-row items-stretch">
+                        {/* Date Box */}
+                        <div className="hidden sm:flex sm:flex-col items-center justify-center bg-indigo-700 text-white p-6 w-24 gap-0">
+                          <div className="text-center">
+                            <div className="text-sm font-medium uppercase">
+                              {monthShort}
+                            </div>
+                            <div className="text-3xl font-bold leading-tight">
+                              {day}
+                            </div>
+                            <div className="text-xs opacity-90">{year}</div>
                           </div>
-                          <div className="text-2xl font-bold leading-tight">
-                            {day}
-                          </div>
-                          <div className="text-xs text-white/75 mt-1">
-                            {year}
+                          <div className="mt-3 pt-3 border-t border-white/30">
+                            <div className="text-sm font-medium">
+                              {event.time}
+                            </div>
                           </div>
                         </div>
-                        <div className="h-10 w-px bg-white/30"></div>
-                        <div className="text-sm font-medium">
-                          {event.time}
-                        </div>
-                      </div>
-                    </div>
 
-                    {/* Event Details */}
-                    <div className="flex-1 p-6 flex flex-col justify-center">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="text-xs text-white font-semibold uppercase tracking-wide">
-                          {event.category}
-                        </div>
-                        <span className="text-xs text-white/60">
-                          {event.sport}
-                        </span>
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">
-                        {event.title}
-                      </h3>
-                      <div className="flex items-start gap-2 text-sm text-white/60">
-                        <svg
-                          className="w-4 h-4 mt-0.5 shrink-0 text-white/40"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                        </svg>
-                        <span>{event.venue}</span>
-                      </div>
-                    </div>
-
-                    {/* Heart and Tickets Section - Stays Fixed */}
-                    <div className="flex items-center justify-center sm:justify-end gap-4 p-6 sm:p-4 shrink-0">
-                      {user && (
-                        <button
-                          onClick={() => toggleFavorite(event.id)}
-                          className="p-1 shrink-0"
-                          type="button"
-                        >
-                          <FaHeart
-                            className={`size-5 transition-colors ${
-                              favorites.includes(event.id)
-                                ? "text-white/80"
-                                : "text-white/20 hover:text-white/50"
-                            }`}
-                          />
-                        </button>
-                      )}
-                      <button
-                        onClick={() => toggleTickets(event.id)}
-                        className="flex items-center justify-center gap-2 px-6 py-3 rounded-none bg-indigo-700 hover:bg-indigo-800 text-white font-bold transition-colors whitespace-nowrap"
-                      >
-                        See tickets
-                        <FaChevronDown
-                          className={`size-4 transition-transform ${
-                            openedTickets.includes(event.id) ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Expanded Tickets Section */}
-                  {openedTickets.includes(event.id) && (
-                    <div className="border-t border-white/10 dropdown-animate">
-                      <div className="p-4">
-                        {/* Compact Ticket Option */}
-                        <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
-                          {/* Price & Purchase */}
-                          <div className="flex items-center gap-3 sm:gap-4 relative">
-                            {/* Price */}
+                        {/* Mobile Date Display */}
+                        <div className="sm:hidden flex items-center justify-center bg-indigo-700 text-white px-4 py-3">
+                          <div className="flex items-center gap-4">
                             <div className="text-center">
-                              <p className="text-white/60 text-xs mb-0.5">
-                                Per ticket
-                              </p>
-                              <p className="text-white text-xl font-bold">
-                                €{event.price}
-                              </p>
+                              <div className="text-xs font-medium uppercase mb-1">
+                                {monthShort}
+                              </div>
+                              <div className="text-2xl font-bold leading-tight">
+                                {day}
+                              </div>
+                              <div className="text-xs text-white/75 mt-1">
+                                {year}
+                              </div>
                             </div>
-
-                            {/* Quantity Selector */}
-                            <div className="flex items-center gap-2 px-3 py-2 rounded-none border border-white/15 bg-white/5">
-                              <button
-                                onClick={() => {
-                                  const current = ticketQuantity[event.id] || 1;
-                                  if (current > 1) {
-                                    setTicketQuantity({
-                                      ...ticketQuantity,
-                                      [event.id]: current - 1,
-                                    });
-                                  }
-                                }}
-                                className="text-white hover:text-white/60 transition-colors text-lg font-semibold"
-                              >
-                                −
-                              </button>
-                              <span className="text-white text-base font-semibold w-6 text-center">
-                                {ticketQuantity[event.id] || 1}
-                              </span>
-                              <button
-                                onClick={() => {
-                                  const current = ticketQuantity[event.id] || 1;
-                                  if (current < 10) {
-                                    setTicketQuantity({
-                                      ...ticketQuantity,
-                                      [event.id]: current + 1,
-                                    });
-                                  }
-                                }}
-                                className="text-white hover:text-white/60 transition-colors text-lg font-semibold"
-                              >
-                                +
-                              </button>
+                            <div className="h-10 w-px bg-white/30"></div>
+                            <div className="text-sm font-medium">
+                              {event.time}
                             </div>
-
-                            {/* Add to Cart */}
-                            <button
-                              onClick={() => {
-                                if (!user) {
-                                  router.push("/login");
-                                  return;
-                                }
-                                const quantity = ticketQuantity[event.id] || 1;
-                                for (let i = 0; i < quantity; i++) {
-                                  addToCart(event, "General Admission");
-                                }
-                                // Show notification
-                                setAddedToCartNotification(event.id.toString());
-                                setTimeout(() => setAddedToCartNotification(null), 5000);
-                                // Reset quantity after adding
-                                setTicketQuantity({
-                                  ...ticketQuantity,
-                                  [event.id]: 1,
-                                });
-                              }}
-                              className="flex items-center gap-2 px-6 py-2 rounded-none border border-white/15 bg-white/10 text-white hover:bg-white/15 hover:border-white/25 text-sm font-semibold transition-colors whitespace-nowrap"
-                            >
-                              <FaShoppingCart className="size-4" />
-                              ADD TO CART
-                            </button>
-                            {addedToCartNotification === event.id.toString() && (
-                              // Desktop: show to the right
-                              <span className="hidden sm:inline-block absolute left-full ml-3 text-white/75 text-xs whitespace-nowrap">
-                                Added to cart
-                              </span>
-                            )}
                           </div>
+                        </div>
 
-                          {addedToCartNotification === event.id.toString() && (
-                            // Mobile: show below elements without affecting layout
-                            <span className="sm:hidden mt-2 w-full text-center text-white/75 text-xs">
-                              Added to cart
+                        {/* Event Details */}
+                        <div className="flex-1 p-6 flex flex-col justify-center">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="text-xs text-white font-semibold uppercase tracking-wide">
+                              {event.category}
+                            </div>
+                            <span className="text-xs text-white/60">
+                              {event.sport}
                             </span>
+                          </div>
+                          <h3 className="text-lg font-bold text-white mb-2">
+                            {event.title}
+                          </h3>
+                          <div className="flex items-start gap-2 text-sm text-white/60">
+                            <svg
+                              className="w-4 h-4 mt-0.5 shrink-0 text-white/40"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                              />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                              />
+                            </svg>
+                            <span>{event.venue}</span>
+                          </div>
+                        </div>
+
+                        {/* Heart and Tickets Section - Stays Fixed */}
+                        <div className="flex items-center justify-center sm:justify-end gap-4 p-6 sm:p-4 shrink-0">
+                          {user && (
+                            <button
+                              onClick={() => toggleFavorite(event.id)}
+                              className="p-1 shrink-0"
+                              type="button"
+                            >
+                              <FaHeart
+                                className={`size-5 transition-colors ${
+                                  favorites.includes(event.id)
+                                    ? "text-white/80"
+                                    : "text-white/20 hover:text-white/50"
+                                }`}
+                              />
+                            </button>
                           )}
+                          <button
+                            onClick={() => toggleTickets(event.id)}
+                            className="flex items-center justify-center gap-2 px-6 py-3 rounded-none bg-indigo-700 hover:bg-indigo-800 text-white font-bold transition-colors whitespace-nowrap"
+                          >
+                            See tickets
+                            <FaChevronDown
+                              className={`size-4 transition-transform ${
+                                openedTickets.includes(event.id)
+                                  ? "rotate-180"
+                                  : ""
+                              }`}
+                            />
+                          </button>
                         </div>
                       </div>
+
+                      {/* Expanded Tickets Section */}
+                      {openedTickets.includes(event.id) && (
+                        <div className="border-t border-white/10 dropdown-animate">
+                          <div className="p-4">
+                            {/* Compact Ticket Option */}
+                            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
+                              {/* Price & Purchase */}
+                              <div className="flex items-center gap-3 sm:gap-4 relative">
+                                {/* Price */}
+                                <div className="text-center">
+                                  <p className="text-white/60 text-xs mb-0.5">
+                                    Per ticket
+                                  </p>
+                                  <p className="text-white text-xl font-bold">
+                                    €{event.price}
+                                  </p>
+                                </div>
+
+                                {/* Quantity Selector */}
+                                <div className="flex items-center gap-2 px-3 py-2 rounded-none border border-white/15 bg-white/5">
+                                  <button
+                                    onClick={() => {
+                                      const current =
+                                        ticketQuantity[event.id] || 1;
+                                      if (current > 1) {
+                                        setTicketQuantity({
+                                          ...ticketQuantity,
+                                          [event.id]: current - 1,
+                                        });
+                                      }
+                                    }}
+                                    className="text-white hover:text-white/60 transition-colors text-lg font-semibold"
+                                  >
+                                    −
+                                  </button>
+                                  <span className="text-white text-base font-semibold w-6 text-center">
+                                    {ticketQuantity[event.id] || 1}
+                                  </span>
+                                  <button
+                                    onClick={() => {
+                                      const current =
+                                        ticketQuantity[event.id] || 1;
+                                      if (current < 10) {
+                                        setTicketQuantity({
+                                          ...ticketQuantity,
+                                          [event.id]: current + 1,
+                                        });
+                                      }
+                                    }}
+                                    className="text-white hover:text-white/60 transition-colors text-lg font-semibold"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+
+                                {/* Add to Cart */}
+                                <button
+                                  onClick={() => {
+                                    if (!user) {
+                                      router.push("/login");
+                                      return;
+                                    }
+                                    const quantity =
+                                      ticketQuantity[event.id] || 1;
+                                    for (let i = 0; i < quantity; i++) {
+                                      addToCart(event, "General Admission");
+                                    }
+                                    // Show notification
+                                    setAddedToCartNotification(
+                                      event.id.toString(),
+                                    );
+                                    setTimeout(
+                                      () => setAddedToCartNotification(null),
+                                      5000,
+                                    );
+                                    // Reset quantity after adding
+                                    setTicketQuantity({
+                                      ...ticketQuantity,
+                                      [event.id]: 1,
+                                    });
+                                  }}
+                                  className="flex items-center gap-2 px-6 py-2 rounded-none border border-white/15 bg-white/10 text-white hover:bg-white/15 hover:border-white/25 text-sm font-semibold transition-colors whitespace-nowrap"
+                                >
+                                  <FaShoppingCart className="size-4" />
+                                  ADD TO CART
+                                </button>
+                                {addedToCartNotification ===
+                                  event.id.toString() && (
+                                  // Desktop: show to the right
+                                  <span className="hidden sm:inline-block absolute left-full ml-3 text-white/75 text-xs whitespace-nowrap">
+                                    Added to cart
+                                  </span>
+                                )}
+                              </div>
+
+                              {addedToCartNotification ===
+                                event.id.toString() && (
+                                // Mobile: show below elements without affecting layout
+                                <span className="sm:hidden mt-2 w-full text-center text-white/75 text-xs">
+                                  Added to cart
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              );
-            })}
+                  );
+                })}
               </div>
             </div>
           </div>

@@ -1,19 +1,9 @@
 // Football Events
 const footballEvents = [
   {
-    id: "HAJ-2026-01-25-IST",
-    date: "2026-01-25",
-    time: "15:00",
-    category: "SuperSport HNL, Round 19",
-    title: "HNK Hajduk Split vs Istra 1961",
-    venue: "Stadion Poljud - Split, Croatia",
-    sport: "Football",
-    price: 40
-  },
-  {
     id: "HAJ-2026-02-07-SLB",
     date: "2026-02-07",
-    time: "TBD",
+    time: "16:15",
     category: "SuperSport HNL, Round 21",
     title: "HNK Hajduk Split vs Slaven Belupo",
     venue: "Stadion Poljud - Split, Croatia",
@@ -23,7 +13,7 @@ const footballEvents = [
   {
     id: "HAJ-2026-02-21-RIJ",
     date: "2026-02-21",
-    time: "TBD",
+    time: "17:45",
     category: "SuperSport HNL, Round 23",
     title: "HNK Hajduk Split vs Rijeka",
     venue: "Stadion Poljud - Split, Croatia",
@@ -33,7 +23,7 @@ const footballEvents = [
   {
     id: "HAJ-2026-03-07-DIN",
     date: "2026-03-07",
-    time: "TBD",
+    time: "17:45",
     category: "SuperSport HNL, Round 25",
     title: "HNK Hajduk Split vs Dinamo Zagreb",
     venue: "Stadion Poljud - Split, Croatia",
@@ -43,7 +33,7 @@ const footballEvents = [
   {
     id: "HAJ-2026-03-14-LOK",
     date: "2026-03-14",
-    time: "TBD",
+    time: "16:00",
     category: "SuperSport HNL, Round 26",
     title: "HNK Hajduk Split vs Lokomotiva Zagreb",
     venue: "Stadion Poljud - Split, Croatia",
@@ -53,7 +43,7 @@ const footballEvents = [
   {
     id: "HAJ-2026-04-11-GOR",
     date: "2026-04-11",
-    time: "TBD",
+    time: "17:00",
     category: "SuperSport HNL, Round 29",
     title: "HNK Hajduk Split vs Gorica",
     venue: "Stadion Poljud - Split, Croatia",
@@ -63,7 +53,7 @@ const footballEvents = [
   {
     id: "HAJ-2026-04-22-OSI",
     date: "2026-04-22",
-    time: "TBD",
+    time: "17:00",
     category: "SuperSport HNL, Round 31",
     title: "HNK Hajduk Split vs Osijek",
     venue: "Stadion Poljud - Split, Croatia",
@@ -73,7 +63,7 @@ const footballEvents = [
   {
     id: "HAJ-2026-05-02-VAR",
     date: "2026-05-02",
-    time: "TBD",
+    time: "17:00",
     category: "SuperSport HNL, Round 33",
     title: "HNK Hajduk Split vs Varaždin",
     venue: "Stadion Poljud - Split, Croatia",
@@ -83,7 +73,7 @@ const footballEvents = [
   {
     id: "HAJ-2026-05-23-VUK",
     date: "2026-05-23",
-    time: "TBD",
+    time: "17:00",
     category: "SuperSport HNL, Round 36",
     title: "HNK Hajduk Split vs Vukovar 1991",
     venue: "Stadion Poljud - Split, Croatia",
@@ -101,9 +91,19 @@ const footballEvents = [
     price: 8
   },
   {
+    id: "DUG-2026-02-17-USK",
+    date: "2026-02-17",
+    time: "14:00",
+    category: "Kup NSŽSD, 1/16 Final",
+    title: "NK Dugopolje vs NK Uskok Klis",
+    venue: "Stadion Hrvatskih vitezova - Dugopolje, Croatia",
+    sport: "Football",
+    price: 8
+  },
+  {
     id: "DUG-2026-02-28-OPA",
     date: "2026-02-28",
-    time: "TBD",
+    time: "12:45",
     category: "SuperSport Prva NL, Round 20",
     title: "NK Dugopolje vs NK Opatija",
     venue: "Stadion Hrvatskih vitezova - Dugopolje, Croatia",
@@ -113,7 +113,7 @@ const footballEvents = [
   {
     id: "DUG-2026-03-14-CIB",
     date: "2026-03-14",
-    time: "TBD",
+    time: "12:45",
     category: "SuperSport Prva NL, Round 22",
     title: "NK Dugopolje vs HNK Cibalia",
     venue: "Stadion Hrvatskih vitezova - Dugopolje, Croatia",
@@ -133,7 +133,7 @@ const footballEvents = [
   {
     id: "USK-2026-03-07-JAD",
     date: "2026-03-07",
-    time: "TBD",
+    time: "15:00",
     category: "SuperSport Druga NL, Round 18",
     title: "NK Uskok Klis vs NK Jadran LP",
     venue: "Stadion Iza Grada - Klis, Croatia",
@@ -143,7 +143,7 @@ const footballEvents = [
   {
     id: "USK-2026-03-21-RKI",
     date: "2026-03-21",
-    time: "TBD",
+    time: "15:00",
     category: "SuperSport Druga NL, Round 20",
     title: "NK Uskok Klis vs NK Radnik Križevci",
     venue: "Stadion Iza Grada - Klis, Croatia",
@@ -153,7 +153,7 @@ const footballEvents = [
   {
     id: "SOL-2026-03-14-TRN",
     date: "2026-03-14",
-    time: "TBD",
+    time: "15:00",
     category: "SuperSport Druga NL, Round 19",
     title: "NK Solin vs NK Trnje",
     venue: "Stadion Pokraj Jadra - Solin, Croatia",
@@ -163,7 +163,7 @@ const footballEvents = [
   {
     id: "SOL-2026-03-28-MLD",
     date: "2026-03-28",
-    time: "TBD",
+    time: "15:30",
     category: "SuperSport Druga NL, Round 21",
     title: "NK Solin vs NK Mladost Ždralovi",
     venue: "Stadion Pokraj Jadra - Solin, Croatia",
@@ -175,26 +175,6 @@ const footballEvents = [
 // Basketball Events
 const basketballEvents = [
   {
-    id: "SPL-2026-01-24-ZAB",
-    date: "2026-01-24",
-    time: "17:00",
-    category: "Favbet Premijer liga, Round 18",
-    title: "KK Split vs KK Zabok",
-    venue: "Mala dvorana Gripe - Split, Croatia",
-    sport: "Basketball",
-    price: 15
-  },
-  {
-    id: "SPL-2026-01-26-SCD",
-    date: "2026-01-26",
-    time: "18:00",
-    category: "AdmiralBet ABA League, Round 16",
-    title: "KK Split vs SC Derby",
-    venue: "Mala dvorana Gripe - Split, Croatia",
-    sport: "Basketball",
-    price: 20
-  },
-  {
     id: "SPL-2026-02-07-DUB",
     date: "2026-02-07",
     time: "17:00",
@@ -205,6 +185,26 @@ const basketballEvents = [
     price: 15
   },
   {
+    id: "SPL-2026-02-18-OMI",
+    date: "2026-02-18",
+    time: "17:00",
+    category: "Krešimir Ćosić Cup, 1/4 Final",
+    title: "KK Split vs KK Omiš",
+    venue: "Mala dvorana Gripe - Split, Croatia",
+    sport: "Basketball",
+    price: 15
+  },
+  {
+    id: "SPL-2026-03-03-ILI",
+    date: "2026-03-03",
+    time: "17:00",
+    category: "AdmiralBet ABA League, Relegation Round 1",
+    title: "KK Split vs Perspektiva Ilirija",
+    venue: "Mala dvorana Gripe - Split, Croatia",
+    sport: "Basketball",
+    price: 20
+  },
+  {
     id: "SPL-2026-03-06-DIN",
     date: "2026-03-06",
     time: "15:00",
@@ -213,7 +213,47 @@ const basketballEvents = [
     venue: "Mala dvorana Gripe - Split, Croatia",
     sport: "Basketball",
     price: 15
-  }
+  },
+  {
+    id: "SPL-2026-03-18-VIE",
+    date: "2026-03-18",
+    time: "17:00",
+    category: "AdmiralBet ABA League, Relegation Round 4",
+    title: "KK Split vs Vienna",
+    venue: "Mala dvorana Gripe - Split, Croatia",
+    sport: "Basketball",
+    price: 20
+  },
+    {
+    id: "SPL-2026-03-22-MEG",
+    date: "2026-03-22",
+    time: "17:00",
+    category: "AdmiralBet ABA League,Relegation Round 5",
+    title: "KK Split vs Mega Superbet",
+    venue: "Mala dvorana Gripe - Split, Croatia",
+    sport: "Basketball",
+    price: 20
+  },
+    {
+    id: "SPL-2026-03-27-ZAD",
+    date: "2026-03-27",
+    time: "17:00",
+    category: "AdmiralBet ABA League, Relegation Round 6",
+    title: "KK Split vs KK Zadar",
+    venue: "Mala dvorana Gripe - Split, Croatia",
+    sport: "Basketball",
+    price: 20
+  },
+  {
+    id: "SPL-2026-04-24-SPA",
+    date: "2026-04-24",
+    time: "18:00",
+    category: "AdmiralBet ABA League, Relegation Round 10",
+    title: "KK Split vs KK Spartak",
+    venue: "Mala dvorana Gripe - Split, Croatia",
+    sport: "Basketball",
+    price: 20
+  },
 ];
 
 // Futsal Events
@@ -263,19 +303,9 @@ const futsalEvents = [
 // Volleyball Events
 const volleyballEvents = [
   {
-    id: "RIB-2026-01-24-MAR",
-    date: "2026-01-24",
-    time: "18:30",
-    category: "SuperSport SuperLiga (F), Round 10",
-    title: "ŽOK Ribola Kaštela vs OK Dinamo",
-    venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
-    sport: "Volleyball",
-    price: 5
-  },
-  {
-    id: "RIB-2026-02-07-KEL",
-    date: "2026-02-07",
-    time: "TBD",
+    id: "RIB-2026-02-08-KEL",
+    date: "2026-02-08",
+    time: "17:00",
     category: "SuperSport SuperLiga (F), Round 12",
     title: "ŽOK Ribola Kaštela vs OK Kelteks",
     venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
@@ -313,18 +343,18 @@ const volleyballEvents = [
     price: 5
   },
   {
-    id: "MAR-2026-02-12-NEB",
-    date: "2026-02-12",
+    id: "RIB-2026-02-25-NEB",
+    date: "2026-02-25",
     time: "TBD",
-    category: "SuperSport SuperLiga (F), Round 11",
-    title: "OK Marina Kaštela vs OK Nebo",
-    venue: "Sportska dvorana Marina - Kaštela, Croatia",
+    category: "SuperSport Cup - Snježana Ušić (F), 1/2 Final",
+    title: "ŽOK Ribola Kaštela vs OK Nebo ",
+    venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
     sport: "Volleyball",
     price: 5
   },
   {
-    id: "MAR-2026-03-14-OSI",
-    date: "2026-03-14",
+    id: "MAR-2026-02-14-OSI",
+    date: "2026-02-14",
     time: "TBD",
     category: "SuperSport SuperLiga (F), Round 13",
     title: "OK Marina Kaštela vs ŽOK Osijek",
@@ -333,8 +363,8 @@ const volleyballEvents = [
     price: 5
   },
   {
-    id: "MAR-2026-03-28-KEL",
-    date: "2026-03-28",
+    id: "MAR-2026-02-28-KEL",
+    date: "2026-02-28",
     time: "TBD",
     category: "SuperSport SuperLiga (F), Round 15",
     title: "OK Marina Kaštela vs OK Kelteks",
@@ -351,16 +381,6 @@ const volleyballEvents = [
     venue: "Sportska dvorana Marina - Kaštela, Croatia",
     sport: "Volleyball",
     price: 5
-  },
-  {
-    id: "RIB-2026-01-31-SIS",
-    date: "2026-01-31",
-    time: "TBD",
-    category: "SuperSport SuperLiga (M), Round 11",
-    title: "OK Ribola Kaštela vs OK Sisak",
-    venue: "Sportska dvorana Kaštela - Kaštela, Croatia",
-    sport: "Volleyball",
-    price: 8
   },
   {
     id: "RIB-2026-02-14-RIE",
@@ -483,7 +503,7 @@ const waterPoloEvents = [
   {
     id: "MOR-2026-02-07-ZAD",
     date: "2026-02-07",
-    time: "18:45",
+    time: "20:30",
     category: "Prvenstvo Hrvatske, Round 6",
     title: "VK Mornar Split vs VK Zadar 1952",
     venue: "Bazeni Poljud - Split, Croatia",
@@ -523,7 +543,7 @@ const waterPoloEvents = [
   {
     id: "MOR-2026-03-14-PRI",
     date: "2026-03-14",
-    time: "18:00",
+    time: "19:45",
     category: "Prvenstvo Hrvatske, Round 11",
     title: "VK Mornar Split vs VK Primorje EB",
     venue: "Bazeni Poljud - Split, Croatia",

@@ -1,32 +1,65 @@
 "use client";
 
 import { Navigation } from "@/components/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/cart-context";
+import { useUser } from "@/context/user-context";
 import { FaShoppingCart } from "react-icons/fa";
+import { createClient } from "@/lib/supabase/client";
 
 export default function CartPage() {
   const router = useRouter();
-  const { items, removeFromCart, updateQuantity, clearCart, getTotal } = useCart();
-  const [promoCode, setPromoCode] = useState("");
-  const [country, setCountry] = useState("");
-  const [zipCode, setZipCode] = useState("");
+  const { items, removeFromCart, updateQuantity, clearCart, getTotal } =
+    useCart();
+  const { user } = useUser();
+  const supabaseRef = useRef(createClient());
+  const [isPaying, setIsPaying] = useState(false);
+  const [payError, setPayError] = useState<string | null>(null);
+  const [paySuccess, setPaySuccess] = useState(false);
 
   const subtotal = getTotal();
   const serviceFee = items.length > 0 ? subtotal * 0.08 : 0;
   const total = subtotal + serviceFee;
 
-  // Format date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
+  const handlePayNow = async () => {
+    if (items.length === 0) return;
+    if (!user) {
+      router.push("/login");
+      return;
+    }
 
-  // Format time
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+    setIsPaying(true);
+    setPayError(null);
+
+    const purchasedAt = new Date().toISOString();
+    const rows = items.map((item) => ({
+      user_id: user.id,
+      event_id: item.event.id,
+      event_title: item.event.title,
+      event_sport: item.event.sport,
+      event_venue: item.event.venue,
+      event_date: item.event.date,
+      event_time: item.event.time ?? null,
+      event_price: item.event.price,
+      event_category: item.event.category,
+      ticket_type: item.ticketType,
+      quantity: item.quantity,
+      purchased_at: purchasedAt,
+    }));
+
+    const { error } = await supabaseRef.current.from("tickets").insert(rows);
+
+    if (error) {
+      setPayError("Payment failed. Please try again.");
+      setIsPaying(false);
+      return;
+    }
+
+    clearCart();
+    setIsPaying(false);
+    setPaySuccess(true);
   };
 
   return (
@@ -35,7 +68,6 @@ export default function CartPage() {
 
       <section className="-mt-6 w-full bg-[#192734]">
         <div className="mx-auto w-full max-w-7xl px-6 py-14">
-
           {/* Grid Layout */}
           <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1.4fr_.9fr] gap-8 items-start">
             {/* LEFT: Cart Items */}
@@ -44,11 +76,11 @@ export default function CartPage() {
                 <div className="flex items-center gap-3 font-extrabold text-white">
                   Tickets in your cart
                   <small className="font-semibold text-white/55 border border-white/10 px-2.5 py-1 rounded-none bg-white/5 text-xs">
-                    {items.length} {items.length === 1 ? 'item' : 'items'}
+                    {items.length} {items.length === 1 ? "item" : "items"}
                   </small>
                 </div>
                 {items.length > 0 && (
-                  <button 
+                  <button
                     onClick={clearCart}
                     className="text-white/75 text-sm border border-white/10 px-3 py-2 rounded-none bg-white/5 hover:bg-white/10 hover:border-white/15 transition-colors"
                   >
@@ -61,16 +93,36 @@ export default function CartPage() {
                 {items.length === 0 ? (
                   <div className="py-12 text-center">
                     <FaShoppingCart className="w-16 h-16 mx-auto mb-4 text-white/20" />
-                    <p className="text-white/75 text-lg font-semibold mb-2">Your cart is empty</p>
-                    <p className="text-white/55 text-sm mb-6">Browse events and add tickets to your cart to checkout.</p>
+                    <p className="text-white/75 text-lg font-semibold mb-2">
+                      Your cart is empty
+                    </p>
+                    <p className="text-white/55 text-sm mb-6">
+                      Browse events and add tickets to your cart to checkout.
+                    </p>
                     <button
                       onClick={() => router.push("/events")}
                       className="inline-flex items-center justify-center gap-2 rounded-none bg-indigo-700 hover:bg-indigo-800 px-6 py-3 font-bold text-white transition-colors duration-150"
                     >
                       Browse events
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M5 12h12" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M13 6l6 6-6 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <svg
+                        className="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M5 12h12"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M13 6l6 6-6 6"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -78,14 +130,19 @@ export default function CartPage() {
                   <div className="flex flex-col gap-3">
                     {items.map((item) => {
                       const eventDate = new Date(item.event.date);
-                      const monthShort = eventDate.toLocaleDateString("en-US", { month: "short" });
+                      const monthShort = eventDate.toLocaleDateString("en-US", {
+                        month: "short",
+                      });
                       const day = eventDate.getDate();
                       const year = eventDate.getFullYear();
 
                       return (
-                        <article key={item.event.id} className="relative flex flex-col bg-white/5 border border-white/10 hover:border-white/20 transition-all overflow-hidden">
+                        <article
+                          key={item.event.id}
+                          className="relative flex flex-col bg-white/5 border border-white/10 hover:border-white/20 transition-all overflow-hidden"
+                        >
                           {/* Remove Button - Top Right */}
-                          <button 
+                          <button
                             onClick={() => removeFromCart(item.event.id)}
                             className="absolute top-3 right-3 z-10 text-white/60 hover:text-white text-xl transition-colors"
                           >
@@ -97,56 +154,94 @@ export default function CartPage() {
                             {/* Date Box */}
                             <div className="hidden sm:flex sm:flex-col items-center justify-center bg-indigo-700 text-white p-6 w-24 gap-0">
                               <div className="text-center">
-                                <div className="text-sm font-medium uppercase">{monthShort}</div>
-                                <div className="text-3xl font-bold leading-tight">{day}</div>
+                                <div className="text-sm font-medium uppercase">
+                                  {monthShort}
+                                </div>
+                                <div className="text-3xl font-bold leading-tight">
+                                  {day}
+                                </div>
                                 <div className="text-xs opacity-90">{year}</div>
                               </div>
                               <div className="mt-3 pt-3 border-t border-white/30">
-                                <div className="text-sm font-medium">{item.event.time}</div>
+                                <div className="text-sm font-medium">
+                                  {item.event.time}
+                                </div>
                               </div>
                             </div>
-
                             {/* Mobile Date Display */}
                             <div className="sm:hidden flex items-center justify-center bg-indigo-700 text-white px-4 py-3">
                               <div className="flex items-center gap-4">
                                 <div className="text-center">
-                                  <div className="text-xs font-medium uppercase mb-1">{monthShort}</div>
-                                  <div className="text-2xl font-bold leading-tight">{day}</div>
-                                  <div className="text-xs text-white/75 mt-1">{year}</div>
+                                  <div className="text-xs font-medium uppercase mb-1">
+                                    {monthShort}
+                                  </div>
+                                  <div className="text-2xl font-bold leading-tight">
+                                    {day}
+                                  </div>
+                                  <div className="text-xs text-white/75 mt-1">
+                                    {year}
+                                  </div>
                                 </div>
                                 <div className="h-10 w-px bg-white/30"></div>
-                                <div className="text-sm font-medium">{item.event.time}</div>
+                                <div className="text-sm font-medium">
+                                  {item.event.time}
+                                </div>
                               </div>
                             </div>
-
                             {/* Event Details */}
                             <div className="flex-1 p-6 flex flex-col justify-center">
                               <div className="flex items-center gap-3 mb-2">
                                 <div className="text-xs text-white font-semibold uppercase tracking-wide">
                                   {item.event.category}
                                 </div>
-                                <span className="text-xs text-white/60">{item.event.sport}</span>
+                                <span className="text-xs text-white/60">
+                                  {item.event.sport}
+                                </span>
                               </div>
-                              <h3 className="text-lg font-bold text-white mb-2">{item.event.title}</h3>
+                              <h3 className="text-lg font-bold text-white mb-2">
+                                {item.event.title}
+                              </h3>
                               <div className="flex items-start gap-2 text-sm text-white/60">
-                                <svg className="w-4 h-4 mt-0.5 shrink-0 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <svg
+                                  className="w-4 h-4 mt-0.5 shrink-0 text-white/40"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                  />
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                  />
                                 </svg>
                                 <span>{item.event.venue}</span>
                               </div>
-                            </div>                            {/* Vertical Divider */}
+                            </div>{" "}
+                            {/* Vertical Divider */}
                             <div className="hidden sm:block w-px bg-white/10"></div>
-
                             {/* Price and Actions */}
                             <div className="flex flex-col items-center justify-center gap-3 p-6 sm:p-4 sm:px-6 shrink-0">
                               <div className="text-center">
                                 <div className="text-xs text-white/55 mb-1">
                                   Per ticket
                                 </div>
-                                <div className="text-2xl font-black text-white">€{(item.event.price * item.quantity).toFixed(2)}</div>
+                                <div className="text-2xl font-black text-white">
+                                  €
+                                  {(item.event.price * item.quantity).toFixed(
+                                    2,
+                                  )}
+                                </div>
                                 <div className="text-xs text-white/55 mt-1">
-                                  {item.quantity > 1 ? `${item.quantity} × €${item.event.price.toFixed(2)}` : ''}
+                                  {item.quantity > 1
+                                    ? `${item.quantity} × €${item.event.price.toFixed(2)}`
+                                    : ""}
                                 </div>
                               </div>
 
@@ -155,7 +250,10 @@ export default function CartPage() {
                                 <button
                                   onClick={() => {
                                     if (item.quantity > 1) {
-                                      updateQuantity(item.event.id, item.quantity - 1);
+                                      updateQuantity(
+                                        item.event.id,
+                                        item.quantity - 1,
+                                      );
                                     }
                                   }}
                                   className="text-white hover:text-white/60 transition-colors text-lg font-semibold"
@@ -168,7 +266,10 @@ export default function CartPage() {
                                 <button
                                   onClick={() => {
                                     if (item.quantity < 10) {
-                                      updateQuantity(item.event.id, item.quantity + 1);
+                                      updateQuantity(
+                                        item.event.id,
+                                        item.quantity + 1,
+                                      );
                                     }
                                   }}
                                   className="text-white hover:text-white/60 transition-colors text-lg font-semibold"
@@ -186,7 +287,8 @@ export default function CartPage() {
 
                 {items.length > 0 && (
                   <div className="mt-3 text-white/75 text-xs">
-                    Tickets are sent to your email and available in your account right after payment.
+                    Tickets are sent to your email and available in your account
+                    right after payment.
                   </div>
                 )}
               </div>
@@ -217,10 +319,34 @@ export default function CartPage() {
 
                 {/* Checkout button */}
                 <div className="mt-3.5">
-                  <button className="w-full inline-flex items-center justify-center gap-2 rounded-none bg-indigo-700 hover:bg-indigo-800 px-6 py-3 font-bold text-white transition-colors duration-150">
-                    Pay now
+                  <button
+                    onClick={handlePayNow}
+                    disabled={isPaying}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-none bg-indigo-700 hover:bg-indigo-800 px-6 py-3 font-bold text-white transition-colors duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {isPaying ? "Processing..." : "Pay now"}
                   </button>
                 </div>
+
+                {paySuccess && !payError && (
+                  <div className="mt-3 text-sm text-emerald-300 text-center">
+                    Payment successful.
+                    {" "}
+                    <Link
+                      href="/my-tickets"
+                      className="underline mt-3 text-sm text-emerald-300 text-center hover:text-emerald-100"
+                    >
+                      View your tickets
+                    </Link>
+                    .
+                  </div>
+                )}
+
+                {payError && (
+                  <div className="mt-3 text-sm text-red-300 text-center">
+                    {payError}
+                  </div>
+                )}
 
                 <div className="mt-3 text-white/55 text-xs text-center">
                   By checking out, you agree to our Terms & Refund Policy.
