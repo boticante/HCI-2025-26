@@ -170,7 +170,7 @@ Core visual design decisions also follow the C.R.A.P. principles to keep content
 
 The live deployment was evaluated using [PageSpeed Insights](https://pagespeed.web.dev) to check core performance, accessibility, best practices, and SEO scores for both mobile and desktop.
 
-The full performance report can be viewed [here](https://pagespeed.web.dev/analysis/https-hci-2025-26-vercel-app/izqjxzxofo?form_factor=desktop).
+The full performance report can be viewed [here](https://pagespeed.web.dev/analysis/https-hci-2025-26-vercel-app/ycpfwqpvh0?form_factor=desktop).
 
 # 🔮 Future improvements
 
