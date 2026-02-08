@@ -134,28 +134,28 @@ The interface follows a small set of visual and layout rules that keep the exper
 
 Project applies Norman's strategies to make key actions discoverable, understandable, and predictable for both new and returning users.
 
-1. **Discoverability**: Main navigation, event filters, and CTAs are always visible and clearly named.
-2. **Feedback**: Buttons, filters, and cart actions respond with hover states and short status messages.
-3. **Conceptual Model**: Events are shown as a familiar list with filters and details similar to other ticket sites.
-4. **Affordances**: Interactive elements look clickable through consistent shapes, borders, and hover effects.
-5. **Signifiers**: Labels, icons, and placeholders explain what each input or control is for.
-6. **Mappings**: Changing filters or sort options immediately updates the event list in an expected way.
-7. **Constraints**: Forms and checkout only proceed when required information is provided.
+1. ***Discoverability*** - Main navigation, event filters, and CTAs are always visible and clearly named.
+2. ***Feedback*** - Buttons, filters, and cart actions respond with hover states and short status messages.
+3. ***Conceptual Model*** - Events are shown as a familiar list with filters and details similar to other ticket sites.
+4. ***Affordances*** - Interactive elements look clickable through consistent shapes, borders, and hover effects.
+5. ***Signifiers*** - Labels, icons, and placeholders explain what each input or control is for.
+6. ***Mappings*** - Changing filters or sort options immediately updates the event list in an expected way.
+7. ***Constraints*** - Forms and checkout only proceed when required information is provided.
 
 # 🔍 Heuristic Evaluation
 
 The design was reviewed against Nielsen's heuristics to ensure it supports clarity, control, and efficient problem solving during typical user journeys.
 
-1. **Visibility of System Status**: Active page highlighting, cart state, and loading states keep users informed.
-2. **Match Between System and Real World**: Sports categories, venues, dates, and ticket wording mirror real event information.
-3. **User Control and Freedom**: Users can change filters, edit the cart, or sign out without getting stuck.
-4. **Consistency and Standards**: The same navigation, card layouts, and button styles appear across pages.
-5. **Error Prevention**: Forms validate input and prevent actions like empty-cart checkout.
-6. **Recognition Rather Than Recall**: Key actions (filters, search, navigation, cart) stay visible instead of hidden in menus.
-7. **Flexibility and Efficiency of Use**: Search, filters, and sorting let users quickly focus on the most relevant events.
-8. **Aesthetic and Minimalist Design**: A limited color palette and clean layout keep attention on events and tickets.
-9. **Help Users Recognize, Diagnose, and Recover from Errors**: Short error messages explain issues with login, registration, or payment.
-10. **Help and Documentation**: Clear labels on actions like "Browse events", "Pay now", and "My Account" reduce the need for extra help.
+1. ***Visibility of System Status*** - Active page highlighting, cart state, and loading states keep users informed.
+2. ***Match Between System and Real World*** - Sports categories, venues, dates, and ticket wording mirror real event information.
+3. ***User Control and Freedom*** - Users can change filters, edit the cart, or sign out without getting stuck.
+4. ***Consistency and Standards*** - The same navigation, card layouts, and button styles appear across pages.
+5. ***Error Prevention*** - Forms validate input and prevent actions like empty-cart checkout.
+6. ***Recognition Rather Than Recall*** - Key actions (filters, search, navigation, cart) stay visible instead of hidden in menus.
+7. ***Flexibility and Efficiency of Use*** - Search, filters, and sorting let users quickly focus on the most relevant events.
+8. ***Aesthetic and Minimalist Design*** - A limited color palette and clean layout keep attention on events and tickets.
+9. ***Help Users Recognize, Diagnose, and Recover from Errors*** - Short error messages explain issues with login, registration, or payment.
+10. ***Help and Documentation*** - Clear labels on actions like "Browse events", "Pay now", and "My Account" reduce the need for extra help.
 
 # 🔍 C.R.A.P. Principles
 
@@ -168,7 +168,7 @@ Core visual design decisions also follow the C.R.A.P. principles to keep content
 
 # ⚡ Analyze the application's performance
 
-The live deployment was evaluated using [PageSpeed Insights](https://pagespeed.web.dev/analysis/https://hci-2025-26.vercel.app//) to check core performance, accessibility, and best practices scores for both mobile and desktop. The report below will be used to track improvements over time as new features are added.
+The live deployment was evaluated using [PageSpeed Insights](https://pagespeed.web.dev) to check core performance, accessibility, and best practices scores for both mobile and desktop. The report below will be used to track improvements over time as new features are added.
 
 <!-- Performance report screenshot placeholder -->
 <!-- Add PageSpeed Insights screenshot here -->

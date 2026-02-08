@@ -17,9 +17,41 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ticket-taka",
+  title: {
+    default: "Ticket-taka | Sports event tickets",
+    template: "%s | Ticket-taka",
+  },
+  description:
+    "Ticket-taka helps you discover upcoming sports events, compare matches, and buy tickets quickly with a clean, mobile-friendly experience.",
   icons: {
     icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Ticket-taka | Sports event tickets",
+    description:
+      "Browse and book tickets for upcoming sports events in and around Split with filters, favorites, and a smooth checkout.",
+    url: "https://hci-2025-26.vercel.app/",
+    siteName: "Ticket-taka",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/images/og-ticket-taka.png",
+        width: 1200,
+        height: 630,
+        alt: "Ticket-taka sports event ticketing homepage",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ticket-taka | Sports event tickets",
+    description:
+      "Discover and book tickets for live sports events with filters, favorites, and an easy cart experience.",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
