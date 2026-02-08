@@ -67,6 +67,8 @@ export function Footer() {
                 src="/images/logo.png"
                 alt="Ticket-taka logo"
                 className="h-14 w-auto mb-3"
+                loading="lazy"
+                decoding="async"
               />
             </button>
           </div>

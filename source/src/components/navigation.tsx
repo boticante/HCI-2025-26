@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import { useUser } from "@/context/user-context";
 import { useCart } from "@/context/cart-context";
 import { SignOutButton } from "./sign-out-button";
-import { FaChevronDown, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 
 const navItems = [
   { key: "HOME", label: "Home" },
@@ -36,7 +36,6 @@ export function Navigation() {
   const { items } = useCart();
   const navRef = useRef<HTMLElement | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const prevPathnameRef = useRef<string | null>(null);
 
   // Track pathname changes
@@ -49,7 +48,6 @@ export function Navigation() {
       if (!navRef.current) return;
       if (!navRef.current.contains(event.target as Node)) {
         setMobileMenuOpen(false);
-        setAccountMenuOpen(false);
       }
     };
 
@@ -101,55 +99,41 @@ export function Navigation() {
               src="/images/logo.png"
               alt="Ticket-taka logo"
               className="h-12 w-auto"
+              loading="lazy"
+              decoding="async"
             />
             <span className="text-base font-semibold tracking-tight text-white">
               Ticket-taka
             </span>
           </button>
 
-          <nav className="hidden lg:flex flex-1 items-center justify-center gap-10">
+          <nav
+            className="hidden lg:flex flex-1 items-center justify-center gap-10"
+            aria-label="Primary"
+          >
             {navItems.map(({ key, label }) => (
-              <div key={key} className="flex items-center gap-10">
+              <Fragment key={key}>
                 <button
                   onClick={() => handleNavigate(key)}
                   className={`${navItemClass} ${
                     currentPage === key ? navItemActiveClass : ""
                   }`}
+                  aria-current={currentPage === key ? "page" : undefined}
                 >
                   {label}
                 </button>
-                {key === "CONTACT" && showAccount && (
-                  <div className="relative">
-                    <button
-                      onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                      className={`${navItemClass} flex items-center gap-2 ${
-                        isOnAccountPage ? navItemActiveClass : ""
-                      }`}
-                      type="button"
-                    >
-                      My Account
-                      <FaChevronDown
-                        className={`size-3 transition-transform ${
-                          accountMenuOpen ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                    {accountMenuOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1 bg-[#15202b] border border-white/10 rounded-none shadow-lg z-50 dropdown-animate">
-                        <button
-                          onClick={() => {
-                            router.push("/my-tickets");
-                            setAccountMenuOpen(false);
-                          }}
-                          className="text-center px-4 py-2.5 text-white/85 hover:bg-white/10 hover:text-white transition-colors text-[15px] block w-full"
-                        >
-                          Tickets
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                {showAccount && key === "CONTACT" && (
+                  <button
+                    className={`${navItemClass} ${
+                      isOnAccountPage ? navItemActiveClass : ""
+                    }`}
+                    type="button"
+                    onClick={() => router.push("/my-tickets")}
+                  >
+                    My Tickets
+                  </button>
                 )}
-              </div>
+              </Fragment>
             ))}
           </nav>
 
@@ -188,6 +172,11 @@ export function Navigation() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden p-2 text-white/85 hover:text-white"
+            aria-label={
+              mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
+            aria-expanded={mobileMenuOpen}
+            aria-controls="primary-navigation"
           >
             {mobileMenuOpen ? (
               <svg
@@ -223,50 +212,37 @@ export function Navigation() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <nav className="lg:hidden mt-4 pb-4 flex flex-col gap-4 dropdown-animate">
+          <nav
+            id="primary-navigation"
+            className="lg:hidden mt-4 pb-4 flex flex-col gap-4 dropdown-animate"
+            aria-label="Primary"
+          >
             {navItems.map(({ key, label }) => (
-              <div key={key} className="flex flex-col gap-3">
+              <Fragment key={key}>
                 <button
                   onClick={() => handleNavigate(key)}
                   className={`${navItemClass} justify-start ${
                     currentPage === key ? navItemActiveClass : ""
                   }`}
+                  aria-current={currentPage === key ? "page" : undefined}
                 >
                   {label}
                 </button>
-                {key === "CONTACT" && showAccount && (
-                  <div>
-                    <button
-                      onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                      className={`${navItemClass} justify-start flex items-center gap-2 ${
-                        isOnAccountPage ? navItemActiveClass : ""
-                      }`}
-                      type="button"
-                    >
-                      My Account
-                      <FaChevronDown
-                        className={`size-3 transition-transform ${
-                          accountMenuOpen ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                    {accountMenuOpen && (
-                      <div className="mt-2 ml-4 flex flex-col gap-2 bg-white/5 border border-white/10 rounded-none whitespace-nowrap dropdown-animate">
-                        <button
-                          onClick={() => {
-                            router.push("/my-tickets");
-                            setAccountMenuOpen(false);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="text-center px-4 py-2.5 text-white/85 hover:bg-white/10 hover:text-white transition-colors text-[15px] block w-full"
-                        >
-                          Tickets
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                {showAccount && key === "CONTACT" && (
+                  <button
+                    className={`${navItemClass} justify-start ${
+                      isOnAccountPage ? navItemActiveClass : ""
+                    }`}
+                    type="button"
+                    onClick={() => {
+                      router.push("/my-tickets");
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    My Tickets
+                  </button>
                 )}
-              </div>
+              </Fragment>
             ))}
             {loading ? (
               <div className="h-10 w-20" />

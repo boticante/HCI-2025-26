@@ -137,6 +137,9 @@ export function ContactForm() {
             onClick={() => setIsSubjectOpen(!isSubjectOpen)}
             disabled={isLoading}
             className="w-full flex items-center justify-between gap-2 rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/25 transition-colors disabled:opacity-50"
+            aria-haspopup="listbox"
+            aria-expanded={isSubjectOpen}
+            aria-controls="contact-subject-list"
           >
             <span>{formData.subject}</span>
             <FaChevronDown
@@ -147,7 +150,11 @@ export function ContactForm() {
           </button>
 
           {isSubjectOpen && (
-            <div className="absolute left-0 right-0 mt-2 w-full bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50 dropdown-animate">
+            <div
+              className="absolute left-0 right-0 mt-2 w-full bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50 dropdown-animate"
+              id="contact-subject-list"
+              role="listbox"
+            >
               <div className="py-1">
                 {[
                   "Event information",
@@ -170,6 +177,8 @@ export function ContactForm() {
                         ? "bg-white/10 text-white"
                         : "text-white/90 hover:bg-white/5"
                     }`}
+                    role="option"
+                    aria-selected={formData.subject === option}
                   >
                     {option}
                   </button>

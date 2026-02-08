@@ -64,6 +64,8 @@ const ReviewCard = ({ review }: { review: Review }) => {
               src={review.avatar}
               alt={review.name}
               className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           ) : (
             <span className="text-white/80 text-lg font-semibold">

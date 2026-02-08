@@ -151,7 +151,12 @@ export default function MyTicketsPage() {
           <div className="mt-12 relative">
             {/* Mobile full-screen QR overlay */}
             {mobileQrTicketId && qrCodes[mobileQrTicketId] && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm sm:hidden">
+              <div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm sm:hidden"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Ticket QR code"
+              >
                 <div className="bg-[#15202b] border border-white/15 px-6 py-6 rounded-none flex flex-col items-center gap-4 max-w-xs w-[85%]">
                   <div className="text-xs text-white/70 text-center">
                     Scan at entry. QR is unique to this ticket.
@@ -160,6 +165,8 @@ export default function MyTicketsPage() {
                     src={qrCodes[mobileQrTicketId]}
                     alt="Ticket QR code"
                     className="h-60 w-60 border border-white/10 bg-white p-3"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <button
                     type="button"
@@ -304,7 +311,10 @@ export default function MyTicketsPage() {
                       {/* Expanded QR Section - desktop/tablet dropdown */}
                       {qrCodes[ticket.id] &&
                         openedTickets.includes(ticket.id) && (
-                          <div className="border-t border-white/10 dropdown-animate hidden sm:block">
+                          <div
+                            className="border-t border-white/10 dropdown-animate hidden sm:block"
+                            aria-live="polite"
+                          >
                             <div className="p-5 flex flex-col gap-4 items-center justify-center">
                               <div className="text-xs text-white/60 text-center">
                                 Scan at entry. QR is unique to this ticket.
@@ -318,6 +328,8 @@ export default function MyTicketsPage() {
                                       ? ""
                                       : "blur-md"
                                   }`}
+                                  loading="lazy"
+                                  decoding="async"
                                 />
                                 {!revealedTickets.includes(ticket.id) && (
                                   <button

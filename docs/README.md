@@ -112,7 +112,7 @@ This project was completed through a series of structured assignments, progressi
 - **Backend and Services**:
     - ***Supabase*** – authentication, user state management, favorites, and purchased tickets storage
     - ***Contentful CMS*** – external content source for editorial reviews
-    - ***Resend*** (planned) – email infrastructure for future notifications and ticket delivery
+	- ***Resend*** – email infrastructure used to deliver messages submitted through the contact form
 
 - **Tooling and Developer Experience**:
     - ***ESLint*** with ***eslint-config-next*** – linting and best-practice checks
