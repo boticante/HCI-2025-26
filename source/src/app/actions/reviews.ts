@@ -17,14 +17,11 @@ export async function submitReview(data: ReviewFormData) {
       return { success: false, error: "Rating must be between 1 and 5" };
     }
 
-    // Get management client (server-side only)
     const contentfulManagementClient = getContentfulManagementClient();
     
-    // Get space and environment
     const space = await contentfulManagementClient.getSpace(CONTENTFUL_SPACE_ID);
     const environment = await space.getEnvironment(CONTENTFUL_ENVIRONMENT);
 
-    // Create the review entry
     const entry = await environment.createEntry("review", {
       fields: {
         name: {
@@ -42,7 +39,6 @@ export async function submitReview(data: ReviewFormData) {
       },
     });
 
-    // Publish the entry
     await entry.publish();
 
     return { 

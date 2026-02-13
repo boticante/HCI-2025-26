@@ -25,9 +25,17 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
   const supabase = await createClient();
 
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    return { error: 'Invalid email format' };
+  }
+
   const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    email,
+    password,
     options: {
       data: {
         first_name: formData.get('firstName') as string,
@@ -36,10 +44,19 @@ export async function signup(formData: FormData) {
     },
   };
 
-  const { error } = await supabase.auth.signUp(data);
+  const { error: signUpError } = await supabase.auth.signUp(data);
 
-  if (error) {
-    return { error: error.message };  // ✅ Ovo vraća error
+  if (signUpError) {
+    return { error: signUpError.message };
+  }
+
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (signInError) {
+    return { error: signInError.message };
   }
 
   revalidatePath('/', 'layout');
@@ -50,7 +67,7 @@ export async function signout() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   revalidatePath('/', 'layout');
-  redirect('/login');
+  return { success: true };
 }
 
 export async function getUser() {

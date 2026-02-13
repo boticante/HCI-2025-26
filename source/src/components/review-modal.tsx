@@ -33,7 +33,6 @@ export function ReviewModal({ open, onClose, onSuccess }: ReviewModalProps) {
 
     window.addEventListener("keydown", onKeyDown);
 
-    // Focus the dialog panel for accessibility.
     queueMicrotask(() => panelRef.current?.focus());
 
     return () => {
@@ -72,12 +71,10 @@ export function ReviewModal({ open, onClose, onSuccess }: ReviewModalProps) {
         setRating(0);
         form.reset();
 
-        // Call onSuccess callback if provided with the new review
         if (onSuccess && result.review) {
           await onSuccess(result.review);
         }
 
-        // Close modal quickly after showing success
         setTimeout(() => {
           onClose();
           setSuccess(null);
@@ -154,7 +151,6 @@ export function ReviewModal({ open, onClose, onSuccess }: ReviewModalProps) {
             )}
 
             <div className="grid grid-cols-1 gap-5">
-              {/* Your Name */}
               <div>
                 <label
                   htmlFor="name"
@@ -172,7 +168,6 @@ export function ReviewModal({ open, onClose, onSuccess }: ReviewModalProps) {
                 />
               </div>
 
-              {/* Rating */}
               <div>
                 <label className="block text-sm font-medium text-white/80 mb-2">
                   Rating
@@ -199,7 +194,6 @@ export function ReviewModal({ open, onClose, onSuccess }: ReviewModalProps) {
                 </div>
               </div>
 
-              {/* Your Review */}
               <div>
                 <label
                   htmlFor="review"
@@ -218,7 +212,6 @@ export function ReviewModal({ open, onClose, onSuccess }: ReviewModalProps) {
               </div>
             </div>
 
-            {/* Buttons */}
             <div className="mt-6 flex gap-4">
               <button
                 type="button"

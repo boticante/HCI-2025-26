@@ -35,7 +35,6 @@ export async function updateSession(request: NextRequest) {
 
   if (
     !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
     !request.nextUrl.pathname.startsWith('/about') &&
     !request.nextUrl.pathname.startsWith('/contact') &&
     !request.nextUrl.pathname.startsWith('/events') &&
@@ -44,7 +43,7 @@ export async function updateSession(request: NextRequest) {
   ) {
 
     const url = request.nextUrl.clone();
-    url.pathname = '/login';
+    url.pathname = '/';
     return NextResponse.redirect(url);
   }
 

@@ -132,7 +132,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems([]);
   }, [storageKey, user?.id]);
 
-  // Save cart to localStorage for guests only
   useEffect(() => {
     if (!user?.id) {
       localStorage.setItem(storageKey, JSON.stringify(items));

@@ -6,10 +6,8 @@ export default function AboutPage() {
     <main className="flex min-h-screen w-full flex-col bg-[#192734]">
       <Navigation />
 
-      {/* All content between navbar and footer */}
       <section className="-mt-6 w-full bg-[#192734]">
         <div className="mx-auto w-full max-w-7xl px-6 py-14">
-          {/* HERO */}
           <div className="text-center">
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
               Bringing fans closer to the game
@@ -21,7 +19,6 @@ export default function AboutPage() {
           </div>
 
           <div className="mt-12 space-y-12">
-            {/* MISSION */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
               <h2 className="text-2xl font-medium text-white">Our mission</h2>
               <p className="mt-4 text-sm text-white/75">
@@ -29,7 +26,6 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* WHAT WE DO */}
             <div className="border border-white/10 bg-[#22303c] p-8">
               <div className="text-center">
                 <h2 className="text-2xl font-medium text-white">What we do</h2>
@@ -62,7 +58,6 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* WHY CHOOSE US */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
               <h2 className="text-2xl font-medium text-white">Why choose us</h2>
               <div className="mt-6 grid gap-4 text-sm text-white/75 sm:grid-cols-2">
@@ -95,11 +90,10 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* STATS */}
             <div className="grid gap-6 lg:grid-cols-3">
               <div className="border border-white/10 bg-[#22303c] p-8 text-center">
                 <div className="text-3xl font-extrabold tracking-tight text-white">
-                  50+
+                  500+
                 </div>
                 <div className="mt-1 text-sm text-white/75">Events listed</div>
               </div>
@@ -117,7 +111,6 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* CTA */}
             <div className="border border-white/10 bg-[#22303c] p-8 text-center">
               <h2 className="text-2xl font-medium text-white">
                 Ready to experience live sports?

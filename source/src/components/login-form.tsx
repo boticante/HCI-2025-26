@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreateAccountModal } from "@components/create-account-modal";
 import { createClient } from "@/lib/supabase/client";
+import { useLoginModal } from "@/context/login-modal-context";
 
 export function LoginForm() {
   const router = useRouter();
+  const { closeLogin } = useLoginModal();
   const [createAccountOpen, setCreateAccountOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -18,11 +20,11 @@ export function LoginForm() {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const email = (formData.get("email") as string) || "";
+    const password = (formData.get("password") as string) || "";
 
-    // Client-side validation
-    if (!email || !email.includes("@") || !password) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email) || !password) {
       setError("Invalid email or password");
       setLoading(false);
       return;
@@ -38,7 +40,8 @@ export function LoginForm() {
       setError(error.message);
       setLoading(false);
     } else {
-      router.push("/");
+      setLoading(false);
+      closeLogin();
       router.refresh();
     }
   };
@@ -60,7 +63,7 @@ export function LoginForm() {
             <input
               id="email"
               name="email"
-              type="text"
+              type="email"
               placeholder="Email"
               className="w-full rounded-none border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/20"
               autoComplete="email"
@@ -132,9 +135,7 @@ export function LoginForm() {
           </button>
 
           {error && (
-            <p className="text-sm text-red-300 text-center">
-              {error}
-            </p>
+            <p className="text-sm text-red-300 text-center">{error}</p>
           )}
         </form>
 
@@ -153,6 +154,11 @@ export function LoginForm() {
       <CreateAccountModal
         open={createAccountOpen}
         onClose={() => setCreateAccountOpen(false)}
+        onSuccess={() => {
+          setCreateAccountOpen(false);
+          closeLogin();
+          router.refresh();
+        }}
       />
     </>
   );

@@ -4,6 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { useUser } from "@/context/user-context";
 import { useCart } from "@/context/cart-context";
+import { useLoginModal } from "@/context/login-modal-context";
 import { SignOutButton } from "./sign-out-button";
 import { FaShoppingCart } from "react-icons/fa";
 
@@ -21,7 +22,6 @@ const pathMap: Record<string, string> = {
   "ABOUT US": "/about",
   CONTACT: "/contact",
   REVIEWS: "/reviews",
-  SIGNIN: "/login",
 };
 
 const navItemClass =
@@ -34,11 +34,11 @@ export function Navigation() {
   const pathname = usePathname();
   const { user, loading } = useUser();
   const { items } = useCart();
+  const { openLogin } = useLoginModal();
   const navRef = useRef<HTMLElement | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const prevPathnameRef = useRef<string | null>(null);
 
-  // Track pathname changes
   useEffect(() => {
     prevPathnameRef.current = pathname;
   }, [pathname]);
@@ -87,8 +87,9 @@ export function Navigation() {
   };
 
   return (
-    <nav ref={navRef} className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#15202b] mb-6">
-      <div className="container mx-auto px-6 py-4">
+    <>
+      <nav ref={navRef} className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#15202b] mb-6">
+        <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-6">
           <button
             onClick={() => router.push("/")}
@@ -137,9 +138,9 @@ export function Navigation() {
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-3">
             {loading ? (
-              <div className="h-10 w-20" />
+              <div className="h-8 w-32 rounded-full bg-white/5 animate-pulse" />
             ) : showAccount ? (
               <>
                 <button
@@ -149,65 +150,98 @@ export function Navigation() {
                   type="button"
                   onClick={() => router.push("/cart")}
                 >
-                  <FaShoppingCart className={`size-4 ${
-                    items.length > 0 ? "text-indigo-600" : ""
-                  }`} />
+                  <FaShoppingCart
+                    className={`size-4 ${
+                      items.length > 0 ? "text-indigo-600" : ""
+                    }`}
+                  />
                   Cart
                 </button>
                 <SignOutButton className={navItemClass} />
+                <span
+                  className="inline-flex items-center rounded-none border px-3 py-1 text-xs font-medium tracking-tight border-emerald-400/70 bg-emerald-500/10 text-emerald-100"
+                >
+                  <span className="mr-2 h-2 w-2 rounded-none bg-emerald-400" />
+                  Signed in
+                </span>
               </>
             ) : (
-              <button
-                onClick={() => handleNavigate("SIGNIN")}
-                className={`${navItemClass} ${
-                  currentPage === "SIGNIN" ? navItemActiveClass : ""
-                }`}
-              >
-                Sign In
-              </button>
+              <>
+                <button
+                  onClick={openLogin}
+                  className={`${navItemClass} ${
+                    currentPage === "SIGNIN" ? navItemActiveClass : ""
+                  }`}
+                >
+                  Sign In
+                </button>
+                <span
+                  className="inline-flex items-center rounded-none border px-3 py-1 text-xs font-medium tracking-tight border-red-400/70 bg-red-500/10 text-red-100"
+                >
+                  <span className="mr-2 h-2 w-2 rounded-none bg-red-400" />
+                  Not signed in
+                </span>
+              </>
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-white/85 hover:text-white"
-            aria-label={
-              mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-            aria-expanded={mobileMenuOpen}
-            aria-controls="primary-navigation"
-          >
-            {mobileMenuOpen ? (
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
+          {/* Mobile status + menu button */}
+          <div className="flex items-center gap-2 lg:hidden">
+            {!loading && (
+              <div className="flex items-center gap-1 text-xs font-medium">
+                <span
+                  className={`h-2 w-2 rounded-none ${
+                    showAccount ? "bg-emerald-400" : "bg-red-400"
+                  }`}
                 />
-              </svg>
-            ) : (
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+                <span
+                  className={showAccount ? "text-emerald-100" : "text-red-100"}
+                >
+                  {showAccount ? "Signed in" : "Not signed in"}
+                </span>
+              </div>
             )}
-          </button>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-white/85 hover:text-white"
+              aria-label={
+                mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
+              }
+              aria-expanded={mobileMenuOpen}
+              aria-controls="primary-navigation"
+            >
+              {mobileMenuOpen ? (
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu */}
@@ -267,7 +301,10 @@ export function Navigation() {
               </div>
             ) : (
               <button
-                onClick={() => handleNavigate("SIGNIN")}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openLogin();
+                }}
                 className={`${navItemClass} justify-start ${
                   currentPage === "SIGNIN" ? navItemActiveClass : ""
                 }`}
@@ -278,6 +315,7 @@ export function Navigation() {
           </nav>
         )}
       </div>
-    </nav>
+      </nav>
+    </>
   );
 }

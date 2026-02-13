@@ -13,7 +13,6 @@ interface ContactFormData {
 
 export async function sendContactEmail(data: ContactFormData) {
   try {
-    // Validate required environment variable
     if (!process.env.RESEND_API_KEY) {
       return {
         success: false,
@@ -28,9 +27,8 @@ export async function sendContactEmail(data: ContactFormData) {
       };
     }
 
-    // Send email via Resend
     const result = await resend.emails.send({
-      from: 'noreply@resend.dev', // This will be your Resend domain, update it after verification
+      from: 'noreply@resend.dev', 
       to: process.env.CONTACT_EMAIL_TO,
       replyTo: data.email,
       subject: `New Contact Form Submission: ${data.subject}`,
@@ -80,7 +78,6 @@ export async function sendContactEmail(data: ContactFormData) {
   }
 }
 
-// Helper function to escape HTML special characters
 function escapeHtml(text: string): string {
   const map: { [key: string]: string } = {
     '&': '&amp;',

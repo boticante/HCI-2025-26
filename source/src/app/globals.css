@@ -23,7 +23,35 @@
   animation: fadeIn 2s ease-in-out;
 }
 
-/* Smooth dropdown/expansion entrance */
+@keyframes modalFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.modal-fade-in {
+  animation: modalFadeIn 200ms ease-out;
+}
+
+@keyframes modalPanelIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-panel-animate {
+  animation: modalPanelIn 200ms ease-out;
+  transform-origin: center;
+}
+
 @keyframes dropdownFade {
   0% {
     opacity: 0;
@@ -58,7 +86,6 @@ body {
     "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }
 
-/* Consistent hover cursor for clickable UI (links, nav, sitemap/footer links, buttons). */
 a:hover,
 button:hover,
 [role="link"]:hover,
@@ -66,7 +93,6 @@ button:hover,
   cursor: pointer;
 }
 
-/* Remove default browser password eye icon */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
   display: none;
@@ -77,9 +103,8 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   display: none !important;
 }
 
-/* Custom checkbox styling - filled with color instead of checkmark */
 input[type="checkbox"] {
-  accent-color: #4338ca; /* indigo-700 */
+  accent-color: #4338ca;
   appearance: none;
   -webkit-appearance: none;
   width: 1rem;

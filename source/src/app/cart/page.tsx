@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/cart-context";
 import { useUser } from "@/context/user-context";
+import { useLoginModal } from "@/context/login-modal-context";
 import { FaShoppingCart } from "react-icons/fa";
 import { createClient } from "@/lib/supabase/client";
 
@@ -14,6 +15,7 @@ export default function CartPage() {
   const { items, removeFromCart, updateQuantity, clearCart, getTotal } =
     useCart();
   const { user } = useUser();
+  const { openLogin } = useLoginModal();
   const supabaseRef = useRef(createClient());
   const [isPaying, setIsPaying] = useState(false);
   const [payError, setPayError] = useState<string | null>(null);
@@ -26,7 +28,7 @@ export default function CartPage() {
   const handlePayNow = async () => {
     if (items.length === 0) return;
     if (!user) {
-      router.push("/login");
+      openLogin();
       return;
     }
 
@@ -68,9 +70,7 @@ export default function CartPage() {
 
       <section className="-mt-6 w-full bg-[#192734]">
         <div className="mx-auto w-full max-w-7xl px-6 py-14">
-          {/* Grid Layout */}
           <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1.4fr_.9fr] gap-8 items-start">
-            {/* LEFT: Cart Items */}
             <div className="border border-white/10 bg-[#15202b] rounded-none shadow-2xl overflow-hidden">
               <div className="px-5 py-4 flex items-center justify-between gap-3 border-b border-white/10 bg-[#15202b]">
                 <div className="flex items-center gap-3 font-extrabold text-white">
@@ -141,7 +141,6 @@ export default function CartPage() {
                           key={item.event.id}
                           className="relative flex flex-col bg-white/5 border border-white/10 hover:border-white/20 transition-all overflow-hidden"
                         >
-                          {/* Remove Button - Top Right */}
                           <button
                             onClick={() => removeFromCart(item.event.id)}
                             className="absolute top-3 right-3 z-10 text-white/60 hover:text-white text-xl transition-colors"
@@ -149,9 +148,7 @@ export default function CartPage() {
                             ✕
                           </button>
 
-                          {/* Main Event Row */}
                           <div className="flex flex-col sm:flex-row items-stretch">
-                            {/* Date Box */}
                             <div className="hidden sm:flex sm:flex-col items-center justify-center bg-indigo-700 text-white p-6 w-24 gap-0">
                               <div className="text-center">
                                 <div className="text-sm font-medium uppercase">
@@ -188,7 +185,6 @@ export default function CartPage() {
                                 </div>
                               </div>
                             </div>
-                            {/* Event Details */}
                             <div className="flex-1 p-6 flex flex-col justify-center">
                               <div className="flex items-center gap-3 mb-2">
                                 <div className="text-xs text-white font-semibold uppercase tracking-wide">
@@ -224,9 +220,7 @@ export default function CartPage() {
                                 <span>{item.event.venue}</span>
                               </div>
                             </div>{" "}
-                            {/* Vertical Divider */}
                             <div className="hidden sm:block w-px bg-white/10"></div>
-                            {/* Price and Actions */}
                             <div className="flex flex-col items-center justify-center gap-3 p-6 sm:p-4 sm:px-6 shrink-0">
                               <div className="text-center">
                                 <div className="text-xs text-white/55 mb-1">
@@ -245,7 +239,6 @@ export default function CartPage() {
                                 </div>
                               </div>
 
-                              {/* Quantity Selector - matching events page */}
                               <div className="flex items-center gap-2 px-3 py-2 rounded-none border border-white/15 bg-white/5">
                                 <button
                                   onClick={() => {
@@ -294,7 +287,6 @@ export default function CartPage() {
               </div>
             </div>
 
-            {/* RIGHT: Summary */}
             <aside className="border border-white/10 bg-[#15202b] rounded-none shadow-2xl overflow-hidden sticky top-32 self-start">
               <div className="px-5 py-4 flex items-center justify-between gap-3 border-b border-white/10 bg-[#15202b]">
                 <div className="font-extrabold text-white">Order summary</div>
@@ -317,7 +309,6 @@ export default function CartPage() {
                   <strong className="font-black">€{total.toFixed(2)}</strong>
                 </div>
 
-                {/* Checkout button */}
                 <div className="mt-3.5">
                   <button
                     onClick={handlePayNow}

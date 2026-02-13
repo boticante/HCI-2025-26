@@ -14,7 +14,6 @@ const UserContext = createContext<UserContextType>({
   loading: true,
 });
 
-// Global state to persist across navigations
 let globalUser: User | null = null;
 let globalInitialized = false;
 
@@ -26,7 +25,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const supabase = supabaseRef.current;
 
-    // If already initialized, don't show loading
     if (globalInitialized) {
       setUser(globalUser);
       setLoading(false);
@@ -43,7 +41,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     };
 
-    // Only fetch if not initialized
     if (!globalInitialized) {
       getUser();
     }

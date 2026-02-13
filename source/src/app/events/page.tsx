@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/user-context";
 import { useCart } from "@/context/cart-context";
+import { useLoginModal } from "@/context/login-modal-context";
 import { FaHeart, FaChevronDown, FaShoppingCart } from "react-icons/fa";
 import { sampleEvents } from "./sampleEvents";
 import { createClient } from "@/lib/supabase/client";
@@ -32,8 +33,10 @@ export default function EventsPage() {
   const [addedToCartNotification, setAddedToCartNotification] = useState<
     string | null
   >(null);
+  const { openLogin } = useLoginModal();
   const filterRef = useRef<HTMLDivElement>(null);
-  const sortRef = useRef<HTMLDivElement>(null);
+  const sortRefMobile = useRef<HTMLDivElement>(null);
+  const sortRefDesktop = useRef<HTMLDivElement>(null);
   const supabaseRef = useRef(createClient());
 
   const sports = [
@@ -85,7 +88,14 @@ export default function EventsPage() {
       ) {
         setIsFilterOpen(false);
       }
-      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+      const targetNode = event.target as Node;
+      const clickedInsideSort =
+        (sortRefMobile.current &&
+          sortRefMobile.current.contains(targetNode)) ||
+        (sortRefDesktop.current &&
+          sortRefDesktop.current.contains(targetNode));
+
+      if (!clickedInsideSort) {
         setIsSortOpen(false);
       }
     };
@@ -155,15 +165,19 @@ export default function EventsPage() {
     setSelectedSports([]);
     setSelectedCities([]);
     setSelectedMonths([]);
+    setSearchInput("");
     setCurrentPage(1);
   };
 
   const activeFiltersCount =
     selectedSports.length + selectedCities.length + selectedMonths.length;
 
+  const hasActiveFiltersOrSearch =
+    activeFiltersCount > 0 || searchInput.trim().length > 0;
+
   const toggleFavorite = async (eventId: string) => {
     if (!user?.id) {
-      router.push("/login");
+      openLogin();
       return;
     }
 
@@ -262,6 +276,25 @@ export default function EventsPage() {
     }
   });
 
+  const getSortLabel = () => {
+    switch (sortBy) {
+      case "date-asc":
+        return "Date (Earliest first)";
+      case "date-desc":
+        return "Date (Latest first)";
+      case "price-asc":
+        return "Price (Low to High)";
+      case "price-desc":
+        return "Price (High to Low)";
+      case "name-asc":
+        return "Name (A-Z)";
+      case "name-desc":
+        return "Name (Z-A)";
+      default:
+        return "Default";
+    }
+  };
+
   // Calculate pagination
   const totalPages = Math.ceil(sortedAndFilteredEvents.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -272,21 +305,27 @@ export default function EventsPage() {
     <main className="flex min-h-screen w-full flex-col bg-[#192734]">
       <Navigation />
 
-      {/* All content between navbar and footer */}
       <section className="-mt-6 w-full bg-[#192734]">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 py-14">
           {/* Mobile header */}
           <div className="mb-8 lg:hidden">
             <h1 className="text-3xl font-bold text-white">Upcoming events</h1>
-            <p className="text-sm text-white/70 mt-1">
-              Showing {paginatedEvents.length} of{" "}
-              {sortedAndFilteredEvents.length} events
-            </p>
+            {sortedAndFilteredEvents.length === 0 ? (
+              <p className="text-sm text-white/70 mt-1">No events available</p>
+            ) : (
+              <>
+                <p className="text-sm text-white/70 mt-1">
+                  Showing {paginatedEvents.length} of {sortedAndFilteredEvents.length} events
+                </p>
+                <p className="text-xs text-white/60 mt-1">
+                  Sorted by: {getSortLabel()}
+                </p>
+              </>
+            )}
           </div>
 
           {/* Mobile search/sort/filter (revert to original) */}
           <div className="mt-12 flex flex-col sm:flex-row gap-4 max-w-4xl mx-auto lg:hidden">
-            {/* Search Bar */}
             <div className="flex-1 relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <svg
@@ -312,8 +351,7 @@ export default function EventsPage() {
               />
             </div>
 
-            {/* Sort Button */}
-            <div className="relative" ref={sortRef}>
+            <div className="relative" ref={sortRefMobile}>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -337,7 +375,6 @@ export default function EventsPage() {
                 Sort
               </button>
 
-              {/* Sort Dropdown Menu */}
               {isSortOpen && (
                 <div className="absolute right-0 mt-2 w-56 bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50 dropdown-animate">
                   <div className="py-1">
@@ -369,7 +406,6 @@ export default function EventsPage() {
               )}
             </div>
 
-            {/* Filter Button */}
             <div className="relative" ref={filterRef}>
               <button
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -389,19 +425,18 @@ export default function EventsPage() {
                   />
                 </svg>
                 Filters
-                {activeFiltersCount > 0 && (
+                {hasActiveFiltersOrSearch && (
                   <span className="absolute -top-2 -right-2 bg-indigo-700 text-white text-xs px-2 py-0.5 rounded-full min-w-5 text-center">
                     {activeFiltersCount}
                   </span>
                 )}
               </button>
 
-              {/* Filter Dropdown Panel */}
               {isFilterOpen && (
                 <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-[600px] max-w-[90vw] bg-[#15202b] border border-white/15 rounded-none shadow-2xl ring-1 ring-white/10 z-50 dropdown-animate">
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-4">
-                      {activeFiltersCount > 0 && (
+                      {hasActiveFiltersOrSearch && (
                         <button
                           onClick={clearFilters}
                           className="text-xs text-white/60 hover:text-white"
@@ -411,7 +446,6 @@ export default function EventsPage() {
                       )}
                     </div>
 
-                    {/* Show Favorites Filter */}
                     {user && (
                       <div className="mb-4 pb-4 border-b border-white/10">
                         <label className="flex items-center gap-2 cursor-pointer">
@@ -428,9 +462,7 @@ export default function EventsPage() {
                       </div>
                     )}
 
-                    {/* Filter Grid */}
                     <div className="grid grid-cols-3 gap-4">
-                      {/* Sport Filter */}
                       <div>
                         <h4 className="text-xs font-semibold text-white/70 mb-2 uppercase">
                           Sport
@@ -455,7 +487,6 @@ export default function EventsPage() {
                         </div>
                       </div>
 
-                      {/* City Filter */}
                       <div>
                         <h4 className="text-xs font-semibold text-white/70 mb-2 uppercase">
                           City
@@ -480,7 +511,6 @@ export default function EventsPage() {
                         </div>
                       </div>
 
-                      {/* Month Filter */}
                       <div>
                         <h4 className="text-xs font-semibold text-white/70 mb-2 uppercase">
                           Month
@@ -536,7 +566,7 @@ export default function EventsPage() {
             <aside className="hidden lg:block w-72 xl:w-80 bg-[#15202b] border border-white/10 rounded-none p-5 shadow-2xl space-y-5 sticky top-32 self-start">
               <div className="flex items-center justify-between">
                 <h2 className="text-white font-semibold text-sm">Filters</h2>
-                {activeFiltersCount > 0 && (
+                {hasActiveFiltersOrSearch && (
                   <button
                     onClick={clearFilters}
                     className="text-xs text-white/70 hover:text-white font-semibold"
@@ -573,7 +603,7 @@ export default function EventsPage() {
                 </div>
               </div>
 
-              <div className="relative" ref={sortRef}>
+              <div className="relative" ref={sortRefDesktop}>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -728,10 +758,18 @@ export default function EventsPage() {
             <div className="flex-1">
               <div className="hidden lg:block w-full max-w-5xl mx-auto mb-6">
                 <h1 className="text-3xl font-bold text-white">All Events</h1>
-                <p className="text-sm text-white/70 mt-1">
-                  Showing {paginatedEvents.length} of{" "}
-                  {sortedAndFilteredEvents.length} events
-                </p>
+                {sortedAndFilteredEvents.length === 0 ? (
+                  <p className="text-sm text-white/70 mt-1">No events available</p>
+                ) : (
+                  <>
+                    <p className="text-sm text-white/70 mt-1">
+                      Showing {paginatedEvents.length} of {sortedAndFilteredEvents.length} events
+                    </p>
+                    <p className="text-xs text-white/60 mt-1">
+                      Sorted by: {getSortLabel()}
+                    </p>
+                  </>
+                )}
               </div>
               <div className="space-y-8 w-full max-w-5xl mx-auto">
                 {paginatedEvents.map((event) => {
@@ -846,7 +884,7 @@ export default function EventsPage() {
                             onClick={() => toggleTickets(event.id)}
                             className="flex items-center justify-center gap-2 px-6 py-3 rounded-none bg-indigo-700 hover:bg-indigo-800 text-white font-bold transition-colors whitespace-nowrap"
                           >
-                            See tickets
+                            Buy tickets
                             <FaChevronDown
                               className={`size-4 transition-transform ${
                                 openedTickets.includes(event.id)
@@ -917,7 +955,7 @@ export default function EventsPage() {
                                 <button
                                   onClick={() => {
                                     if (!user) {
-                                      router.push("/login");
+                                      openLogin();
                                       return;
                                     }
                                     const quantity =
@@ -971,7 +1009,6 @@ export default function EventsPage() {
             </div>
           </div>
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="mt-12 max-w-7xl mx-auto px-6 flex justify-center items-center gap-2">
               <button

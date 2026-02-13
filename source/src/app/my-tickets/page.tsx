@@ -137,17 +137,14 @@ export default function MyTicketsPage() {
     <main className="flex min-h-screen w-full flex-col bg-[#192734]">
       <Navigation />
 
-      {/* All content between navbar and footer */}
       <section className="-mt-6 w-full bg-[#192734]">
         <div className="mx-auto w-full max-w-7xl px-6 py-14">
-          {/* Page title */}
           <div className="text-center">
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
               My tickets
             </h1>
           </div>
 
-          {/* Main content */}
           <div className="mt-12 relative">
             {/* Mobile full-screen QR overlay */}
             {mobileQrTicketId && qrCodes[mobileQrTicketId] && (
@@ -203,9 +200,7 @@ export default function MyTicketsPage() {
                       key={ticket.id}
                       className="flex flex-col bg-white/5 border border-white/10 hover:border-white/20 transition-all overflow-hidden"
                     >
-                      {/* Main Row - mirrors Events page */}
                       <div className="flex flex-col sm:flex-row items-stretch">
-                        {/* Date Box */}
                         <div className="hidden sm:flex sm:flex-col items-center justify-center bg-indigo-700 text-white p-6 w-24 gap-0">
                           <div className="text-center">
                             <div className="text-sm font-medium uppercase">
@@ -242,7 +237,6 @@ export default function MyTicketsPage() {
                           </div>
                         </div>
 
-                        {/* Event Details */}
                         <div className="flex-1 p-6 flex flex-col justify-center">
                           <div className="flex items-center gap-3 mb-2">
                             <div className="text-xs text-white font-semibold uppercase tracking-wide">
@@ -279,7 +273,6 @@ export default function MyTicketsPage() {
                           </div>
                         </div>
 
-                        {/* Right Section: quantity, purchase date + Show QR code button */}
                         <div className="flex items-center justify-center sm:justify-end gap-4 p-6 sm:p-4 shrink-0">
                           <div className="flex flex-col items-center mr-1 text-center">
                             <div className="text-xs text-white/60">Tickets</div>
@@ -308,7 +301,6 @@ export default function MyTicketsPage() {
                         </div>
                       </div>
 
-                      {/* Expanded QR Section - desktop/tablet dropdown */}
                       {qrCodes[ticket.id] &&
                         openedTickets.includes(ticket.id) && (
                           <div

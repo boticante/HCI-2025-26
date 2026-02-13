@@ -16,10 +16,8 @@ export default function ContactPage() {
     <main className="flex min-h-screen w-full flex-col bg-[#192734]">
       <Navigation />
 
-      {/* All content between navbar and footer */}
       <section className="-mt-6 w-full bg-[#192734]">
         <div className="mx-auto w-full max-w-7xl px-6 py-14">
-          {/* Page title */}
           <div className="text-center">
             <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
               Get in touch with us
@@ -30,9 +28,7 @@ export default function ContactPage() {
             </p>
           </div>
 
-          {/* Main content */}
           <div className="mt-12 grid gap-8 lg:grid-cols-[2fr_1fr]">
-            {/* Contact form */}
             <div className="border border-white/10 bg-[#22303c] p-8">
               <h2 className="text-2xl font-medium text-white">
                 Contact us
@@ -41,7 +37,6 @@ export default function ContactPage() {
               <ContactForm />
             </div>
 
-            {/* Quick help */}
             <aside className="border border-white/10 bg-[#22303c] p-8 h-fit">
               <h2 className="text-2xl font-medium text-white">
                 Quick help
@@ -108,7 +103,6 @@ export default function ContactPage() {
             </aside>
           </div>
 
-          {/* Privacy note */}
           <div className="mt-12 text-center">
             <p className="text-sm text-white/70">
               We respect your privacy. Your information will only be used to

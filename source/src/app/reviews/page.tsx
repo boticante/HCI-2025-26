@@ -6,6 +6,7 @@ import { FaStar } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/user-context";
+import { useLoginModal } from "@/context/login-modal-context";
 import { contentfulClient } from "@/lib/contentful/client";
 import type { Review } from "@/types/review";
 
@@ -93,6 +94,7 @@ const ReviewCard = ({ review }: { review: Review }) => {
 export default function ReviewsPage() {
   const { user } = useUser();
   const router = useRouter();
+  const { openLogin } = useLoginModal();
   const [showAll, setShowAll] = useState(false);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [latestReviews, setLatestReviews] = useState<Review[]>([]);
@@ -136,7 +138,6 @@ export default function ReviewsPage() {
   }, []);
 
   const handleReviewSuccess = async (newReview: Review) => {
-    // Add the new review immediately to the state (optimistic update)
     setLatestReviews((prev) => [newReview, ...prev]);
   };
 
@@ -144,7 +145,6 @@ export default function ReviewsPage() {
     <main className="flex min-h-screen w-full flex-col bg-[#192734]">
       <Navigation />
 
-      {/* Latest Reviews */}
       <section className="-mt-6 w-full bg-[#192734]">
         <div className="mx-auto w-full max-w-7xl px-6 py-14">
           <div className="text-center">
@@ -216,7 +216,7 @@ export default function ReviewsPage() {
                 type="button"
                 onClick={() => {
                   if (!user) {
-                    router.push("/login");
+                    openLogin();
                     return;
                   }
                   setReviewModalOpen(true);

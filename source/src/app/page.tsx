@@ -73,7 +73,6 @@ export default function Home() {
     }, 7000);
   };
 
-  // Auto-rotate slides every 10 seconds
   useEffect(() => {
     startRotation();
     return () => {
@@ -99,14 +98,11 @@ export default function Home() {
     if (touchStartXRef.current === null || touchEndXRef.current === null) return;
     const deltaX = touchStartXRef.current - touchEndXRef.current;
 
-    // Only react to significant horizontal swipes
     if (Math.abs(deltaX) < 40) return;
 
     if (deltaX > 0) {
-      // Swipe left -> next slide
       handleSelectSlide((activeSlide + 1) % heroSlides.length);
     } else {
-      // Swipe right -> previous slide
       handleSelectSlide((activeSlide - 1 + heroSlides.length) % heroSlides.length);
     }
 
@@ -156,9 +152,8 @@ export default function Home() {
     <main className="flex flex-col">
       <Navigation />
 
-      <section className="relative -mt-6 w-full bg-[#192734] flex items-start justify-center px-5 py-10 pt-28 lg:py-14 lg:pt-32 lg:min-h-screen">
+      <section className="relative -mt-6 w-full bg-[#192734] flex items-center justify-center px-5 py-16 lg:py-20">
         <div className="relative w-full max-w-7xl h-full flex items-center justify-center gap-4">
-          {/* Left Arrow Button - Desktop Only */}
           <button
             onClick={() =>
               handleSelectSlide(
@@ -189,7 +184,6 @@ export default function Home() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Title + Description */}
             <div
               key={activeSlide}
               className="max-w-3xl text-center lg:text-left w-full lg:w-auto animate-fade-in"
@@ -202,7 +196,6 @@ export default function Home() {
               </h1>
             </div>
 
-            {/* Button */}
             <div
               key={`btn-${activeSlide}`}
               className="shrink-0 flex items-center justify-center lg:justify-end w-full lg:w-auto lg:min-w-56 mt-2 lg:mt-0 animate-fade-in"
@@ -215,7 +208,6 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Bottom-Left: Pager */}
             <div className="absolute left-6 lg:left-14 bottom-6 lg:bottom-7 flex gap-3.5">
               {heroSlides.map((_, idx) => (
                 <button
@@ -233,7 +225,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Arrow Button - Desktop Only */}
           <button
             onClick={() =>
               handleSelectSlide((activeSlide + 1) % heroSlides.length)

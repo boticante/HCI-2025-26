@@ -19,7 +19,6 @@ export function ContactForm() {
     message: "",
   });
 
-  // Close subject dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -64,7 +63,6 @@ export function ContactForm() {
           type: "success",
           text: result.message || "Message sent successfully!",
         });
-        // Reset form
         setFormData({
           fullName: "",
           email: "",
